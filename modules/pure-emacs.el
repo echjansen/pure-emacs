@@ -1,4 +1,4 @@
-;;; init.el --- Pure Emacs initialization. -*- lexical-binding: t -*-
+;;; pure-emacs.el --- Pure Emacs initialization. -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2024 echjansen
 
@@ -20,23 +20,13 @@
 ;;; Commentary:
 
 ;; Early decisions
-;; - Fast startup time - achieved with byte compiling and use-package.
-;; - Emacs build in features - unless inferior or non existing.
-;; - Package.el package manager - has all features required (including vc)
+;; - one single configuration file for built-in emacs features
+;; - easy to copy, so it can be used by other Emacs configs.
+;; - use-package for package management, as it is built-in (Emacs 29.1).
+;; - optimise start-up time by byte-compiling.
 
 ;;; Code:
 
-;; Let Emacs select the latest file (.el or .elc)
-(setq load-prefer-newer t)
 
-;; Add the modules directory to the load path
-(add-to-list 'load-path (concat user-emacs-directory "modules"))
-
-;; Load the pure-emacs common configuration.
-(require 'pure-common nil t)
-
-;; Load the pure-macs configuration (all built-in features)
-(require 'pure-emacs nil t)
-
-(provide 'init)
-;;; init.el ends here
+(provide 'pure-emacs)
+;;; pure-emacs.el ends here
