@@ -197,5 +197,11 @@
   :custom
   (dired-dwim-target t))
 
+;;;;; = uniquify - files with the same name get directory included.
+(use-package uniquify
+  :ensure nil
+  :custom
+  (uniquify-buffer-name-style 'forward))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
