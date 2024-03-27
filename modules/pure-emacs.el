@@ -459,5 +459,11 @@
   ;; Not prog-mode, as it would f.i. removed tabs from Makefiles
   :hook (emacs-lisp-mode . outline-minor-mode))
 
+;;;;; = reveal - open folded blocks when searching
+(use-package reveal
+  :ensure nil
+  :hook
+  (prog-mode . reveal-mode))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
