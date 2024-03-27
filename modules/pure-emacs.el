@@ -191,6 +191,11 @@
   :hook
   (after-init . save-place-mode))
 
+;;;;; = dired - file management
+(use-package dired
+  :ensure nil
+  :custom
+  (dired-dwim-target t))
 
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
