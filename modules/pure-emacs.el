@@ -545,5 +545,18 @@
   (setq indent-tabs-mode t)
   (setq tab-width 4))
 
+;;;; Shells
+
+;;;;; = eshell - the Emacs shell created with elsip. Runs everywhere.
+(use-package eshell
+  :ensure nil
+  :custom
+  (eshell-directory-name (concat pure-dir-cache "eshell"))
+  :init
+  ;; Open a dedicated terminal for the following line based sub commands
+  ;; (add-to-list 'eshell-visual-options '("git" "--paginate" "--help"))
+  ;; (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show")))
+  )
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
