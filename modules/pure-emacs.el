@@ -148,5 +148,19 @@
   (apropos-sort-by-scores 'show-scores)
   (apropos-compact-layout t))
 
+;;;; File Management
+
+;;;;; = files - files and backups
+(use-package files
+  :ensure nil
+  :custom
+  (backup-directory-alist (list (cons "."  pure-dir-backup)))
+  (make-backup-files nil)
+  (backup-by-copying t)
+  (delete-old-versions t)
+  (kept-new-versions 5)
+  (version-control t)
+  (auto-save-default nil))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
