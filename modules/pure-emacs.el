@@ -103,6 +103,14 @@
   :hook
   (prog-mode . display-line-numbers-mode))
 
+;;;;; = hl-line - highlight line at point
+(use-package hl-line
+  :ensure nil
+  :config
+  ;; Some themes use underline for highlighting. Remove it. 
+  (set-face-attribute 'highlight nil :underline nil)
+  :hook
+  (after-init . global-hl-line-mode))
 
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
