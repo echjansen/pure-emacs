@@ -50,5 +50,26 @@
   (setq use-package-always-defer t)
   (setq use-package-expand-minimally t))
 
+;;;; Emacs
+;;;;; = emacs - sensible defaults
+(use-package emacs
+  :ensure nil
+  :preface
+  (prefer-coding-system 'utf-8)
+  (when (display-graphic-p)
+    (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+  :custom
+  ;; Cursor style
+  (cursor-type 'box)
+  (visible-bell t)
+  (custom-file (concat pure-dir-cache "pure-custom.el"))
+  :config
+  (setq-default indent-tabs-mode nil)
+  (setq tab-width 2)
+  (setq default-tab-width 2)
+  :bind
+  ;; Don't close Emacs
+  ("C-z" . nil))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
