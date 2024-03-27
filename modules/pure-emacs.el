@@ -375,5 +375,20 @@
   (:map text-mode-map
 	("M-." . dictionary-lookup-definition)))
 
+;;;;; = abbrev - replace acronims with full word
+;; acronims could also be spelling mistakes
+;; TODO - not starting - 'abbrev-mode t'
+(use-package abbrev
+  :ensure nil
+  :custom
+  (abbrev-file-name (expand-file-name "abbrev_defs" pure-dir-private))
+  (save-abbrevs 'silently)
+  :config
+  (if (file-exists-p abbrev-file-name)
+      (quietly-read-abbrev-file))
+  :hook
+  ;; Activate abbrev in text-mode and prog-mode
+  ((text-mode prog-mode) . abbrev-mode))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
