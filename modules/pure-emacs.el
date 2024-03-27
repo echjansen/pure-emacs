@@ -465,12 +465,19 @@
   :hook
   (prog-mode . reveal-mode))
 
-;;;;; = elec-pair
+;;;;; = elec-pair - parenthesis
 ;; Auto insert oposite parenthesis
 (use-package elec-pair
   :ensure nil
   :hook
   ((text-mode prog-mode) . electric-pair-local-mode))
+
+;;;;; = whitespace - show whitespaces
+;; Show unnecessary whitespaces in selected major modes.
+(use-package whitespace
+  :ensure nil
+  :hook
+  (emacs-lisp-mode . whitespace-mode))
 
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
