@@ -320,11 +320,22 @@
      (body-function . pure-window-select))))
 
 ;;;; Keys
+
 ;;;;; - repeat - why repeat complex key combinations
 (use-package repeat
   :ensure nil
   :hook
   (after-init . repeat-mode))
+
+;;;; Editing
+
+;;;;; = ispell - spell checking (install Aspell)
+;; Spelling checker program 'aspell' must be installed externally
+(use-package ispell
+  :ensure nil
+  :custom
+  (ispell-program-name "aspell")
+  (ispell-dictionary "en_US"))
 
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
