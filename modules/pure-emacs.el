@@ -491,5 +491,28 @@
   :hook
   (emacs-lisp-mode . whitespace-mode))
 
+;;;;; = flymake - identify code faults
+;; Error and warning code checking
+(use-package flymake
+  :ensure nil
+  :config
+  (defun pure--flymake-toggle-diagnostics-buffer ()
+    "Toggle the diagnostics buffer when entering/exiting `flymake-mode'."
+    (let* ((root (vc-root-dir))
+           (command (if root
+                        #'flymake-show-project-diagnostics
+                      #'flymake-show-buffer-diagnostics))
+           (window (get-buffer-window
+                    (if root
+                        (flymake--project-diagnostics-buffer root)
+                      (flymake--diagnostics-buffer-name)))))
+      (if flymake-mode
+          (funcall command)
+        (when (window-live-p window)
+          (with-selected-window window
+            (kill-buffer-and-window))))))
+  :hook
+  (flymake-mode . pure--flymake-toggle-diagnostics-buffer))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
