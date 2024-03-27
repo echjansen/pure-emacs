@@ -85,5 +85,14 @@
   :hook
   (after-init . display-time))
 
+;;;;; = display-fill-column-indicator
+;; Show line in buffer to show fill-column boundary
+(use-package display-fill-column-indicator
+  :ensure nil
+  :custom
+  (fill-column 80)
+  :hook
+  (emacs-lisp-mode . display-fill-column-indicator-mode))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
