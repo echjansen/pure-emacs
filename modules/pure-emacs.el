@@ -359,6 +359,21 @@
   ;; Spelling check for comments and strings
   (prog-mode . flyspell-prog-mode))
 
+;;;;; = dictionary - look up words for meaning (on-line)
+;; Quickly search for reference with M-.
+;; Install with:
+;; yay -S dictd dict dict-{wn,vera,jargon,devil,gcide,foldoc}
+;; sudo systemctl enable dictd
+(use-package dictionary
+  :ensure nil
+  :custom
+  ;; Remote dictionary
+  ;; (dictionary-server "dict.org")
+  ;; Local dictionary
+  (disctionary-servevr "localhost")
+  :bind
+  (:map text-mode-map
+	("M-." . dictionary-lookup-definition)))
 
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
