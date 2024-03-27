@@ -582,7 +582,7 @@
   :custom
   (url-configuration-directory (concat pure-dir-cache "url/")))
 
-;;;; Security and privacy
+;;;; Security and Privacy
 
 ;;;;; = epa - file encryption and decryption
 ;; add .gpg to any file and it will automatically by encrypted/decrypted
@@ -593,6 +593,17 @@
   (epg-gpg-program "gpg2")
   ;; Use emacs to enter passphrases instead of pinentry.
   (epg-pinentry-mode 'loopback))
+
+;;;; Communication
+
+;;;;; = eww - Emacs web wowser
+(use-package eww
+  :ensure nil
+  :custom
+  (url-configuration-directory (concat pure-dir-cache "eww/"))
+  (url-cookie-file (concat url-configuration-directory "cookies"))
+  :bind
+  ("C-c c w" . eww))
 
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
