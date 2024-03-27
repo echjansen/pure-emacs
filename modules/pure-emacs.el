@@ -112,5 +112,14 @@
   :hook
   (after-init . global-hl-line-mode))
 
+;;;; Help and Information
+
+;;;;; = help - always select the help windows
+(use-package help
+  :ensure nil
+  :custom
+  ;; Always select the help windows - when called
+  (help-window-select t))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
