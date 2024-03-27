@@ -337,5 +337,28 @@
   (ispell-program-name "aspell")
   (ispell-dictionary "en_US"))
 
+;;;;; = flyspell - on the fly spell checking
+;; Performs spelling check while editing
+;; Any wrong words are underlined
+(use-package flyspell
+  :ensure nil
+  :custom
+  ;; Add correction to abbrev table
+  (flyspell-abbrev-p t)
+  ;; Don't emmit messages when checking words
+  (flyspell-issue-message-flag nil)
+  ;; Don't display a welcome message when started
+  (flyspell-issue-welcome-flag nil)
+  :bind (:map flyspell-mode-map
+	      ("C-;" . nil)
+              ("C-," . flyspell-goto-next-error)
+              ("C-." . flyspell-auto-correct-word))
+  :hook
+  ;; Spelling check for text modes
+  (text-mode . flyspell-mode)
+  ;; Spelling check for comments and strings
+  (prog-mode . flyspell-prog-mode))
+
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
