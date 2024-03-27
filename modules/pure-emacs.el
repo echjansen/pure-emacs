@@ -605,5 +605,22 @@
   :bind
   ("C-c c w" . eww))
 
+;;;; Pure Functions
+
+;;;;; = pure--suppress-messages
+(defun pure--suppress-messages (func &rest args)
+  "Suppress message output from FUNC."
+  ;; Some packages are too noisy.
+  (cl-flet ((silence (&rest args1) (ignore)))
+    (advice-add 'message :around #'silence)
+    (unwind-protect
+        (apply func args)
+      (advice-remove 'message #'silence))))
+
+;; Suppress "Cleaning up the recentf...done (0 removed)"
+(advice-add 'recentf-cleanup :around #'pure--suppress-messages)
+(advice-add 'recentf-load-list :around #'pure--suppress-messages)
+(advice-add 'repeat-mode :around #'pure--suppress-messages)
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
