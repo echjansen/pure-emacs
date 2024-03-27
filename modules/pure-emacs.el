@@ -121,5 +121,11 @@
   ;; Always select the help windows - when called
   (help-window-select t))
 
+;;;;; = eldoc - echo area context at point information
+(use-package eldoc
+  :ensure nil
+  :custom
+  (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
