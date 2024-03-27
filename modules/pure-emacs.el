@@ -272,5 +272,23 @@
               ("RET" . icomplete-fido-ret)
               ("TAB" . icomplete-force-complete)))
 
+;;;; Search and Replace
+;;;;; = isearch - find
+;; Some interesting search options:
+;; C-s C-h C-h : isearch key-bindingas (many)
+;; M-s M-.     : search for object at point
+;; M-n or M-p  : move up or down in isearch history
+(use-package isearch
+  :ensure nil
+  :custom
+  (isearch-lazy-highlight t)
+  (isearch-repeat-on-direction-change t)
+  ;; Use M-p and M-n to show history
+  (isearch-wrap-pause t)
+  (search-ring-max 10)
+  ;; Activate with M-s M-.
+  (isearch-forward-thing-at-point '(region url symbol sexp email))
+  (isearch-allow-prefix t))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
