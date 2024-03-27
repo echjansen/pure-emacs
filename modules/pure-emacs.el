@@ -526,5 +526,15 @@
   :hook
   (python-ts-mode . eglot-ensure))
 
+;;;;; = treesit - Emacs language parser
+;; Install language support for languages via:
+;; Languages (for the moment) are installed via tree-sitter-langs package
+(use-package treesit
+  :ensure nil
+  :custom
+  (major-mode-remap-alist
+   '((python-mode . python-ts-mode)
+     (elisp-mode . elisp-ts-mode))))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
