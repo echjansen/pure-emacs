@@ -94,5 +94,15 @@
   :hook
   (emacs-lisp-mode . display-fill-column-indicator-mode))
 
+;;;;; = display-line-numbers
+;; Display line numbers
+(use-package display-line-numbers
+  :ensure nil
+  :custom
+  (display-line-numbers-type 'relative)
+  :hook
+  (prog-mode . display-line-numbers-mode))
+
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
