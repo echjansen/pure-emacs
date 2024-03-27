@@ -127,5 +127,17 @@
   :custom
   (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
+;;;;; = transient - menus and options
+;; The menu package known from Magit has been included in Emacs 29.1.
+;; Although not a replacement for 'which-key,
+;; it opens up menu functionality for existing and future packages.
+(use-package transient
+  :ensure nil
+  :commands (transient-prefix)
+  :custom
+  (transient-history-file (concat pure-dir-cache "trans-history.el"))
+  (transient-levels-file  (concat pure-dir-cache "trans-level.el"))
+  (transient-values-file  (concat pure-dir-cache "trans-value.el")))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
