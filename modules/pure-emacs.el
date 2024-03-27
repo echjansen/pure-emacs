@@ -217,5 +217,12 @@
          ("<C-up>"    . windmove-swap-states-up)
          ("<C-down>"  . windmove-swap-states-down)))
 
+;;;;; = winner - undo / redo window order
+;; C-c <left> = undo, C-c <right> redo undo
+(use-package winner
+  :ensure nil
+  :hook
+  (after-init . winner-mode))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
