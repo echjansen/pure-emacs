@@ -390,5 +390,12 @@
   ;; Activate abbrev in text-mode and prog-mode
   ((text-mode prog-mode) . abbrev-mode))
 
+;;;;; = delsel - delete selected
+;; When a region is selected and delete or backspace pressed, delete selection.
+(use-package delsel
+  :ensure nil
+  :hook
+  (prog-mode . delete-selection-mode))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
