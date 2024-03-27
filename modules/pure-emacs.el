@@ -558,5 +558,14 @@
   ;; (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show")))
   )
 
+;;;; Tools
+
+;;;;; = calendar - calendar dialogue.
+(use-package calendar
+  :ensure nil
+  :custom
+  ;; Weeks start on Monday
+  calendar-week-start-day 1)
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
