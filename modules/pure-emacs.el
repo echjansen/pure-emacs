@@ -605,6 +605,92 @@
   :bind
   ("C-c c w" . eww))
 
+;;;; Org Mode
+
+;;;;; = org-mode - the one and only writing environment (and more)
+(use-package emacs
+  :ensure nil
+  :custom
+  ;; Appearance
+  (org-indent-mode t "Allign text with header virtually")
+  (org-hide-leading-stars t "Only one star per header")
+  (org-cycle-separator-lines 0 "No empty lines in collapsed view")
+  (org-ellipsis " ..▼" "nicer elipses ↷ ↴ ▼")
+  (org-fontify-quote-and-verse-blocks t "Make quotes stand out")
+  (org-image-actual-width  500 "Show images at 500px")
+  (org-insert-heading-respect-content t "Insert new headings after subtree")
+  (org-list-allow-alphabetical t "Allow alphabetical list")
+  (org-read-date-prefer-future 'time "Incomplete dates refer to future")
+  (org-startup-folded t "Start org in outline")
+  (org-startup-indented t "Start with indentation of headlines")
+  (org-auto-align-tags t "Auto-align tags")
+  (org-tags-column 60 "Place tags directly next to headline text")
+
+  ;; Lists
+  (org-list-demote-modify-bullet '(("+" . "-") ("-" . "+") ("*" . "+")))
+  (org-list-indent-offset 1 "Increase sub-item indentation")
+
+  ;; States and logging
+  (org-use-fast-todo-selection t "Allow moving to any state")
+  ;; ! timestamped states
+  ;; @ timestamped notes
+  (org-todo-keywords  '((sequence "TODO(t!)"
+                                  "ACTIVE(a!)"
+                                  "|"
+                                  "DONE(d!)")
+                        (sequence "WAITING(w@/!)"
+                                  "HOLD(h@/!)"
+                                  "|"
+                                  "CANCELED(c@/!)"
+                                  "PHONE"
+                                  "MEETING")))
+  (org-todo-keyword-faces '(("TODO" :foreground "yellow" :weight bold)
+                            ("ACTIVE" :foreground "blue" :weight bold)
+                            ("DONE" :foreground "forest green" :weight bold)
+                            ("WAITING" :foreground "orange" :weight bold)
+                            ("HOLD" :foreground "magenta" :weight bold)
+                            ("CANCELLED" :foreground "forest green" :weight bold)
+                            ("MEETING" :foreground "forest green" :weight bold)
+                            ("PHONE" :foreground "forest green" :weight bold)))
+  ;;(org-log-done 'time "Record when task moves to DONE state")
+  (org-log-into-drawer t "Record in LOGBOOK drawer")
+  (org-log-state-notes-insert-after-drawers nil)
+  (org-log-redeadline 'note "Add time and note for deadline changes")
+  (org-log-reschedule 'note "Add time and note for rescheduling tasks")
+
+  ;; Movement
+  (org-return-follows-link t "Make RET follow links")
+  (org-special-ctrl-a/e t "Better movement in headers")
+
+  ;; Searching
+  (org-imenu-depth 8 "Scan to depth 8 w/imenu")
+  (imenu-auto-rescan t "Make sure imenu refreshes")
+
+  ;; Source block settings
+  (org-src-fontify-natively t "Use lang-specific fontification")
+  (org-src-window-setup 'other-window "Edit source in other window")
+  (org-src-tab-acts-natively t "Use lang bindings")
+
+  (org-confirm-babel-evaluate t "Confirm evaluation")
+
+  ;; TODOS
+  (org-use-fast-todo-selection 'expert "on't use popup window for todos")
+  (org-enforce-todo-dependencies t "Don't set DONE when children are not")
+  (org-enforce-todo-checkbox-dependencies t "Don't set DONE when check's open")
+
+  ;; Files and agenda
+  (org-directory pure-dir-notes "directory with orgfiles")
+  (org-agenda-files (list org-directory) "files with todo's")
+
+  (org-todo-state-tags-triggers
+   (quote (("CANCELLED" ("CANCELLED" . t))
+           ("WAITING" ("WAITING" . t))
+           ("HOLD" ("WAITING") ("HOLD" . t))
+           (done ("WAITING") ("HOLD"))
+           ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+           ("ACTIVE" ("WAITING") ("CANCELLED") ("HOLD"))
+           ("DONE" ("WAITING") ("CANCELLED") ("HOLD"))))))
+
 ;;;; Pure Functions
 
 ;;;;; = pure--suppress-messages
