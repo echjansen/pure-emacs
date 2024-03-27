@@ -85,6 +85,17 @@
   :hook
   (after-init . display-time))
 
+;;;;; = simple - modeline info and line display
+(use-package simple
+  :ensure nil
+  :hook
+  (;; Show points line number
+   (after-init . line-number-mode)
+   ;; Show points column number
+   (after-init . column-number-mode)
+   ;; Long lines will wrap on buffer edge
+   (text-mode . visual-line-mode)))
+
 ;;;;; = display-fill-column-indicator
 ;; Show line in buffer to show fill-column boundary
 (use-package display-fill-column-indicator
