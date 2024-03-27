@@ -582,5 +582,17 @@
   :custom
   (url-configuration-directory (concat pure-dir-cache "url/")))
 
+;;;; Security and privacy
+
+;;;;; = epa - file encryption and decryption
+;; add .gpg to any file and it will automatically by encrypted/decrypted
+(use-package epa
+  :ensure nil
+  :custom
+  ;; Use version 2 of OpenGP
+  (epg-gpg-program "gpg2")
+  ;; Use emacs to enter passphrases instead of pinentry.
+  (epg-pinentry-mode 'loopback))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
