@@ -290,5 +290,23 @@
   (isearch-forward-thing-at-point '(region url symbol sexp email))
   (isearch-allow-prefix t))
 
+;;;;; = replace - contains occur
+;; Some interesting key-bindings:
+;; M-s o   : occur
+(use-package replace
+  :ensure nil
+  :init
+  ;; Place the occur buffer on the bottom
+  (add-to-list
+   'display-buffer-alist
+   `("\\*Occur\\*"
+     ;; Display functions (list in order)
+     (display-buffer-reuse-mode-window
+      display-buffer-below-selected)
+     ;; Parameters
+     (window-height . 10)
+     (dedicated .t)
+     (body-function . pure-window-select))))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
