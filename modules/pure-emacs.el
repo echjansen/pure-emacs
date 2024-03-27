@@ -26,6 +26,7 @@
 ;; - optimise start-up time by byte-compiling.
 
 ;;; Code:
+(require 'pure-common nil t)
 
 ;;;; Package Configuration
 
