@@ -162,5 +162,23 @@
   (version-control t)
   (auto-save-default nil))
 
+;;;;; = recentf - recently opened files
+;; Maintains a list of recently opened files
+(use-package recentf
+  :ensure nil
+  :custom
+  ;; Where to save the recentf file - in the .cache
+  (recentf-save-file (expand-file-name "recentf" pure-dir-cache))
+  ;; Remove duplicates on mode change
+  (recentf-auto-cleanup 'mode)
+  ;; Max number of files saved
+  (recentf-max-saved-items 100)
+  ;; Max number of files served in files menu
+  (recentf-max-menu-items 10)
+  :hook
+  (after-init . recentf-mode)
+  :bind
+  ("C-x C-r" . recentf))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
