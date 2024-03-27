@@ -459,6 +459,18 @@
   ;; Not prog-mode, as it would f.i. removed tabs from Makefiles
   :hook (emacs-lisp-mode . outline-minor-mode))
 
+;;;;; = hideshow - function and expression folding
+;; Fold code blocks or expressions.
+;; Useful for large code files that have no other narrowing assistance.
+;; Executed with the unusual C-c @ ... keybindings.
+(use-package hideshow
+  :ensure nil
+  :custom
+  (hs-hide-comments-when-hiding all nil)
+  (hs-isearch-open 'code)
+  :hook
+  (prog-mode . hs-minor-mode))
+
 ;;;;; = reveal - open folded blocks when searching
 (use-package reveal
   :ensure nil
