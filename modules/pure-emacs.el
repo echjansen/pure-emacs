@@ -397,5 +397,16 @@
   :hook
   (prog-mode . delete-selection-mode))
 
+;;;; Coding
+
+;;;;; = project - project management
+(use-package project
+  :ensure nil
+  :custom
+  ;; Place project files in the .cache
+  (project-list-file (expand-file-name "projects" pure-dir-cache))
+  ;; Show project information on the modeline
+  (project-mode-line t))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
