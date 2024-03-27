@@ -536,5 +536,14 @@
    '((python-mode . python-ts-mode)
      (elisp-mode . elisp-ts-mode))))
 
+;;;; Programming Languages
+
+;;;;; = make-mode - configure Makefiles
+(use-package make-mode
+  :ensure nil
+  :config
+  (setq indent-tabs-mode t)
+  (setq tab-width 4))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
