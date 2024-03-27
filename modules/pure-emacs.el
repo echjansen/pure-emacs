@@ -224,5 +224,17 @@
   :hook
   (after-init . winner-mode))
 
+;;;; Minibuffer
+
+;;;;; = savehist - last minibuffer commands used
+;; Persist emacs minibuffer history
+(use-package savehist
+  :ensure nil
+  :custom
+  ;; Where to save the savehsit file - in the .cache
+  (savehist-file (expand-file-name "savehist" pure-dir-cache))
+  :hook
+  (after-init . savehist-mode))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
