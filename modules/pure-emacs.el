@@ -180,5 +180,17 @@
   :bind
   ("C-x C-r" . recentf))
 
+;;;;; = saveplace - last position in file
+;; Save point position in files between sessions.
+(use-package saveplace
+  :ensure nil
+  :custom
+  ;; Where to save the saveplaces file - in the .cache
+  (save-place-file (expand-file-name "saveplaces" pure-dir-cache))
+  (save-place-forget-unreadable-files t)
+  :hook
+  (after-init . save-place-mode))
+
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
