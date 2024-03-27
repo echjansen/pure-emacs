@@ -308,5 +308,12 @@
      (dedicated .t)
      (body-function . pure-window-select))))
 
+;;;; Keys
+;;;;; - repeat - why repeat complex key combinations
+(use-package repeat
+  :ensure nil
+  :hook
+  (after-init . repeat-mode))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
