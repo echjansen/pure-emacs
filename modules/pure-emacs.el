@@ -203,5 +203,19 @@
   :custom
   (uniquify-buffer-name-style 'forward))
 
+;;;; Window Management
+
+;;;;; = windmove - reposition buffers
+(use-package windmove
+  :ensure nil
+  :bind (("<S-left>"  . windmove-left)
+         ("<S-right>" . windmove-right)
+         ("<S-up>"    . windmove-up)
+         ("<S-down>"  . windmove-down)
+	 ("<C-left>"  . windmove-swap-states-left)
+	 ("<C-right>" . windmove-swap-states-right)
+         ("<C-up>"    . windmove-swap-states-up)
+         ("<C-down>"  . windmove-swap-states-down)))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
