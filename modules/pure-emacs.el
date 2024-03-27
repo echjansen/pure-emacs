@@ -465,5 +465,12 @@
   :hook
   (prog-mode . reveal-mode))
 
+;;;;; = elec-pair
+;; Auto insert oposite parenthesis
+(use-package elec-pair
+  :ensure nil
+  :hook
+  ((text-mode prog-mode) . electric-pair-local-mode))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
