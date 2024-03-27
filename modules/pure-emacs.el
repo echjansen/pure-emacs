@@ -71,5 +71,19 @@
   ;; Don't close Emacs
   ("C-z" . nil))
 
+;;;; Apperance
+
+;;;;; = timer - display time
+;; Display the time in the modeline.
+(use-package timer
+  :ensure nil
+  :custom
+  (display-time-day-and-date nil)
+  (display-time-24hr-format t)
+  (display-time-interval 1)
+  (display-time-format "%y-%m-%d %H:%M")
+  :hook
+  (after-init . display-time))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
