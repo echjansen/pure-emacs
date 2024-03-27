@@ -567,5 +567,20 @@
   ;; Weeks start on Monday
   calendar-week-start-day 1)
 
+;;;;; = url
+;; Used for most web related packages.
+
+;; Some bug in Emacs 30 doesn't load this variable.
+(defcustom url-configuration-directory
+  (locate-user-emacs-file "url/" ".url/")
+  "Directory used by the URL package for cookies, history, etc."
+  :type 'directory
+  :group 'url)
+
+(use-package url
+  :ensure nil
+  :custom
+  (url-configuration-directory (concat pure-dir-cache "url/")))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
