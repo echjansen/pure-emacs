@@ -514,5 +514,17 @@
   :hook
   (flymake-mode . pure--flymake-toggle-diagnostics-buffer))
 
+;;;;; = eglot - Emacs client for the Language Server Protocol
+;; Manual installation for language servers required.
+;; Python: pacman -S python-lsp-server
+(use-package eglot
+  :ensure nil
+  :bind (:map eglot-mode-map
+              ("C-c i" . eldoc)
+              ("C-c r" . eglot-rename)
+              ("C-c f" . eglot-format-buffer))
+  :hook
+  (python-ts-mode . eglot-ensure))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
