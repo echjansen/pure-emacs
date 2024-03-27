@@ -236,5 +236,41 @@
   :hook
   (after-init . savehist-mode))
 
+;;;;; = icomplete - vertical completion buffer
+;; Minibuffer completion UI build-in Emacs
+(use-package icomplete
+  :ensure nil
+  :custom
+  ;; Automatically delete superfluous parts of file names
+  (icomplete-tidy-shadowed-file-names t)
+  ;; Show completions when first prompting for input
+  (icomplete-show-matches-on-no-input t)
+  ;; Pending completions over which to apply compute-delay
+  (icomplete-delay-completions-threshold 50)
+  ;; Maximum height completion buffer
+  (completions-max-height 10)
+  (read-buffer-completion-ignore-case t)
+  ;; Generally ignore case when completing
+  (completion-ignore-case t)
+  ;; Ignore case for buffer names during completion
+  (read-buffer-completion-ignore-case t)
+  ;; Ignore case for file names during completion
+  (read-file-name-completion-ignore-case t)
+  ;; vertical completion minibuffer with fuzzy finding
+  (completion-styles '(partial-completion substring initials flex))
+  ;; typre specific over-rides
+  (completion-category-overrides '((file (styles . (partial-completion substring)))
+                                   (buffer (styles . ( basic substring partial-completion)))
+                                   (project-file (styles . (partial-completion substring)))
+                                   (info-menu (styles . (substring)))))
+  :config
+  (add-to-list 'completion-ignored-extensions ".eln")
+  :hook
+  (after-init . fido-vertical-mode)
+  ;; Usefull mapping
+  :bind (:map icomplete-fido-mode-map
+              ("RET" . icomplete-fido-ret)
+              ("TAB" . icomplete-force-complete)))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
