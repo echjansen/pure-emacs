@@ -408,5 +408,56 @@
   ;; Show project information on the modeline
   (project-mode-line t))
 
+;;;;; = outline - code folding
+;; Navigate elisp files easily.
+(use-package outline
+  :ensure nil
+  :preface
+  (defun outline-show-level1 ()
+    "Outline show level 1."
+    (interactive)
+    (outline--show-headings-up-to-level 1))
+  (defun outline-show-level2 ()
+    "Outline show level 2."
+    (interactive)
+    (outline--show-headings-up-to-level 2))
+  (defun outline-show-level3 ()
+    "Outline show level 3."
+    (interactive)
+    (outline--show-headings-up-to-level 3))
+  (defun outline-show-level4 ()
+    "Outline show level 4."
+    (interactive)
+    (outline--show-headings-up-to-level 4))
+  :custom
+  (outline-minor-mode-highlight 'override)
+  :hook
+  (emacs-lisp-mode . (lambda ()
+                       ;; prevent `outline-level' being overwritten by `lispy'
+                       (setq-local outline-level #'outline-level)
+                       ;; setup heading regexp specific to `emacs-lisp-mode'
+                       (setq-local outline-regexp ";;;\\(;* \\)")
+                       ;; heading alist allows for subtree-like folding
+                       (setq-local outline-heading-alist
+                                   '((";;; " . 1)
+                                     (";;;; " . 2)
+                                     (";;;;; " . 3)
+                                     (";;;;;; " . 4)
+                                     (";;;;;;; " . 5)))
+                       (outline-hide-sublevels 3)))
+  :bind (:map outline-minor-mode-map
+              ("TAB"       . outline-cycle)
+              ("<backtab>" . outline-cycle-buffer)
+              ("M-j"       . outline-move-subtree-down)
+              ("M-k"       . outline-move-subtree-up)
+              ("M-h"       . outline-promote)
+              ("M-l"       . outline-demote)
+              ("M-1"       . outline-show-level1)
+              ("M-2"       . outline-show-level2)
+              ("M-3"       . outline-show-level3)
+              ("M-4"       . outline-show-level4))
+  ;; Not prog-mode, as it would f.i. removed tabs from Makefiles
+  :hook (emacs-lisp-mode . outline-minor-mode))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
