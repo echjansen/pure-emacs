@@ -139,5 +139,14 @@
   (transient-levels-file  (concat pure-dir-cache "trans-level.el"))
   (transient-values-file  (concat pure-dir-cache "trans-value.el")))
 
+;;;;; = apropos - find symbols, functions, variables, etc
+;; Keybinding "C-h a"
+(use-package apropos
+  :ensure nil
+  :custom
+  (apropos-do-all t)
+  (apropos-sort-by-scores 'show-scores)
+  (apropos-compact-layout t))
+
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
