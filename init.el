@@ -35,8 +35,11 @@
 ;; Load the pure-emacs common configuration.
 (require 'pure-common nil t)
 
-;; Load the pure-macs configuration (all built-in features)
+;; Load the pure-emacs configuration (all built-in features)
 (require 'pure-emacs nil t)
+
+;; Load the pure-future configuration (installed features)
+(require 'pure-future nil t)
 
 (provide 'init)
 ;;; init.el ends here
