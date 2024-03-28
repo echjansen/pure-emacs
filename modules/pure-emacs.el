@@ -747,6 +747,29 @@
   ;; Use emacs to enter passphrases instead of pinentry.
   (epg-pinentry-mode 'loopback))
 
+;;;;; = auth-source - handle username / passwords for accounts
+;; provides encryption and decryption
+;; -  a gpg key is required
+;; - ~/.authinfo.gpg
+;; format: machine HOST login NAME password VALUE port NUMBER
+;; example: machine imap.gmail.com login john_doe@gmail.com password "*secret*"
+(use-package auth-source
+  :ensure nil
+  :custom
+  ;; Files containing the secrets
+  (auth-sources (list "~/.authinfo.gpg"
+                      "secrets:echjansen"))
+  ;; Support debugging during authorization. Should be turned off.
+  (auth-source-debug nil)
+  :init
+  (defun pure-password-lookup (&rest keys)
+    "Return the password of any field provided by KEYS.
+Requires a ~./authinfo.gpg file containing the entries."
+    (let ((result (apply #'auth-source-search keys)))
+      (if result
+          (funcall (plist-get (car result) :secret))
+        nil))))
+
 ;;;; Communication
 
 ;;;;; = eww - Emacs web wowser
