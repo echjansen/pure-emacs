@@ -166,12 +166,19 @@
 (use-package files
   :ensure nil
   :custom
+  ;; Where to save to backuo file - in the backup dir
   (backup-directory-alist (list (cons "."  pure-dir-backup)))
+  ;; Control if backups are made.
   (make-backup-files nil)
+  ;; Always backup by copying
   (backup-by-copying t)
-  (delete-old-versions t)
+  ;; Delete old backup files
+  (delete-old-version t)
+  ;; Keep 5 backup files
   (kept-new-versions 5)
+  ;; Make numberic backup versions
   (version-control t)
+  ;; Do not automatically save
   (auto-save-default nil))
 
 ;;;;; = recentf - recently opened files
@@ -216,7 +223,7 @@
   (uniquify-buffer-name-style 'forward))
 
 ;;;; Buffer Management
-;;;;;; = ibuffer - buffer management
+;;;;; = ibuffer - buffer management
 ;; C-c b    - buffer selection using the minibuffer.
 ;; C-C C-b  - buffer selection with info using ibuffer.
 (use-package ibuffer
@@ -527,6 +534,21 @@
   :ensure nil
   :hook
   (prog-mode . delete-selection-mode))
+
+;;;; Navigation
+;;;;; = imenu - list content of a buffer in headers
+(use-package imenu
+  :ensure nil
+  :custom
+  (imenu-auto-rescan t)
+  (imenu-sort-function 'imenu--sort-by-name)
+  :config
+  (defun pure--imenu-use-package ()
+    (add-to-list 'imenu-generic-expression
+                 '("Used Packages:"
+                   "\\(^\\s-*(use-package +\\)\\(\\_<.+\\_>\\)" 2)))
+  :hook
+  (emacs-lisp-mode . pure--imenu-use-package))
 
 ;;;; Coding
 
