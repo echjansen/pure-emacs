@@ -162,6 +162,14 @@
   :hook
   (after-init . which-key-mode))
 
+;;;;; = vundo - graphical undo tree
+(use-package vundo
+  :commands vundo
+  :custom
+  (vundo-glyph-alist vundo-unicode-symbols)
+  :bind
+  ("C-x u" . vundo))
+
 ;;;; File Management
 
 ;;;; Buffer Management
