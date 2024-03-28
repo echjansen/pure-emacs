@@ -147,6 +147,21 @@
   :hook
   (minibuffer-setup . marginalia-mode))
 
+;;;;; = which-key
+;; show available keys for current mode
+(use-package which-key
+  :custom
+  ;; Show which-key on bottom of frame
+  (which-key-side-window-location 'bottom)
+  ;; Sort alphabetically
+  (which-key-sort-order 'which-key-key-order-alpha)
+  ;; Max height
+  (which-key-side-window-max-width 0.33)
+  ;; Relax, I know what I am doing most of the time
+  (which-key-idle-delay 1.0)
+  :hook
+  (after-init . which-key-mode))
+
 ;;;; File Management
 
 ;;;; Buffer Management
