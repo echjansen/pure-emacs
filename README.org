@@ -1,43 +1,40 @@
 # pure-emacs
-= P U R E - E M A C S =
+* = P U R E - E M A C S =
 
-* Headline
+A multi purpose Emacs configuration, appreciating the built-in features and exploring the future ones.
 
-** Source code block
-
-#+begin_src shell
-  ls -al
-#+end_src
-
-** Comment
-Text above comment
-#+begin_center
-My comment
-#+end_center
-Text below comment
-
-Text with line above comment
-
-#+begin_center
-My comment
-#+end_center
-
-Text with line below comment
-
-** Quote
+This configuration focuses on:
 
 #+begin_quote
-My quote
+- Use the built-in features, unless it's inferior or missing.
+- Fast startup time.
+- Standard Emacs keys unmodified.  
 #+end_quote
 
-** Example
+** Installation
 
-#+begin_example
-Example here.
-#+end_example
+It is assumed you have installed the latest version of Emacs from your package manager, and your Emacs version is at least 29.1 or later.
 
-** Verse
+*** Downloading pure-emacs
+Use git to clone pure-emacs:
+#+begin_src sehll
+  cd ~
+  git clone https://github.com/echjansen/pure-emacs ~/.emacs.d
+#+end_src
 
-#+begin_verse
-Verse goes here.
-#+end_verse
+*** Compile pure-emacs
+Unlike most configuration pure-emacs utilities the built-in package manager (package.el) to downloads the external packages. However package.el by itself is not necessary to be present during a normal Emacs session. Therefor we use package.el only while compiling the configuration.
+#+begin_src shell
+  cd ~/.emacs.d
+  make
+#+end_src
+
+*** Dependencies
+There are features in Emacs that require external executables to be installed. The following features require external software installation:
+
+- pure-emacs.el (vanilla Emacs):
+   + ispell / aspell (spelling checker)
+  
+** Features
+
+
