@@ -37,4 +37,124 @@ There are features in Emacs that require external executables to be installed. T
   
 ** Features
 
+*** Fast start-up time
+This particular configuration on TTY starts (currently) in ~0.05 seconds (that is 50 ms) with all packages installed and configured. It is achieved with the built-in provided features:
 
+- package.el (for package installation)
+- use-package (for package configuration)
+- byte-compile (for removing package.el and use-package from the start-up code)
+- Not using auto-loads
+
+Lets have a closer look at what is required to obtain a fast start-up time.
+
+**** Emacs start-up reference time
+To get an idea of how much time is being added by loading the Emacs configuration one needs to know how much time Emacs takes to load by itself. This can easily be measured on a Linux system with the following command:
+
+For the TTY version on Emacs (0.18 seconds):
+#+begin_src bash
+  time -p emacs -nw -Q -e kill-emacs
+#+end_src
+
+#+begin_src bash
+  time -p emacs -Q -e kill-emacs
+#+end_src
+
+For the GUI version on Emacs (0.54 seconds):
+Notes
+Some useful Emacs flags are:
+-Q  means to load no configuration (ignore init.el)
+-e  execute a function
+-l  load a file
+-nw start Emacs in TTY mode (no GUI)
+
+**** Package.el - package installation and package loading
+Emacs comes with a built-in package installation tool called package.el. It takes car of:
+1. installing packages from remote repositories, and once installed.
+2. it takes care of maintaining the load-path requirements of the installed package and finally.
+3. it creates the package-autoloads.el file.
+4. it byte-compiles the package files.
+
+It does more, but these are the important functions.
+
+To use package.el it most be initialized with (package-initialize), so lets find out how much time is required to start the package manager by starting Emacs with the following minimal configuration:
+
+#+begin_src emacs-lisp
+  ;; Set sources for packages (recipes in this case)
+  (setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")
+        ("gnu" . "http://elpa.gnu.org/packages/")
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+  ;; Initialise the package manager
+  (package-initialize)
+#+end_src
+
+Execution for the TTY goes up (0.18 -> 0.38):
+#+begin_src bash
+  time -p emacs -nw -batch -l init.el
+#+end_src
+
+That's a doubling of the load time, or an additional 200 ms to the startup time! And this time becomes longer once more packages have been installed.
+Although package.el is required for the installation of packages, we can do without during runtime.
+There are two variables that control the loading of package.el:
+
+#+begin_src emacs-lisp
+  ;; Whether to make installed packages available when Emacs starts.
+  ;; If non-nil, packages are made available before reading the init
+  ;; file (but after reading the early init file).  This means that if
+  ;; you wish to set this variable, you must do so in the early init
+  ;; file.
+  (setq package-enable-at-startup nil)
+
+  ;; Some Emacs versions automatically insers (package-initialize in init.el)
+  ;; Ask package.el to not add (package-initialize) to init.el.
+  (setq package--init-file-ensured t)
+
+  ;; Or alternatively commen out (package-initialize) in the init.el file
+  ;;(package-initialize)
+#+end_src
+
+Note that without package.el initialized, you can still install packages via M-x 'package-list-packages'.
+
+Note that without package.el initialized, the path's to the packages are NOT added to 'load-path' and Emacs will NOT be able to locate and load the packages.
+
+One the overcome the load-path issue, is to to manually code the load path of each package to the init.el, like this:
+
+#+begin_src emacs-lisp
+  (setq package-enable-at-startup nil)
+  (setq package--init-file-ensured t)
+  (add-to-list 'load-path (concat package-user-dir "magit-20240101.1234"))
+#+end_src
+
+And this works perfectly, as Emacs looks trough all folders listed in 'load-path'.
+
+A simpler way is to automate the addition of the packages to 'load-path with the code below, which is ONLY executed during compile time, and so the load-path is 'hard-coded' in the byte compiled file (hence the importance of byte compiling via the make command):
+
+#+begin_src emacs-lisp
+  ;; Traverse the installed packages and add their paths to load-path.
+  (mapc #'(lambda (add) (add-to-list 'load-path add))
+        (eval-when-compile
+          ;; (require 'package)
+          (package-initialize)
+          (let ((package-user-dir-real (file-truename package-user-dir)))
+            ;; The reverse is necessary, because outside we mapc
+            ;; add-to-list element-by-element, which reverses.
+            (nreverse (apply #'nconc
+                             ;; Only keep package.el provided loadpaths.
+                             (mapcar #'(lambda (path)
+                                         (if (string-prefix-p package-user-dir-real path)
+                                             (list path)
+                                           nil))
+                                     load-path))))))
+#+end_src
+
+**** Use-package.el - package configuration
+[[https://github.com/jwiegley/use-package][Use-package]] is the excellent macro written by John Wiegley. It became part of core Emacs from version 29. The purpose of use-package is to put all configuration for a certain package tightly together within one expression. When configured correctly it also allows for faster start-up times by applying lazy loading - loading of a package only when it is required.
+
+One additional - lesser known - fact is that use-package is not required to be loaded during run time when byte-compiled, as all the use-package expressions expand to standard lisp code (with some minimal overhead)!
+
+All that is required for this to happen, is the following statement early in the configuration:
+
+#+begin_src emacs-lisp
+  (eval-when-compile
+    (require 'use-package))
+#+end_src
