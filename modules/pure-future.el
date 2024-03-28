@@ -139,6 +139,14 @@
    ("C-h ."   . helpful-at-point)
    ("C-h F"   . helpful-function)))
 
+;;;;; = marginalia
+;; Add annotations to the completion buffer
+(use-package marginalia
+  :bind (:map minibuffer-local-map
+              ("M-t" . marginalia-cycle))
+  :hook
+  (minibuffer-setup . marginalia-mode))
+
 ;;;; File Management
 
 ;;;; Buffer Management
