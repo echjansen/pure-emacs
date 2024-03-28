@@ -770,6 +770,16 @@ Requires a ~./authinfo.gpg file containing the entries."
           (funcall (plist-get (car result) :secret))
         nil))))
 
+;;;;; = auto-source-pass
+;; Add the GNUS pass-store to the auth-sources variable
+;; Use:
+;; (auth-source-pass-get 'secret "email/mail1")
+;; (auth-source-pass-get "email" "email/mail1")
+(use-package auth-source-pass
+  :ensure nil
+  :hook
+  (after-init . auth-source-pass-enable))
+
 ;;;; Communication
 
 ;;;;; = eww - Emacs web wowser
