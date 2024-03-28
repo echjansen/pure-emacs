@@ -1,2 +1,43 @@
 # pure-emacs
 = P U R E - E M A C S =
+
+* Headline
+
+** Source code block
+
+#+begin_src shell
+  ls -al
+#+end_src
+
+** Comment
+Text above comment
+#+begin_center
+My comment
+#+end_center
+Text below comment
+
+Text with line above comment
+
+#+begin_center
+My comment
+#+end_center
+
+Text with line below comment
+
+** Quote
+
+#+begin_quote
+My quote
+#+end_quote
+
+** Example
+
+#+begin_example
+Example here.
+#+end_example
+
+** Verse
+
+#+begin_verse
+Verse goes here.
+#+end_verse
