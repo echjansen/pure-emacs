@@ -46,39 +46,39 @@
 ;; Traverse the installed packages and add their paths to load-path.
 (mapc #'(lambda (add) (add-to-list 'load-path add))
       (eval-when-compile
-	;; (require 'package)
-	(package-initialize)
+        ;; (require 'package)
+        (package-initialize)
 
-	;; Sources for packages (recipes in this case)
-	(setq package-archives
-	      '(("elpa"       . "https://elpa.gnu.org/packages/")
-		("elpa-devel" . "https://elpa.gnu.org/devel/")
-		("nongnu"     . "https://elpa.nongnu.org/nongnu/")
-		("melpa"      . "https://melpa.org/packages/")))
+        ;; Sources for packages (recipes in this case)
+        (setq package-archives
+              '(("elpa"       . "https://elpa.gnu.org/packages/")
+                ("elpa-devel" . "https://elpa.gnu.org/devel/")
+                ("nongnu"     . "https://elpa.nongnu.org/nongnu/")
+                ("melpa"      . "https://melpa.org/packages/")))
 
-	;; Order of archive priority. The higher the number the higher the priority
-	(setq package-archive-priorities
-	      '(("elpa-del" . 3)
-		("melpa"    . 2)
-		("nongnu"   . 1)))
+        ;; Order of archive priority. The higher the number the higher the priority
+        (setq package-archive-priorities
+              '(("elpa-del" . 3)
+                ("melpa"    . 2)
+                ("nongnu"   . 1)))
 
-	;; use-package configuration during compilation
-	(require 'use-package)
-	(setq use-package-always-ensure t)
-	(setq use-package-always-defer t)
-	(setq use-package-compute-statistics nil)
-	(setq use-package-expand-minimally t)
-	(let ((package-user-dir-real (file-truename package-user-dir)))
-	  ;; The reverse is necessary, because outside we mapc
-	  ;; add-to-list element-by-element, which reverses.
-	  (nreverse (apply #'nconc
-			   ;; Only keep package.el provided loadpaths.
-			   (mapcar #'(lambda (path)
-				       (if (string-prefix-p
+        ;; use-package configuration during compilation
+        (require 'use-package)
+        (setq use-package-always-ensure t)
+        (setq use-package-always-defer t)
+        (setq use-package-compute-statistics nil)
+        (setq use-package-expand-minimally t)
+        (let ((package-user-dir-real (file-truename package-user-dir)))
+          ;; The reverse is necessary, because outside we mapc
+          ;; add-to-list element-by-element, which reverses.
+          (nreverse (apply #'nconc
+                           ;; Only keep package.el provided loadpaths.
+                           (mapcar #'(lambda (path)
+                                       (if (string-prefix-p
                                             package-user-dir-real path)
-					   (list path)
-					 nil))
-				   load-path))))))
+                                           (list path)
+                                         nil))
+                                   load-path))))))
 
 ;; Info of packages is managed via autoloads. Since autoloads are not in use
 ;; this code parses the package folder and adds folders with info to the list
@@ -176,7 +176,100 @@
 
 ;;;; Window Management
 
-;;;; Minibuffer
+;;;; Minibuffer and Completion
+;;;;; = vertico - VERTical Interactive COmpletion
+;; Current version on Melpa has an issue with compiling.
+;; Loading vertico from source. Including the extensions.
+(use-package vertico
+  ;; :vc (:url "https://github.com/minad/vertico")
+  ;; :load-path "elpa/vertico/extensions"
+  :custom
+  ;; Different scroll margin
+  (vertico-scroll-margin 0)
+  ;; Show more candidates
+  (vertico-count 20)
+  ;; Grow and shrink the minibuffer
+  (vertico-resize t)
+  :hook
+  (after-init . vertico-mode))
+
+;;;;; = vertico-directory - directory navigation
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  ;; More convenient directory navigation commands
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+;;;;; = vertico-buffer - display Vertico as a regular buffer in a large window.
+(use-package vertico-buffer
+  :ensure nil
+  :demand
+  :commands
+  (vertico-buffer-mode))
+
+;;;;; = vertico-grid - grid display for Vertico.
+;; display the minibuffer in grid mode
+(use-package vertico-grid
+  :ensure nil
+  :demand
+  :commands
+  (vertico-grid-mode))
+
+;;;;; = vertico-reverse - reverse the Vertico display.
+(use-package vertico-reverse
+  :ensure nil
+  :demand
+  :commands
+  (vertico-reverse-mode))
+
+;;;;; = vertico-unobtrusive - unobtrusive display for Vertico.
+(use-package vertico-unobtrusive
+  :ensure nil
+  :demand
+  :commands
+  (vertico-unobtrusive-mode))
+
+;;;;; = vertico-flat - flat, horizontal display for Vertico.
+(use-package vertico-flat
+  :ensure nil
+  :demand
+  :commands
+  (vertico-flat-mode))
+
+;;;;; = vertico-multiform - configure Vertico in various forms per command.
+;; Additional keys in minibuffer
+;; M-B -> vertico-multiform-buffer
+;; M-F -> vertico-multiform-flat
+;; M-G -> vertico-multiform-grid
+;; M-R -> vertico-multiform-reverse
+;; M-U -> vertico-multiform-unobtrusive
+;; M-V -> vertico-multiform-vertical
+(use-package vertico-multiform
+  :ensure nil
+  :init
+  (defun pure-sort-directories-first (files)
+    "Sort the directory FILES with directories first."
+    (setq files (vertico-sort-history-length-alpha files))
+    (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) files)
+           (seq-remove (lambda (x) (string-suffix-p "/" x)) files)))
+  :commands
+  (vertico-grid-mode)
+  :custom
+  ;; Determine the minibuffer style per command
+  (vertico-multiform-commands
+   '((execute-extended-command buffer)))
+  ;; Determine the minibuffer style per mode
+  (vertico-multiform-categories
+   '((file  reverse (vertico-sort-function . pure-sort-directories-first))
+     (imenu buffer)
+     (t     reverse)))
+  :hook
+  (after-init . vertico-multiform-mode))
 
 ;;;; Search and Replace
 

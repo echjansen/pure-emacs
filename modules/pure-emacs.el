@@ -373,7 +373,37 @@
   :hook
   (after-init . winner-mode))
 
-;;;; Minibuffer
+;;;; Minibuffer and Completion
+;;;;; = minibuffer - selection window
+(use-package minibuffer
+  :ensure nil
+  :custom
+  ;; Only show M-x commands that work with current major mode
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  ;; Completion Styles
+  (completion-styles
+   '(basic substring partial-completion flex))
+  ;; Completion style overrides
+  (completion-category-overrides
+   '((file (styles . (partial-completion substring)))
+     (buffer (styles . ( basic substring partial-completion)))
+     (project-file (styles . (partial-completion substring)))
+     (info-menu (styles . (substring)))))
+  ;; Completions
+  (completions-format 'horizontal)
+  (completion-cycle-threshold t)
+  (completion-flex-nospace nil)
+  (completion-show-help nil)
+  (completion-pcm-complete-word-inserts-delimiters t)
+  (completion-ignore-case t)
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (resize-mini-windows t)
+  (completions-max-height 10)
+  :config
+  (file-name-shadow-mode 1)
+  (minibuffer-depth-indicate-mode 1)
+  (minibuffer-electric-default-mode 1))
 
 ;;;;; = savehist - last minibuffer commands used
 ;; Persist emacs minibuffer history
@@ -388,6 +418,7 @@
 ;;;;; = icomplete - vertical completion buffer
 ;; Minibuffer completion UI build-in Emacs
 (use-package icomplete
+  :disabled
   :ensure nil
   :custom
   ;; Automatically delete superfluous parts of file names
@@ -396,22 +427,6 @@
   (icomplete-show-matches-on-no-input t)
   ;; Pending completions over which to apply compute-delay
   (icomplete-delay-completions-threshold 50)
-  ;; Maximum height completion buffer
-  (completions-max-height 10)
-  (read-buffer-completion-ignore-case t)
-  ;; Generally ignore case when completing
-  (completion-ignore-case t)
-  ;; Ignore case for buffer names during completion
-  (read-buffer-completion-ignore-case t)
-  ;; Ignore case for file names during completion
-  (read-file-name-completion-ignore-case t)
-  ;; vertical completion minibuffer with fuzzy finding
-  (completion-styles '(partial-completion substring initials flex))
-  ;; typre specific over-rides
-  (completion-category-overrides '((file (styles . (partial-completion substring)))
-                                   (buffer (styles . ( basic substring partial-completion)))
-                                   (project-file (styles . (partial-completion substring)))
-                                   (info-menu (styles . (substring)))))
   :config
   (add-to-list 'completion-ignored-extensions ".eln")
   :hook
