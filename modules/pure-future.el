@@ -147,21 +147,6 @@
   :hook
   (minibuffer-setup . marginalia-mode))
 
-;;;;; = which-key
-;; show available keys for current mode
-(use-package which-key
-  :custom
-  ;; Show which-key on bottom of frame
-  (which-key-side-window-location 'bottom)
-  ;; Sort alphabetically
-  (which-key-sort-order 'which-key-key-order-alpha)
-  ;; Max height
-  (which-key-side-window-max-width 0.33)
-  ;; Relax, I know what I am doing most of the time
-  (which-key-idle-delay 1.0)
-  :hook
-  (after-init . which-key-mode))
-
 ;;;;; = vundo - graphical undo tree
 (use-package vundo
   :commands vundo
@@ -195,6 +180,29 @@
   ;; orderless is tried first
   (completion-category-overrides '(;; partial-completion is tried first
                                    (file (styles partial-completion)))))
+
+;;;;; = embark = emacs mini-buffer actions rooted in keymaps
+;; Like a right mmouse click
+(use-package embark
+  :commands
+  (embark-eldoc-first-target)
+  :init
+  ;; Show the Embark target at point via Eldoc.
+  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  :custom
+  ;; Replace the key help with a completing-read interface
+  (prefix-help-command #'embark-prefix-help-command)
+  (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none))))
+  :bind
+  (("C-c ." . embark-act)
+   ("C-c ;" . embark-dwim)
+   ("C-h B" . embark-bindings)))
 
 ;;;;; = vertico - VERTical Interactive COmpletion
 ;; Current version on Melpa has an issue with compiling.
@@ -286,6 +294,8 @@
   (vertico-multiform-categories
    '((file  reverse (vertico-sort-function . pure-sort-directories-first))
      (imenu buffer)
+     ;; Provides a which-key like buffer "C-x C-h, or any other prefix."
+     (embark-keybinding grid)
      (t     reverse)))
   :hook
   (after-init . vertico-multiform-mode))
