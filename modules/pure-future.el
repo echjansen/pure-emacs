@@ -177,6 +177,25 @@
 ;;;; Window Management
 
 ;;;; Minibuffer and Completion
+;;;;; = orderless - complete in any order
+(use-package orderless
+  :demand
+  :custom
+  ;; Certain dynamic completion tables (completion-table-dynamic)
+  ;; do not work properly with orderless. One can add basic as a fallback.
+  ;; Basic will only be used when orderless fails, which happens only for
+  ;; these special tables.
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  ;; Enable partial-completion for files.
+  ;; Either give orderless precedence or partial-completion.
+  ;; Note that completion-category-overrides is not really an override,
+  ;; but rather prepended to the default completion-styles.
+  ;; completion-category-overris '((file (styles orderless partial-completion)))
+  ;; orderless is tried first
+  (completion-category-overrides '(;; partial-completion is tried first
+                                   (file (styles partial-completion)))))
+
 ;;;;; = vertico - VERTical Interactive COmpletion
 ;; Current version on Melpa has an issue with compiling.
 ;; Loading vertico from source. Including the extensions.
