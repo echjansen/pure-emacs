@@ -268,6 +268,15 @@
   :commands
   (vertico-flat-mode))
 
+;;;;; = vertico-quick - quick keys
+;; Avy style quick selection when within vertico (mini)buffer.
+(use-package vertico-quick
+  :ensure nil
+  :demand
+  :bind (:map vertico-map
+              ("M-q" . vertico-quick-insert)
+              ("C-q" . vertico-quick-exit)))
+
 ;;;;; = vertico-multiform - configure Vertico in various forms per command.
 ;; Additional keys in minibuffer
 ;; M-B -> vertico-multiform-buffer
