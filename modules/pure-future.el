@@ -139,7 +139,7 @@
    ("C-h ."   . helpful-at-point)
    ("C-h F"   . helpful-function)))
 
-;;;;; = marginalia
+;;;;; = marginalia - display minibuffer meta data
 ;; Add annotations to the completion buffer
 (use-package marginalia
   :bind (:map minibuffer-local-map
@@ -214,7 +214,7 @@
   ;; Different scroll margin
   (vertico-scroll-margin 0)
   ;; Show more candidates
-  (vertico-count 20)
+  (vertico-count 10)
   ;; Grow and shrink the minibuffer
   (vertico-resize t)
   :hook
@@ -308,6 +308,25 @@
      (t     reverse)))
   :hook
   (after-init . vertico-multiform-mode))
+
+;;;;; = corfu - Completion in Region FUnction
+;; popop completion for programming, spelling, dabbrev, etc (see capf)
+;; Emacs and the extention 'Cape' provide completion backends (capf)'
+(use-package corfu
+  :custom
+  ;; Enable auto completion
+  (corfu-auto t)
+  ;; Automatically quit when no match found
+  (corfu-quit-no-match 'seperator)
+  :hook ((prog-mode . corfu-mode)
+         (shell-mode . corfu-mode)
+         (eshell-mode . corfu-mode)))
+
+;;;;; = corfu-terminal - tty support for corfu
+(use-package corfu-terminal
+  :unless (display-graphic-p)
+  :hook
+  (corfu-mode . corfu-terminal-mode))
 
 ;;;; Search and Replace
 
