@@ -8,8 +8,21 @@ This configuration focuses on:
 #+begin_quote
 - Use the built-in features, unless it's inferior or missing.
 - Fast startup time.
-- Standard Emacs keys unmodified.  
+- Standard Emacs keys unmodified.
 #+end_quote
+
+** How to use
+This configuration can be used for multiple pruposes:
+
+*** Explore the built-in features of Emacs
+Emacs has been around for a while. It is therefor not unimaginable that something about Emacs is in fact good and functional. New (and long term) Emacs users quite often install external packages, without fully understaning what vanilla Emacs has to offer.
+This configuration contains a configuration file that only facilitates the built-in features of the Emacs (currentl version 29+).
+To try pure-emacs, (after installation) execute the following shell command:
+
+#+begin_src shell
+  cd ~/.emacs.d/
+  emacs -Q -l early-init.el -l modules/pure-common.el -l modules/pure-emacs.el
+#+end_src
 
 ** Installation
 
