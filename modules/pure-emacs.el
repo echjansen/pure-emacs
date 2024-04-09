@@ -543,6 +543,17 @@
   ;; Activate abbrev in text-mode and prog-mode
   ((text-mode prog-mode) . abbrev-mode))
 
+;;;;; = dabbrev - dynamic abbriviations
+;; Key bindings:
+;; M-/   : dabbrev-expand
+;; M-C-/ : dabbrev-complete
+;; Can be used in conjunction with a loaded 'language' file, like oxford5000
+(use-package dabbrev
+  :ensure nil
+  :bind
+  ("M-/" . dabbrev-expand)
+  ("M-C-/" . dabbrev-completion))
+
 ;;;;; = delsel - delete selected
 ;; When a region is selected and delete or backspace pressed, delete selection.
 (use-package delsel
