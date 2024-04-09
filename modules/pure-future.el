@@ -322,11 +322,26 @@
          (shell-mode . corfu-mode)
          (eshell-mode . corfu-mode)))
 
-;;;;; = corfu-info - display candidate info in echo area
+;;;;; = corfu-echo - display brief info of candidate in echo.
+(use-package corfu-echo
+  :ensure nil
+  :hook
+  (corfu-mode . corfu-echo-mode))
+
+;;;;; = corfu-info - display candidate help or source-code.
 ;; M-h - while in corfu, provides help on selected candidate.
 ;; M-g - while in corfu, provides source code of the selected candidate.
 (use-package corfu-info
+  :ensure nil
   :after corfu)
+
+;;;;; = corfu-history - display used candidates first
+(use-package corfu-history
+  :ensure nil
+  :config
+  (add-to-list 'savehist-additional-variables 'corfu-history)
+  :hook
+  (corfu-mode . corfu-history-mode))
 
 ;;;;; = corfu-terminal - tty support for corfu
 (use-package corfu-terminal
