@@ -319,6 +319,7 @@
   ;; Automatically quit when no match found
   (corfu-quit-no-match 'seperator)
   :hook ((prog-mode . corfu-mode)
+         (text-mode . corfu-mode)
          (shell-mode . corfu-mode)
          (eshell-mode . corfu-mode)))
 
@@ -348,6 +349,38 @@
   :unless (display-graphic-p)
   :hook
   (corfu-mode . corfu-terminal-mode))
+
+;;;;; = cape - completion at point extensions
+(use-package cape
+  ;; Alternative prefix keys: C-c p, M-p, M-+, ...
+  :bind (("C-c p p" . completion-at-point) ;; capf
+         ("C-c p t" . complete-tag)        ;; etags
+         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+         ("C-c p h" . cape-history)
+         ("C-c p f" . cape-file)
+         ("C-c p k" . cape-keyword)
+         ("C-c p s" . cape-elisp-symbol)
+         ("C-c p e" . cape-elisp-block)
+         ("C-c p a" . cape-abbrev)
+         ("C-c p l" . cape-line)
+         ("C-c p w" . cape-dict))
+  :init
+  ;; The order of the functions matters, the first function returning a result
+  ;; wins.  Note that the list of buffer-local completion functions
+  ;; takes precedence over the global list.
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  ;;(add-to-list 'completion-at-point-functions #'cape-history)
+  ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
+  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
+  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
+  (add-to-list 'completion-at-point-functions #'cape-abbrev)
+  (add-to-list 'completion-at-point-functions #'cape-dict)
+  ;;(add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
+  ;;(add-to-list 'completion-at-point-functions #'cape-line)
+)
 
 ;;;; Search and Replace
 
