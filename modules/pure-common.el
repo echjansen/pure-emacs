@@ -45,7 +45,7 @@
   "The directory for Pure-Emacs backup files.")
 
 ;;;;; Pure Emacs private directory
-(defconst pure-dir-private "~/.config/.emacs.d/"
+(defconst pure-dir-private "~/.config/emacs/"
   "The directory for Pure-Emacs backup files.")
 
 ;;;;; Pure Emacs notes directory
@@ -54,9 +54,9 @@
 
 ;;;;; Create directories if non existing
 (dolist (dir (list pure-dir-cache
-		   pure-dir-backup
-		   pure-dir-notes
-		   pure-dir-private))
+                   pure-dir-backup
+                   pure-dir-notes
+                   pure-dir-private))
   (unless (file-directory-p dir)
     (make-directory dir t)))
 
