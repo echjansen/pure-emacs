@@ -217,6 +217,10 @@
   (vertico-count 10)
   ;; Grow and shrink the minibuffer
   (vertico-resize t)
+  :config
+  ;; Turn of pure-emacs enabled completion
+  (fido-mode -1)
+  (fido-vertical-mode -1)
   :hook
   (after-init . vertico-mode))
 

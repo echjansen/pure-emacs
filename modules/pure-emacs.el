@@ -418,8 +418,8 @@
 ;;;;; = icomplete - vertical completion buffer
 ;; Minibuffer completion UI build-in Emacs
 (use-package icomplete
-  :disabled
   :ensure nil
+  :demand t
   :custom
   ;; Automatically delete superfluous parts of file names
   (icomplete-tidy-shadowed-file-names t)
@@ -429,8 +429,8 @@
   (icomplete-delay-completions-threshold 50)
   :config
   (add-to-list 'completion-ignored-extensions ".eln")
-  :hook
-  (after-init . fido-vertical-mode)
+  ;; Don't start on a 'after-init hook' to allow disabling in pure-future
+  (fido-vertical-mode)
   ;; Usefull mapping
   :bind (:map icomplete-fido-mode-map
               ("RET" . icomplete-fido-ret)
