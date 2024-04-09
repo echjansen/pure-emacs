@@ -322,6 +322,12 @@
          (shell-mode . corfu-mode)
          (eshell-mode . corfu-mode)))
 
+;;;;; = corfu-info - display candidate info in echo area
+;; M-h - while in corfu, provides help on selected candidate.
+;; M-g - while in corfu, provides source code of the selected candidate.
+(use-package corfu-info
+  :after corfu)
+
 ;;;;; = corfu-terminal - tty support for corfu
 (use-package corfu-terminal
   :unless (display-graphic-p)
