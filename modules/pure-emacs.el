@@ -487,7 +487,7 @@
 (use-package ispell
   :ensure nil
   :custom
-  (ispell-program-name "aspell")
+  (ispell-program-name "hunspell")
   (ispell-dictionary "en_US"))
 
 ;;;;; = flyspell - on the fly spell checking

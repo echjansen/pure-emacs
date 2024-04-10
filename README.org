@@ -42,16 +42,18 @@ Unlike most configuration pure-emacs utilities the built-in package manager (pac
   make
 #+end_src
 
-*** Dependencies
+*** External Dependencies
 There are features in Emacs that require external executables to be installed. The following features require external software installation:
 
 - pure-emacs.el (vanilla Emacs):
-   + ispell / aspell - spelling checker
+   + hunspell        - spelling checker (or aspell, or ispell)
    + words           - english word dictionary stored in /usr/share/dict/words
-     
+
 **** Arch Installation
 #+begin_src shell
-  pacman -S words            # words file in /usr/share/dict/words
+  pacman -S hunspell              # spelling check
+  pacman -S hunspell-en_us        # spell check dictionary
+  pacman -S words                 # words file in /usr/share/dict/words
 #+END_SRC
 
 ** Features
