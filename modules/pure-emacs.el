@@ -119,7 +119,7 @@
 (use-package hl-line
   :ensure nil
   :config
-  ;; Some themes use underline for highlighting. Remove it. 
+  ;; Some themes use underline for highlighting. Remove it.
   (set-face-attribute 'highlight nil :underline nil)
   :hook
   (after-init . global-hl-line-mode))
@@ -361,8 +361,8 @@
          ("<S-right>" . windmove-right)
          ("<S-up>"    . windmove-up)
          ("<S-down>"  . windmove-down)
-	 ("<C-left>"  . windmove-swap-states-left)
-	 ("<C-right>" . windmove-swap-states-right)
+         ("<C-left>"  . windmove-swap-states-left)
+         ("<C-right>" . windmove-swap-states-right)
          ("<C-up>"    . windmove-swap-states-up)
          ("<C-down>"  . windmove-swap-states-down)))
 
@@ -503,7 +503,7 @@
   ;; Don't display a welcome message when started
   (flyspell-issue-welcome-flag nil)
   :bind (:map flyspell-mode-map
-	      ("C-;" . nil)
+              ("C-;" . nil)
               ("C-," . flyspell-goto-next-error)
               ("C-." . flyspell-auto-correct-word))
   :hook
@@ -526,7 +526,7 @@
   (disctionary-servevr "localhost")
   :bind
   (:map text-mode-map
-	("M-." . dictionary-lookup-definition)))
+        ("M-." . dictionary-lookup-definition)))
 
 ;;;;; = abbrev - replace acronims with full word
 ;; acronims could also be spelling mistakes
@@ -668,7 +668,8 @@
 (use-package whitespace
   :ensure nil
   :hook
-  (emacs-lisp-mode . whitespace-mode))
+  ;; Remove training whitespaces, cleanup tabs, etc
+  (before-save . whitespace-cleanup))
 
 ;;;;; = flymake - identify code faults
 ;; Error and warning code checking
