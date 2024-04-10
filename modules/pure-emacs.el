@@ -73,12 +73,14 @@
   ("C-z" . nil))
 
 ;;;;; = cus-edit - Emacs customisation
+;; Overriding pure-emacs default settings with 'customize-save-variable'.
 (use-package cus-edit
   :ensure nil
   :demand t
   :config
-  (customize-save-variable 'custom-file (concat pure-dir-private "pure-custom.el"))
-  (load custom-file))
+  (setq custom-file (concat pure-dir-private "pure-custom.el"))
+  :hook
+  (emacs-startup . (lambda () (load custom-file))))
 
 ;;;; Apperance
 
