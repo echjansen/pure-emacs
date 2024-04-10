@@ -1,5 +1,6 @@
 ;;; pure-emacs.el --- Pure Emacs initialization. -*- lexical-binding: t -*-
 
+
 ;; Copyright (C) 2024 echjansen
 
 ;; This file is part of = P U R E - E M A C S =
@@ -63,7 +64,6 @@
   ;; Cursor style
   (cursor-type 'box)
   (visible-bell t)
-  (custom-file (concat pure-dir-cache "pure-custom.el"))
   :config
   (setq-default indent-tabs-mode nil)
   (setq tab-width 2)
@@ -71,6 +71,14 @@
   :bind
   ;; Don't close Emacs
   ("C-z" . nil))
+
+;;;;; = cus-edit - Emacs customisation
+(use-package cus-edit
+  :ensure nil
+  :demand t
+  :config
+  (customize-save-variable 'custom-file (concat pure-dir-private "pure-custom.el"))
+  (load custom-file))
 
 ;;;; Apperance
 
