@@ -483,7 +483,8 @@
 ;;;; Editing
 
 ;;;;; = ispell - spell checking (install Aspell)
-;; Spelling checker program 'aspell' must be installed externally
+;; Spelling checker program 'hunspell' must be installed externally
+;; Spell check is controlled by flyspell.
 (use-package ispell
   :ensure nil
   :custom
