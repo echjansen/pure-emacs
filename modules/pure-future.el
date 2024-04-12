@@ -523,6 +523,11 @@
 ;;;; Shells
 
 ;;;; Tools
+;;;; = magit - git porcelain inside emacs
+;; Git interface
+(use-package magit
+  :commands
+  (magit-status))
 
 ;;;; Security and Privacy
 
