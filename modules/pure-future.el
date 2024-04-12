@@ -398,6 +398,128 @@
 
 ;;;; Programming Languages
 
+;;;; Note Taking
+;;;;; = denote - lightweight note taking
+;; Note taking feature with the following philosophy:
+;; - minimalistic using already existing Emacs features
+;; - meta data is the file name startegy (date/time, signature,title, keywords)
+(use-package denote
+  :commands
+  (denote
+   denote-open-or-create
+   denote-open-or-create-with-command)
+  :custom
+  ;; Main location for notes
+  (denote-directory pure-dir-notes)
+  ;; Don't save notes on creation. Manually save.
+  (denote-save-buffer-after-creation nil)
+  ;; Default keywords. Historical notes will add more.
+  (denote-known-keywords '("emacs" "linux" "meeting" "project"))
+  ;; Use historical keywords
+  (denote-infer-keywords t)
+  ;; Sort keywords in minibuffer
+  (denote-sort-keywords t)
+  ;; Org notes by default (text, markdown)
+  (denote-file-type nil)
+  ;; What fields to provide when creating new notes
+  ;; title, keywords, signature, subdirectory, template, date
+  (denote-prompts '(title subdirectory keywords template))
+  ;; Use historical note fields for new notes selection in minibuffer.
+  (denote-history-completion-in-prompts t)
+  ;; What fields are propmpted historical to provide for new note creation.
+  (denote-prompts-with-history-as-completion
+   '(denote-title-prompt
+     denote-signature-prompt
+     denote-files-matching-regexp-prompt))
+  ;; Directories to exclude from all operations
+  (denote-excluded-directories-regexp nil)
+  ;; Keywords to exclude from all operations
+  (denote-excluded-keywords-regexp nil)
+  ;; Pick dates with Org's interface
+  (denote-date-prompt-use-org-read-date t)
+  ;; Confirm note renaming
+  (denote-rename-no-confirm t)
+  ;; Show the line the backlink is found in.
+  (denote-backlinks-show-context t)
+  ;; Which 'dired' buffers should be 'denotified'.
+  (denote-dired-directories
+   (list denote-directory
+         (expand-file-name "~/Documents")))
+  :hook
+  ;; Use colors in 'dired' buffers to identify fields.
+  (dired-mode . denote-dired-mode-in-directories))
+
+;;;;; = denote-rename-buffer - rename buffer for modeline purposes.
+(use-package denote-rename-buffer
+  :ensure nil
+;;  :after (denote)
+  :demand t
+  :custom
+  (denote-rename-buffer-format "%t - %k")
+  :config
+  (denote-rename-buffer-mode t))
+
+;;;;; = denote-sort - sort denote dired buffers
+(use-package denote-sort
+  :ensure nil
+  :after (denote)
+  :demand t
+  :commands
+  (denote-sort-dired))
+
+;;;;; = denote-journal-extras - journal note taking.
+(use-package denote-journal-extras
+  :ensure nil
+  :after (denote)
+  :demand t
+  :commands
+  (denote-journal-extras-new-entry)
+  :custom
+  ;; Subfolder where journal notes are saved.
+  (denote-journal-extras-direxctory
+   (expand-file-name "journal" pure-dir-notes))
+  ;; Keyword used for journal notes.
+  (denote-journal-extras-keyword "journal")
+  ;; Title for journal notes. Nil to prompt for title.
+  (denote-journal-extras-title-format 'day-date-month-year-24h)
+  :config
+  ;; 'Denotify' journal 'dired' too.
+  (add-to-list 'denote-dired-directories denote-journal-extras-directory))
+
+;;;;; = denote-org-extras - dynamic org blocks
+(use-package denote-org-extras
+  :ensure nil
+  ;; These commands are handy once a org buffer is opened. Could be a note.
+  :after (org)
+  :demand t
+  :commands
+  (denote-org-extras-dblock-insert-links
+   denote-org-extras-dblock-insert-missing-links
+   denote-org-extras-dblock-insert-backlinks
+   denote-org-extras-extract-org-subtree
+   denote-org-extras-dblock-insert-missing-links))
+
+;;;;; = denote-silos-extra - multiple isololated note folders
+;; Have multiple directories for notes that are isolated from each other
+;; Each silo requires a hidden file, which contains instructions for denote.
+;; ;;; Directory Local Variables.  For more information evaluate:
+;; ;;;
+;; ;;;     (info "(emacs) Directory Variables")
+
+;; ((nil . ((denote-directory . "/path/to/silo/work")
+;;          (denote-known-keywords . ("project" "meeting"))
+;;          (denote-infer-keywords . nil)))
+;;  (org-mode . ((org-hide-emphasis-markers . t)
+;;               (org-hide-macro-markers . t)
+;;               (org-hide-leading-stars . t))))
+(use-package denote-silo-extras
+  :ensure nil
+  :demand t
+  :after (denote)
+  :config
+  (add-to-list 'denote-silo-extras-directories
+               (expand-file-name "notes_private" pure-dir-private )))
+
 ;;;; Shells
 
 ;;;; Tools
