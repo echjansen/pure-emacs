@@ -452,7 +452,7 @@
 ;;;;; = denote-rename-buffer - rename buffer for modeline purposes.
 (use-package denote-rename-buffer
   :ensure nil
-;;  :after (denote)
+  :after (denote)
   :demand t
   :custom
   (denote-rename-buffer-format "%t - %k")
