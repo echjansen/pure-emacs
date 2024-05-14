@@ -156,6 +156,20 @@
   ("C-x u" . vundo))
 
 ;;;; File Management
+;;;;; = dired-subtree - browse folders in a single view
+(use-package dired-subtree
+  :after dired
+  :commands
+  (dired-subtree-toggle
+   dired-subtree-remove)
+  :custom
+  (dired-subtree-use-backgrounds nil)
+  :bind
+  (:map dired-mode-map
+        ("<tab>"     . dired-subtree-toggle)
+        ("TAB"       . dired-subtree-toggle)
+        ("<backtab>" . dired-subtree-remove)
+        ("S-TAB"     . dired-subtree-remove)))
 
 ;;;; Buffer Management
 
