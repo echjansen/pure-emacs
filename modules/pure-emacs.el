@@ -147,6 +147,7 @@
 (use-package eldoc
   :ensure nil
   :custom
+  (eldoc-echo-area-use-multiline-p nil)
   (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
 ;;;;; = transient - menus and options
@@ -723,6 +724,7 @@
 (use-package treesit
   :ensure nil
   :custom
+  ;; Define source code for language parsers.
   (major-mode-remap-alist
    '((python-mode . python-ts-mode)
      (elisp-mode . elisp-ts-mode))))

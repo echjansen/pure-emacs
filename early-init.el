@@ -43,7 +43,7 @@
 ;; Package initialize occurs automatically, before `user-init-file' is
 ;; loaded, but after `early-init-file'.
 ;; Although this configuration doesn't use packages we prevent Emacs from
-;; enabling package.el 
+;; enabling package.el
 (setq package-enable-at-startup nil)
 
 ;;;; Set the first (only) frame maximized
@@ -75,21 +75,20 @@
 
 ;;;; Load the theme
 ;; Modus themes are very nice and complete, but have large load times ~0.5 seconds
-(load-theme 'leuven)
-;;(load-theme 'modus-operandi)
+;;(load-theme 'leuven)
+(load-theme 'modus-vivendi)
 
 ;; Reset variables, and message the startup time
 (add-hook 'emacs-startup-hook
-	  (lambda ()
-	    ;; Reset the file handler list
-	    (setq file-name-handler-alist pure-file-name-handler-alist)
-	    ;; Reset garbage collection
-	    (setq gc-cons-threshold 2000000)
-	    ;; Startup time message
-	    (message (format "Pure-Emacs ready in %.5f seconds with %d garbage collections."
-			     (float-time (time-subtract after-init-time before-init-time))
-			     gcs-done))))
+          (lambda ()
+            ;; Reset the file handler list
+            (setq file-name-handler-alist pure-file-name-handler-alist)
+            ;; Reset garbage collection
+            (setq gc-cons-threshold 2000000)
+            ;; Startup time message
+            (message (format "Pure-Emacs ready in %.5f seconds with %d garbage collections."
+                             (float-time (time-subtract after-init-time before-init-time))
+                             gcs-done))))
 
 (provide 'early-init)
 ;;; early-init.el ends here
-
