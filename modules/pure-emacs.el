@@ -493,7 +493,7 @@
 
 ;;;; Editing
 
-;;;;; = ispell - spell checking (install Aspell)
+;;;;; = ispell - spell checking (install hunspell)
 ;; Spelling checker program 'hunspell' must be installed externally
 ;; Spell check is controlled by flyspell.
 (use-package ispell
@@ -535,7 +535,7 @@
   ;; Remote dictionary
   ;; (dictionary-server "dict.org")
   ;; Local dictionary
-  (disctionary-servevr "localhost")
+  (dictionary-server "localhost")
   :bind
   (:map text-mode-map
         ("M-." . dictionary-lookup-definition)))
