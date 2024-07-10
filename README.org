@@ -36,10 +36,15 @@ Use git to clone pure-emacs:
 #+end_src
 
 *** Compile pure-emacs
-Unlike most configuration pure-emacs utilities the built-in package manager (package.el) to downloads the external packages. However package.el by itself is not necessary to be present during a normal Emacs session. Therefor we use package.el only while compiling the configuration.
+Unlike most configuration pure-emacs utilities the built-in package manager (package.el) to downloads the external packages. However package.el by itself is not necessary to be present during a normal Emacs session. Therefor we use package.el only to download packages while compiling the configuration with ~make~:
 #+begin_src shell
   cd ~/.emacs.d
-  make
+  # Option 1 : Download packages and compile the configuration
+  make emacs
+  # Option 2 : Clean the compiled files to run ~uncompiled~ (slower)
+  make clean
+  # Option 3 : Report on package load time
+  make report
 #+end_src
 
 *** External Dependencies
@@ -48,12 +53,14 @@ There are features in Emacs that require external executables to be installed. T
 - pure-emacs.el (vanilla Emacs):
    + hunspell        - spelling checker (or aspell, or ispell)
    + words           - english word dictionary stored in /usr/share/dict/words
+   + python          - python language server
 
 **** Arch Installation
 #+begin_src shell
   pacman -S hunspell              # spelling check
   pacman -S hunspell-en_us        # spell check dictionary
   pacman -S words                 # words file in /usr/share/dict/words
+  pacman -S python-lsp-server     # python language server
 #+END_SRC
 
 ** Features

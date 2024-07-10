@@ -74,9 +74,14 @@
 (setq initial-major-mode 'fundamental-mode)
 
 ;;;; Load the theme
+
 ;; Modus themes are very nice and complete, but have large load times ~0.5 seconds
+;;(load-theme 'modus-vivendi)
+;;(load-theme 'modus-operandi)
+;; Light theme
 ;;(load-theme 'leuven)
-(load-theme 'modus-vivendi)
+;; dark theme
+(load-theme 'wombat)
 
 ;; Reset variables, and message the startup time
 (add-hook 'emacs-startup-hook
