@@ -49,7 +49,7 @@
   "The directory for Pure-Emacs backup files.")
 
 ;;;;; Pure Emacs notes directory
-(defconst pure-dir-notes "~/Notes"
+(defconst pure-dir-notes "~/Projects/pure-notes/"
   "The directory for Pure-Emacs note files directory.")
 
 ;;;;; Create directories if non existing
