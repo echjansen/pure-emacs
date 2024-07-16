@@ -335,7 +335,8 @@
   ;; Enable auto completion
   (corfu-auto t)
   ;; Automatically quit when no match found
-  (corfu-quit-no-match 'seperator)
+  ;;(corfu-quit-no-match 'seperator)
+  (corfu-quit-no-match nil)
   :hook ((prog-mode . corfu-mode)
          (text-mode . corfu-mode)
          (shell-mode . corfu-mode)
