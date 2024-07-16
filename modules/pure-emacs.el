@@ -706,6 +706,17 @@
   :hook
   (flymake-mode . pure--flymake-toggle-diagnostics-buffer))
 
+;;;;; = treesit - Emacs language parser
+;; Install language support for languages via:
+;; Languages (for the moment) are installed via tree-sitter-langs package
+(use-package treesit
+  :ensure nil
+  :custom
+  ;; Define source code for language parsers.
+  (major-mode-remap-alist
+   '((python-mode . python-ts-mode)
+     (elisp-mode . elisp-ts-mode))))
+
 ;;;;; = eglot - Emacs client for the Language Server Protocol
 ;; Manual installation for language servers required.
 ;; Python: pacman -S python-lsp-server
@@ -718,17 +729,6 @@
   :hook
   (python-ts-mode . eglot-ensure))
 
-;;;;; = treesit - Emacs language parser
-;; Install language support for languages via:
-;; Languages (for the moment) are installed via tree-sitter-langs package
-(use-package treesit
-  :ensure nil
-  :custom
-  ;; Define source code for language parsers.
-  (major-mode-remap-alist
-   '((python-mode . python-ts-mode)
-     (elisp-mode . elisp-ts-mode))))
-
 ;;;; Programming Languages
 
 ;;;;; = make-mode - configure Makefiles
@@ -737,6 +737,15 @@
   :config
   (setq indent-tabs-mode t)
   (setq tab-width 4))
+
+(use-package python-mode
+  :ensure nil
+  :hook
+  (python-mode . (lambda ()
+                   (setq-default indent-tabs-mode 4)
+                   (setq-default tab-width 4)
+                   (setq-default py-indent-tabs-mode t)))
+  )
 
 ;;;; Shells
 
@@ -777,7 +786,7 @@
 
 ;;;; Security and Privacy
 
-;;;;; = epa - file encryption and decryption
+;;;;; = epa - EasyPG file encryption and decryption
 ;; add .gpg to any file and it will automatically by encrypted/decrypted
 (use-package epa
   :ensure nil
