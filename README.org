@@ -6,37 +6,30 @@ A multi purpose Emacs configuration, appreciating the built-in features and expl
 This configuration focuses on:
 
 #+begin_quote
-- Use the built-in features, unless it's inferior or missing.
+- Use of the built-in Emacs features, unless it's inferior or missing.
 - Fast startup time.
-- Standard Emacs keys unmodified.
+- Default Emacs keys so that switching to another configuration does not cause problems.
+- No vim keys
 #+end_quote
-
-** How to use
-This configuration can be used for multiple pruposes:
-
-*** Explore the built-in features of Emacs
-Emacs has been around for a while. It is therefor not unimaginable that something about Emacs is in fact good and functional. New (and long term) Emacs users quite often install external packages, without fully understaning what vanilla Emacs has to offer.
-This configuration contains a configuration file that only facilitates the built-in features of the Emacs (currentl version 29+).
-To try pure-emacs, (after installation) execute the following shell command:
-
-#+begin_src shell
-  cd ~/.emacs.d/
-  emacs -Q -l early-init.el -l modules/pure-common.el -l modules/pure-emacs.el
-#+end_src
 
 ** Installation
 
-It is assumed you have installed the latest version of Emacs from your package manager, and your Emacs version is at least 29.1 or later.
+It is assumed you have installed the latest version of Emacs using your OS package manager, and your Emacs version is at least 29.1 or later.
 
-*** Downloading pure-emacs
+*** Cloning pure-emacs
 Use git to clone pure-emacs:
 #+begin_src sehll
   cd ~
   git clone https://github.com/echjansen/pure-emacs ~/.emacs.d
 #+end_src
 
-*** Compile pure-emacs
-Unlike most configuration pure-emacs utilities the built-in package manager (package.el) to downloads the external packages. However package.el by itself is not necessary to be present during a normal Emacs session. Therefor we use package.el only to download packages while compiling the configuration with ~make~:
+*** Compiling pure-emacs
+This Emacs configuration focuses on fast startup and execution times. This can be achieved using the provided ~native compilation~ introduced in Emacs 29.
+Unlike many other configurations ~pure-emacs~ utilities the built-in package manager ~package.el~ to download external packages.
+However, to maintain fast startup times Emacs features such as ~package.el~ and ~use-package~ are only loaded during compile time (~make emacs~) but not during run time.
+See more on this topic in [[#Fast start-up time][Fast start-up time]]
+
+To run this ~pure-emacs~ configuration, the user must compile it after configuration modifications are made, with:
 #+begin_src shell
   cd ~/.emacs.d
   # Option 1 : Download packages and compile the configuration
@@ -48,7 +41,7 @@ Unlike most configuration pure-emacs utilities the built-in package manager (pac
 #+end_src
 
 *** External Dependencies
-There are features in Emacs that require external executables to be installed. The following features require external software installation:
+There are features in Emacs that require external dependencies to be installed. The following Emacs features require external software to be installation:
 
 - pure-emacs.el (vanilla Emacs):
    + hunspell        - spelling checker (or aspell, or ispell)
@@ -62,6 +55,19 @@ There are features in Emacs that require external executables to be installed. T
   pacman -S words                 # words file in /usr/share/dict/words
   pacman -S python-lsp-server     # python language server
 #+END_SRC
+
+** How to use
+This configuration can be used for multiple purposes:
+
+*** Explore the built-in features of Emacs
+Emacs has been around for a while. It is therefor not unimaginable that something about Emacs is in fact good and functional. New (and long term) Emacs users quite often install external packages, without fully understaning what vanilla Emacs has to offer.
+This configuration contains a configuration file that only facilitates the built-in features of the Emacs (currentl version 29+).
+To try pure-emacs, (after installation) execute the following shell command:
+
+#+begin_src shell
+  cd ~/.emacs.d/
+  emacs -Q -l early-init.el -l modules/pure-common.el -l modules/pure-emacs.el
+#+end_src
 
 ** Features
 
