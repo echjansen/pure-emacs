@@ -60,5 +60,26 @@
   (unless (file-directory-p dir)
     (make-directory dir t)))
 
+;;;; Files
+;; Note: if you are creating ~secret~ files with the ~.gpg~ extension, then
+;; you should create these files manually - as the ~sender~ will be required
+;; to encrypt / decrypt that file. Use C-x C-f to create the file, and C-x C-w
+;; to write the file
+;;;;; Pure Emacs custom file
+;; Some variables may contain ~secret~ information
+;; The custom file can store these variables securely by saving them as .gpg
+(defconst pure-custom-file "~/.config/emacs/pure-custom.el.gpg"
+  "The pure-emacs custom file containing secrets")
+
+;;;;; Pue Emacs abbreviations file
+(defconst pure-abbrev-defs "~/.config/emacs/pure-abbrev-defs"
+  "The pure-emacs abbreviations file")
+
+;;;;; Create files if non existing
+(dolist (file (list pure-custom-file
+                    pure-abbrev-defs))
+  (unless (file-exists-p file)
+    (with-temp-file file)))
+
 (provide 'pure-common)
 ;;; pure-common.el ends here

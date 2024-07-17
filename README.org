@@ -57,7 +57,50 @@ There are features in Emacs that require external dependencies to be installed. 
 #+END_SRC
 
 ** How to use
-This configuration can be used for multiple purposes:
+*** Common File
+This configuration works out of the box, however a few variables used with Emacs should be personalized.
+These parameters are found in the [[file:~/modules/pure-common.el][pure-common.el]] file and should be visited  before running Emacs for the first time.
+
+#+begin_src emacs-lisp
+  (defconst pure-dir-emacs (expand-file-name user-emacs-directory)
+    "The path to the emacs.d directory.")
+
+  ;;;;; Pure Emacs modules directory
+  (defconst pure-dir-modules (concat user-emacs-directory "modules")
+    "The path to the emacs.d modules directory.")
+
+  ;;;;; Pure Emacs cache diretcory (info shared between Emacs instances
+  (defconst pure-dir-cache "~/.cache/emacs/"
+    "The directory for Pure-Emacs littered files.")
+
+  ;;;;; Pure Emacs backup directory
+  (defconst pure-dir-backup (concat pure-dir-cache "backup/")
+    "The directory for Pure-Emacs backup files.")
+
+  ;;;;; Pure Emacs private directory
+  (defconst pure-dir-private "~/.config/emacs/"
+    "The directory for Pure-Emacs backup files.")
+
+  ;;;;; Pure Emacs notes directory
+  (defconst pure-dir-notes "~/Projects/pure-notes/"
+    "The directory for Pure-Emacs note files directory.")
+
+  ;;;;; Create directories if non existing
+  (dolist (dir (list pure-dir-cache
+                     pure-dir-backup
+                     pure-dir-notes
+                     pure-dir-private))
+    (unless (file-directory-p dir)
+      (make-directory dir t)))
+
+  ;;;; Files
+  ;;;;; Pure Emacs custom file
+  ;; Some variables may contain ~secret~ information
+  ;; The custom file can store these variables securely by saving them as .gpg
+  (defconst pure-custom-file "~/.config/emacs/pure-custom.el.gpg"
+    "The custom file containing secrets")
+
+#+end_src
 
 *** Explore the built-in features of Emacs
 Emacs has been around for a while. It is therefor not unimaginable that something about Emacs is in fact good and functional. New (and long term) Emacs users quite often install external packages, without fully understaning what vanilla Emacs has to offer.

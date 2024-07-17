@@ -77,8 +77,8 @@
 (use-package cus-edit
   :ensure nil
   :demand t
-  :config
-  (setq custom-file (concat pure-dir-private "pure-custom.el"))
+  :custom
+  (custom-file pure-custom-file)
   :hook
   (emacs-startup . (lambda () (load custom-file))))
 
@@ -546,7 +546,7 @@
 (use-package abbrev
   :ensure nil
   :custom
-  (abbrev-file-name (expand-file-name "abbrev_defs" pure-dir-private))
+  (abbrev-file-name pure-abbrev-defs)
   (save-abbrevs 'silently)
   :config
   (if (file-exists-p abbrev-file-name)
@@ -786,15 +786,24 @@
 
 ;;;; Security and Privacy
 
-;;;;; = epa - EasyPG file encryption and decryption
+;;;;; = epg - Emacs GnuPG interface
 ;; add .gpg to any file and it will automatically by encrypted/decrypted
-(use-package epa
+(use-package epg
   :ensure nil
   :custom
   ;; Use version 2 of OpenGP
   (epg-gpg-program "gpg2")
   ;; Use emacs to enter passphrases instead of pinentry.
   (epg-pinentry-mode 'loopback))
+
+;;;;; = epa - EasyPG file encryption and decryption
+;; add .gpg to any file and it will automatically by encrypted/decrypted
+(use-package epa
+  :custom
+  (epa-pinentry-mode 'loopback)
+  :hook
+  ;; Automatically encrypt / decrypt .gpg files
+  (after-init . epa-file-enable))
 
 ;;;;; = auth-source - handle username / passwords for accounts
 ;; provides encryption and decryption
