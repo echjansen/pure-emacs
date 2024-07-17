@@ -420,9 +420,10 @@
 ;;;;; = geiser-guile - a ~lisp~ language based on ~scheme~
 (use-package geiser-guile
   :commands
-  (geiser)
+  (geiser-guile)
   :custom
-  (scheme-program-name "guile"))
+  (scheme-program-name "guile")
+  (geiser-repl-history-filename (concat pure-dir-cache "geiser-history")))
 
 ;;;; Note Taking
 ;;;;; = denote - lightweight note taking
