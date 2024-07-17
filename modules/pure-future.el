@@ -412,6 +412,17 @@
 ;;;; Coding
 
 ;;;; Programming Languages
+;;;;; = aggresive-indent - handle indentations
+(use-package aggressive-indent
+  :hook
+  ((lisp-mode scheme-mode emacs-lisp-mode) . aggressive-indent-mode))
+
+;;;;; = geiser-guile - a ~lisp~ language based on ~scheme~
+(use-package geiser-guile
+  :commands
+  (geiser)
+  :custom
+  (scheme-program-name "guile"))
 
 ;;;; Note Taking
 ;;;;; = denote - lightweight note taking
