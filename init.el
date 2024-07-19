@@ -41,5 +41,8 @@
 ;; Load the pure-future configuration (installed features)
 (require 'pure-future nil t)
 
+;; Load the pure-email configuration (optional, requires ~mu~)
+(require 'pure-email nil t)
+
 (provide 'init)
 ;;; init.el ends here
