@@ -83,7 +83,6 @@
 (use-package mu4e
   :ensure nil
   :commands (mu4e)
-  :load-path "/usr/share/emacs/site-lisp/mu4e/"
   :custom
   (mu4e-confirm-quit nil)
   (mu4e-modeline-support t)
@@ -92,6 +91,7 @@
   (mu4e-thread-mode nil)
   (mu4e-use-fancy-chars t)
   (mu4e-view-show-images t)
+  (mu4e-headers-results-limit 9999)
   (mu4e-attachment-dir "~/Downloads")
   (mu4e-eldoc-support t)
   ;; Required for moving and deleting messages (IMAP)
