@@ -599,6 +599,12 @@
   ;; Show project information on the modeline
   (project-mode-line t))
 
+;;;;; = vc - version control
+(use-package vc
+  :ensure nil
+  :custom
+  (vc-follow-link t))
+
 ;;;;; = outline - code folding
 ;; Navigate elisp files easily.
 (use-package outline
