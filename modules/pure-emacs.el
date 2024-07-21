@@ -603,7 +603,7 @@
 (use-package vc
   :ensure nil
   :custom
-  (vc-follow-link t))
+  (vc-follow-symlinks t))
 
 ;;;;; = outline - code folding
 ;; Navigate elisp files easily.
