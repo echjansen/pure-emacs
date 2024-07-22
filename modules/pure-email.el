@@ -131,11 +131,7 @@
             (lambda
               (msg)
               (when msg
-                (or (mu4e-message-contact-field-matches msg :to   ,(auth-source-pass-get "email" "email/ech"))
-                    (mu4e-message-contact-field-matches msg :from ,(auth-source-pass-get "email" "email/ech"))
-                    (mu4e-message-contact-field-matches msg :cc   ,(auth-source-pass-get "email" "email/ech"))
-                    (mu4e-message-contact-field-matches msg :bcc  ,(auth-source-pass-get "email" "email/ech"))
-                    (string-prefix-p "/ech" (mu4e-message-field msg :maildir)))))
+                (string-prefix-p "/ech" (mu4e-message-field msg :maildir))))
             :vars `(
                     (user-full-name             . ,(auth-source-pass-get "name" "email/ech"))
                     (user-mail-address          . ,(auth-source-pass-get "email" "email/ech"))
@@ -171,11 +167,7 @@
             (lambda
               (msg)
               (when msg
-                (or (mu4e-message-contact-field-matches msg :to   ,(auth-source-pass-get "email" "email/web"))
-                    (mu4e-message-contact-field-matches msg :from ,(auth-source-pass-get "email" "email/web"))
-                    (mu4e-message-contact-field-matches msg :cc   ,(auth-source-pass-get "email" "email/web"))
-                    (mu4e-message-contact-field-matches msg :bcc  ,(auth-source-pass-get "email" "email/web"))
-                    (string-prefix-p "/web" (mu4e-message-field msg :maildir)))))
+                (string-prefix-p "/web" (mu4e-message-field msg :maildir))))
             :vars `(
                     (user-full-name             . ,(auth-source-pass-get "name" "email/web"))
                     (user-mail-address          . ,(auth-source-pass-get "email" "email/web"))
@@ -211,11 +203,7 @@
             (lambda
               (msg)
               (when msg
-                (or (mu4e-message-contact-field-matches msg :to   ,(auth-source-pass-get "email" "email/franz"))
-                    (mu4e-message-contact-field-matches msg :from ,(auth-source-pass-get "email" "email/franz"))
-                    (mu4e-message-contact-field-matches msg :cc   ,(auth-source-pass-get "email" "email/franz"))
-                    (mu4e-message-contact-field-matches msg :bcc  ,(auth-source-pass-get "email" "email/franz"))
-                    (string-prefix-p "/franz" (mu4e-message-field msg :maildir)))))
+                (string-prefix-p "/franz" (mu4e-message-field msg :maildir))))
             :vars `(
                     (user-full-name             . ,(auth-source-pass-get "name" "email/franz"))
                     (user-mail-address          . ,(auth-source-pass-get "email" "email/franz"))
