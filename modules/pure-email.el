@@ -142,6 +142,11 @@
   ;; (message-sendmail-extra-arguments '("--read-envelope-from"))
 
   :config
+  ;; Avoid 'd' deleted messages are flagged for expunge
+  ;; Instead move 'd' messages to the Trash folder
+  (setf (plist-get (alist-get 'trash mu4e-marks) :action)
+        (lambda (docid msg target)
+          (mu4e--server-move docid (mu4e--mark-check-target target) "-N")))
   (setq mu4e-contexts
         `(
           ,(make-mu4e-context
