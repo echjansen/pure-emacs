@@ -77,6 +77,27 @@
 ;; Format: (your date micght differ)
 ;; machine smtp-mail.outlook.com login <email> port 587 password <password>
 
+;; ===========================================================================
+;; To send email
+;; ===========================================================================
+;; Use the ~/.msmtprc configuration file with the following content:
+
+;; # Set default values for all following accounts.
+;; defaults
+;; auth           on
+;; tls            on
+;; tls_trust_file /etc/ssl/certs/ca-certificates.crt
+;; #logfile        ~/.msmtp.log
+
+;; # echjansen@outlook.com
+;; account        <account>
+;; host           smtp-mail.outlook.com
+;; port           587
+;; from           <email>
+;; user           <email> or <user>
+;; passwordeval   "pass email/user"
+;; from_full_name "User full name"
+
 ;;; Code:
 
 ;;; = mu4e - Emacs Mail Client
@@ -102,10 +123,11 @@
   (mu4e-get-mail-command "mbsync -a")
   ;; Headers for mail list
   (mu4e-headers-fields
-   '((:human-date . 16)                 ; :date
+   '((:human-date . 16)
      (:flags      . 6)
+     (:size       . 10)
      (:from       . 40)
-     (:thread-subject)))                ; :subject
+     (:thread-subject)))
   ;; Local mail directory
   (mu4e-maildir ~/.mail)
   ;; Automatically update mailbox every minute
@@ -113,7 +135,12 @@
   ;; Dealing with html text
   (mu4e-html2text-command "w3m -T text/html")
   ;; Sending mail
-  (message-send-mail-function 'smtpmail-send-it)
+  ;;(message-send-mail-function 'smtpmail-send-it)              ; uses .authinfo
+  (message-send-mail-function 'message-send-mail-with-sendmail) ; uses .msmtprc
+  (sendmail-program "/usr/bin/msmtp")
+  ;; (message-sendmail-f-is-evil t)
+  ;; (message-sendmail-extra-arguments '("--read-envelope-from"))
+
   :config
   (setq mu4e-contexts
         `(
@@ -135,11 +162,6 @@
             :vars `(
                     (user-full-name             . ,(auth-source-pass-get "name" "email/ech"))
                     (user-mail-address          . ,(auth-source-pass-get "email" "email/ech"))
-                    (smtpmail-smtp-user         . ,(auth-source-pass-get "email" "email/ech"))
-                    (smtpmail-mail-address . ,(auth-source-pass-get "email" "email/ech"))
-                    (smtpmail-smtp-server       . "smtp-mail.outlook.com")
-                    (smtpmail-smtp-service      . 587)
-                    (smtpmail-stream-type       . nil)
                     (mu4e-compose-signature     . (concat
                                                    "Kind regards,\n\n"
                                                    ,(auth-source-pass-get "name" "email/ech")
@@ -170,12 +192,6 @@
                 (string-prefix-p "/web" (mu4e-message-field msg :maildir))))
             :vars `(
                     (user-full-name             . ,(auth-source-pass-get "name" "email/web"))
-                    (user-mail-address          . ,(auth-source-pass-get "email" "email/web"))
-                    (smtpmail-smtp-user         . ,(auth-source-pass-get "email" "email/web"))
-                    (smtpmail-mail-address      . ,(auth-source-pass-get "email" "email/web"))
-                    (smtpmail-smtp-server       . "smtp-mail.outlook.com")
-                    (smtpmail-smtp-service      . 587)
-                    (smtpmail-stream-type       . nil)
                     (mu4e-compose-signature     . (concat
                                                    "Kind regards,\n\n"
                                                    ,(auth-source-pass-get "name" "email/web")
@@ -207,11 +223,6 @@
             :vars `(
                     (user-full-name             . ,(auth-source-pass-get "name" "email/franz"))
                     (user-mail-address          . ,(auth-source-pass-get "email" "email/franz"))
-                    (smtpmail-smtp-user         . ,(auth-source-pass-get "email" "email/franz"))
-                    (smtpmail-mail-address      . ,(auth-source-pass-get "email" "email/franz"))
-                    (smtpmail-smtp-server       . "smtp-mail.outlook.com")
-                    (smtpmail-smtp-service      . 587)
-                    (smtpmail-stream-type       . nil)
                     (mu4e-compose-signature     . (concat
                                                    "Kind regards,\n\n"
                                                    ,(auth-source-pass-get "name" "email/franz")
