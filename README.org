@@ -235,3 +235,106 @@ All that is required for this to happen, is the following statement early in the
   (eval-when-compile
     (require 'use-package))
 #+end_src
+
+*** Email with mu4e, mbsync and msmtp
+A seperate module is availale to include email in your Emacs configuration.
+It is disabled by default, as not to throw errors during the Emacs startup process, as the email configuration requires multiple personalisations before it can function correctly.
+Below is an outline of what need to be configured i order for email to work.
+Note: pure-dotfiles includes an install script that performs all of the necessary operations.
+
+**** Email secrets
+Pure-email assumes that all secrets regarding your email configuration are stored in a ~Gnu pass~ password store.
+The following is an example of a multi-line email account configuration.
+
+#+begin_src shell
+    <password>
+    email: <email>
+    name: <name>
+    imap-server:<imap.server.com>
+    imap-port:<port no>
+    imap-ssl:IMAPS
+#+end_src
+
+Pure-email uses instructions as below to obtain the data from the password store:
+
+#+begin_src emacs-lisp
+  (user-full-name  . ,(auth-source-pass-get "name" "email/user"))
+#+end_src
+
+**** Synchronizing mailbox
+Mailbox synchronization (receiving email) is performed by an external application, not mu4e (or mu)
+There are two candidates for Synchronizing (receiving) mailboxes: ~mbsync~ which is part of the ~isync~ project, and ~Offlineimap~.
+pure-email doesn't care which utility is being used, as it solely functions on the offline mailbox and doesn't perform the synchronization directly.
+
+Alter the variable ~mu4e-get-mail-command~ if not using ~mbsync~ for mailbox synchronization.
+
+#+begin_src emacs-lisp
+  (mu4e-get-mail-command "mbsync -a")
+#+end_src
+
+Assuming that mbsync is being used, a ~mbsynrc~ configuration file is required in the users home folder.
+The following is an example for outlook.com (or office365.com)
+Replace ~user~ with your email account identifier. Also, the block below can be duplicated multiple times for multiple email accounts
+
+#+begin_src shell
+    #===============================================================================
+    # Mailbox synchronisation with echjansen@outlook.com
+    #===============================================================================
+    IMAPAccount user
+    Host outlook.office365.com
+    Port 993
+    User user@outlook.com
+    PassCmd "pass email/user"
+    SSLType IMAPS
+    AuthMusers *
+    CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+    IMAPStore user-remote
+    Account user
+
+    MaildirStore user-local
+    SubFolders Verbatim
+    Path ~/.mail/user/
+    Inbox ~/.mail/user/Inbox
+    Trash Deleted
+
+    Channel user
+    Far :user-remote:
+    Near :user-local:
+    Patterns *
+    SyncState *
+    Create Both
+    Expunge Both
+    CopyArrivalDate yes
+    Sync All
+#+end_src
+
+**** Sending email
+Like mailbox synchronization, sending emails is also performed by an external application. The common application is ~msmtp~.
+~msmtp~ requires a ~.msmtprc~ configuration file to be located in the users home folder.
+
+The following is an example for outlook.com (or office365.com)
+
+#+begin_src shell
+    # Set default values for all following accounts.
+    defaults
+    auth           on
+    tls            on
+    tls_trust_file /etc/ssl/certs/ca-certificates.crt
+    logfile        ~/.msmtp.log
+
+    # echjansen@outlook.com
+    account        user
+    host           smtp-mail.outlook.com
+    port           587
+    from           user@outlook.com
+    user           user@outlook.com
+    passwordeval   "pass email/user"
+    from_full_name "user full name"
+#+end_src
+
+The following configuration ensures that the data located in the ~.msmtprc~ is being used.
+
+#+begin_src emacs-lisp
+  (message-send-mail-function 'message-send-mail-with-sendmail)
+#+end_src
