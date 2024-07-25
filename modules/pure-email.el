@@ -111,8 +111,8 @@
   (mu4e-search-threads nil)
   (mu4e-thread-mode nil)
   (mu4e-use-fancy-chars t)
-  (mu4e-view-show-images t)
-  (mu4e-headers-results-limit 9999)
+  (mu4e-search-result-limit 500)
+  (mu4e-search-full t)
   (mu4e-attachment-dir "~/Downloads")
   (mu4e-eldoc-support t)
   ;; Required for moving and deleting messages (IMAP)
@@ -130,10 +130,8 @@
      (:thread-subject)))
   ;; Local mail directory
   (mu4e-maildir ~/.mail)
-  ;; Automatically update mailbox every minute
+  ;; Automatically update mailbox every 10 minutes
   (mu4e-update-interval 600)
-  ;; Dealing with html text
-  (mu4e-html2text-command "w3m -T text/html")
   ;; Sending mail
   ;;(message-send-mail-function 'smtpmail-send-it)              ; uses .authinfo
   (message-send-mail-function 'message-send-mail-with-sendmail) ; uses .msmtprc
@@ -147,6 +145,7 @@
   (setf (plist-get (alist-get 'trash mu4e-marks) :action)
         (lambda (docid msg target)
           (mu4e--server-move docid (mu4e--mark-check-target target) "-N")))
+  ;; Configure one or more email accounts
   (setq mu4e-contexts
         `(
           ,(make-mu4e-context
