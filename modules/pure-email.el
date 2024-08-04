@@ -105,6 +105,7 @@
   :ensure nil
   :commands (mu4e)
   :custom
+  (mu4e-context-policy 'pick-first)
   (mu4e-confirm-quit nil)
   (mu4e-modeline-support t)
   (mu4e-search-show-threads nil)
@@ -114,6 +115,8 @@
   (mu4e-search-result-limit 500)
   (mu4e-search-full t)
   (mu4e-attachment-dir "~/Downloads")
+  (mu4e-headers-date-format "%Y-%m-%d")
+  (mu4e-headers-time-format "%H:%M:%S")
   (mu4e-eldoc-support t)
   ;; Required for moving and deleting messages (IMAP)
   (mu4e-change-filenames-when-moving t)
@@ -123,8 +126,8 @@
   (mu4e-get-mail-command "mbsync -a")
   ;; Headers for mail list
   (mu4e-headers-fields
-   '((:human-date . 16)
-     (:flags      . 6)
+   '((:human-date . 18)
+     (:flags      . 8)
      (:size       . 10)
      (:from       . 40)
      (:thread-subject)))
@@ -138,6 +141,10 @@
   (sendmail-program "/usr/bin/msmtp")
   ;; (message-sendmail-f-is-evil t)
   ;; (message-sendmail-extra-arguments '("--read-envelope-from"))
+
+  ;; Composing emails
+  (mu4e-compose-format-flowed t)
+  (message-kill-buffer-on-exit t)
 
   :config
   ;; Avoid 'd' deleted messages are flagged for expunge
@@ -257,7 +264,7 @@
   (org-mime-html . (lambda ()
                      (org-mime-change-element-style
                       "pre" (format "color: %s background-color: %s padding: 0.5em;"
-                                    "#E6E1DC" "#232323")))))
+                      "#E6E1DC" "#232323")))))
 
 (provide 'pure-email)
 ;;; pure-email.el ends here.
