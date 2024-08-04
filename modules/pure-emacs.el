@@ -532,13 +532,11 @@
 (use-package dictionary
   :ensure nil
   :custom
-  ;; Remote dictionary
-  ;; (dictionary-server "dict.org")
-  ;; Local dictionary
+  ;; Try first local, the remote
   (dictionary-server "localhost")
   :bind
   (:map text-mode-map
-        ("M-." . dictionary-lookup-definition)))
+        ("M-#" . dictionary-lookup-definition)))
 
 ;;;;; = abbrev - replace acronims with full word
 ;; acronims could also be spelling mistakes
@@ -634,14 +632,14 @@
                        (setq-local outline-level #'outline-level)
                        ;; setup heading regexp specific to `emacs-lisp-mode'
                        (setq-local outline-regexp ";;;\\(;* \\)")
-                       ;; heading alist allows for subtree-like folding
-                       (setq-local outline-heading-alist
-                                   '((";;; " . 1)
-                                     (";;;; " . 2)
-                                     (";;;;; " . 3)
-                                     (";;;;;; " . 4)
-                                     (";;;;;;; " . 5)))
-                       (outline-hide-sublevels 3)))
+    ;; heading alist allows for subtree-like folding
+    (setq-local outline-heading-alist
+                '((";;; " . 1)
+                  (";;;; " . 2)
+                  (";;;;; " . 3)
+                  (";;;;;; " . 4)
+                  (";;;;;;; " . 5)))
+    (outline-hide-sublevels 3)))
   :bind (:map outline-minor-mode-map
               ("TAB"       . outline-cycle)
               ("<backtab>" . outline-cycle-buffer)
