@@ -12,12 +12,98 @@ This configuration focuses on:
 #+end_quote
 
 ** This configuration
+
+*** Emacs builtin features
+
+More often than not are we attracted by eye candy extensions to Emacs, without considering what Emacs has to offer directly out-of-the-box. With each new version of Emacs being released, new features are becoming available, and it is worthwhile reviewing these before looking around for alternatives.
+This configuration uses builtin features before external packages, unless there is a clear advantage over using an external alternative.
+It's your choice to enable such alternatives by including the emacs-future.el module. Or start with the impressive set of builtin features:
+
+#+begin_comment
+;;;; Package Configuration
+;;;;; = use-package - package configuration macro
+;;;; Emacs
+;;;;; = emacs - sensible defaults
+;;;;; = cus-edit - Emacs customization
+;;;; Appearance
+;;;;; = timer - display time
+;;;;; = simple - modeline info and line display
+;;;;; = display-fill-column-indicator
+;;;;; = display-line-numbers
+;;;;; = hl-line - highlight line at point
+;;;; Help and Information
+;;;;; = help - always select the help windows
+;;;;; = eldoc - echo area context at point information
+;;;;; = transient - menus and options
+;;;;; = apropos - find symbols, functions, variables, etc
+;;;; File Management
+;;;;; = files - files and backups
+;;;;; = recentf - recently opened files
+;;;;; = saveplace - last position in file
+;;;;; = dired - file management
+;;;;; = uniquify - files with the same name get directory included.
+;;;; Buffer Management
+;;;;; = ibuffer - buffer management
+;;;; Window Management
+;;;;; = windmove - reposition buffers
+;;;;; = winner - undo / redo window order
+;;;; Minibuffer and Completion
+;;;;; = minibuffer - selection window
+;;;;; = savehist - last minibuffer commands used
+;;;;; = icomplete - vertical completion buffer
+;;;; Search and Replace
+;;;;; = isearch - find
+;;;;; = replace - contains occur
+;;;; Keys
+;;;;; - repeat - why repeat complex key combinations
+;;;; Editing
+;;;;; = ispell - spell checking (install hunspell)
+;;;;; = flyspell - on the fly spell checking
+;;;;; = dictionary - look up words for meaning (on-line)
+;;;;; = abbrev - replace acronims with full word
+;;;;; = dabbrev - dynamic abbreviations
+;;;;; = delsel - delete selected
+;;;; Navigation
+;;;;; = imenu - list content of a buffer in headers
+;;;; Coding
+;;;;; = project - project management
+;;;;; = vc - version control
+;;;;; = outline - code folding
+;;;;; = hideshow - function and expression folding
+;;;;; = reveal - open folded blocks when searching
+;;;;; = elec-pair - parenthesis
+;;;;; = whitespace - show whitespaces
+;;;;; = flymake - identify code faults
+;;;;; = treesit - Emacs language parser
+;;;;; = eglot - Emacs client for the Language Server Protocol
+;;;; Programming Languages
+;;;;; = make-mode - configure Makefiles
+;;;;; = python-mode - programming in python
+;;;; Shells
+;;;;; = eshell - the Emacs shell created with elsip. Runs everywhere.
+;;;; Tools
+;;;;; = calendar - calendar dialogue.
+;;;;; = url
+;;;; Security and Privacy
+;;;;; = epg - Emacs GnuPG interface
+;;;;; = epa - EasyPG file encryption and decryption
+;;;;; = auth-source - handle username / passwords for accounts
+;;;;; = auto-source-pass
+;;;; Communication
+;;;;; = eww - Emacs web wowser
+;;;; Org Mode
+;;;;; = org-mode - the one and only writing environment (and more)
+;;;; Pure Functions
+;;;;; = pure--suppress-messages
+;;; pure-emacs.el ends here
+#+end_comment
+
 *** Modular
 
 This configuration is modular. There are currently 4 *modules* of which two are compulsory.
 
 #+begin_quote
-- pure-common      - variables you might want to personalize (See [[#Common File][pure-common file]])
+- pure-common      - variables you might want to personalize.
 - pure-emacs       - Emacs built-in features, good starting point for your Emacs setup.
 - pure-future      - Emacs external packages that are popular and potential candidates for future integration in core Emacs.
 - pure-email       - Email client based on mu4e.
@@ -33,8 +119,6 @@ So ho is this achieved:
 3. Use package.el to install packages, but not to run Emacs (package.el is only instantiated during compilation)
 4. Use use-package.el during compilation but not to run Emacs (expand macros during compilation)
 5. Lazy loading of code, if you don't need it - don't load it
-
-Read more in [[#Fast start-up time][Fast start-up times]]
 
 *** Dependencies
 Some features in Emacs require external dependencies to be installed separately.Below is a list of dependencies by *module*:
