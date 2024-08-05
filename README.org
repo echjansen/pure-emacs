@@ -21,7 +21,7 @@ More often than not are we attracted by eye candy extensions to Emacs, without c
 This configuration uses builtin features before external packages, unless there is a clear advantage over using an external alternative.
 It's your choice to enable such alternatives by including the emacs-future.el module. Or start with the impressive set of builtin features:
 
-#+begin_quote
+#+begin_source Emacs-Lisp
 ;;;; Package Configuration
 ;;;;; = use-package - package configuration macro
 ;;;; Emacs
@@ -98,7 +98,7 @@ It's your choice to enable such alternatives by including the emacs-future.el mo
 ;;;; Pure Functions
 ;;;;; = pure--suppress-messages
 ;;; pure-emacs.el ends here
-#+end_quote
+#+end_source
 
 *** Modular
 
