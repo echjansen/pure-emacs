@@ -130,6 +130,7 @@ Some features in Emacs require external dependencies to be installed separately.
    + hunspell-en_au  - spelling checker language (change to your region)
    + dict            - dictionary application
    + dict-gcide      - dictionary (there are options such as dict-wn. -gcide, etc)
+   + gnupg           - pretty good protection
    + python          - python language server
 
 - pure-email (email client):
@@ -146,26 +147,7 @@ Use git to clone pure-emacs:
   git clone https://github.com/echjansen/pure-emacs ~/.emacs.d
 #+end_src
 
-*** Compiling pure-emacs
-This Emacs configuration focuses on fast startup and execution times. This can be achieved using the provided ~native compilation~ introduced in Emacs 29.
-Unlike many other configurations ~pure-emacs~ utilities the built-in package manager ~package.el~ to download external packages.
-However, to maintain fast startup times Emacs features such as ~package.el~ and ~use-package~ are only loaded during compile time (~make emacs~) but not during run time.
-See more on this topic in [[#Fast start-up time][Fast start-up time]]
-
-To run this ~pure-emacs~ configuration, the user must compile it after configuration modifications are made, with:
-#+begin_src shell
-  cd ~/.emacs.d
-  # Option 1 : Download packages and compile the configuration
-  make emacs
-  # Option 2 : Clean the compiled files to run ~uncompiled~ (slower)
-  make clean
-  # Option 3 : Report on package load time
-  make report
-#+end_src
-
-** How to use
-
-*** Common File
+*** Configure the Common File
 
 This configuration works out of the box, however a few variables used with Emacs should be personalized.
 These parameters are found in the [[file:~/modules/pure-common.el][pure-common.el]] file and should be visited  before running Emacs for the first time.
@@ -211,6 +193,52 @@ These parameters are found in the [[file:~/modules/pure-common.el][pure-common.e
 
 #+end_src
 
+*** Compiling pure-emacs
+This Emacs configuration focuses on fast startup and execution times. This can be achieved using the provided ~native compilation~ introduced in Emacs 29.
+Unlike many other configurations ~pure-emacs~ utilities the built-in package manager ~package.el~ to download external packages.
+However, to maintain fast startup times Emacs features such as ~package.el~ and ~use-package~ are only loaded during compile time (~make emacs~) but not during run time.
+See more on this topic in [[#Fast start-up time][Fast start-up time]]
+
+To run this ~pure-emacs~ configuration, the user must compile it after configuration modifications are made, with:
+#+begin_src shell
+  cd ~/.emacs.d
+  # Option 1 : Download packages and compile the configuration
+  make emacs
+  # Option 2 : Clean the compiled files to run ~uncompiled~ (slower)
+  make clean
+  # Option 3 : Report on package load time
+  make report
+#+end_src
+
+
+** Features
+*** Note worthy
+
+Some of the *pure-future* module introduce interesting features that are found under key-bindings uncommon. Here is a list of key-bindings introduced with *pure-Emacs*:
+
+|---------+----------------------------+---------------------------------------------------------------------------------|
+| C-h B   | embark-bindings            | Shows which-key like mini-buffer with keys available in current mode            |
+| C-x C-h |                            | Shows which-key like mini-buffer with C-x key options available in current mode |
+| C-c C-h |                            | Shows which-key like mini-buffer with C-c key options available in current mode |
+| C-c .   | embark-act                 | Prompts user for action on object under cursor (like the right-mouse click)     |
+| C-c ;   | embark-dwim                | Run the default action on the current target                                    |
+|---------+----------------------------+---------------------------------------------------------------------------------|
+| S-left  | windmove-left              | Move focus to buffer to the left                                                |
+| S-right | windmove-right             | Move focus to buffer to the right                                               |
+| S-up    | windmove-up                | Move focus to buffer above                                                      |
+| S-down  | windmove-down              | Move focus to buffer below                                                      |
+| C-left  | windmove-swap-states-left  | Swap current buffer with buffer to the left                                     |
+| C-right | windmove-swap-states-right | Swap current buffer with buffer to the right                                    |
+| C-up    | windmove-swap-states-up    | Swap current buffer with buffer above                                           |
+| C-down  | windmove-swap-states-down  | Swap current buffer with buffer below                                           |
+|---------+----------------------------+---------------------------------------------------------------------------------|
+| C-,     | flyspell-goto-next-error   | Spell check goto next error                                                     |
+| C-.     | flyspell-auto-correct-word | Spell check auto correct word                                                   |
+|---------+----------------------------+---------------------------------------------------------------------------------|
+| TAB     | outline-cycle              | In Emacs-lisp-mode cycle outlines                                               |
+| S-TAB   | outline-cycle-buffer       | In Emacs-lisp-mode cycle outline levels                                         |
+|---------+----------------------------+---------------------------------------------------------------------------------|
+
 *** Explore the built-in features of Emacs
 Emacs has been around for a while. It is therefor not unimaginable that something about Emacs is in fact good and functional. New (and long term) Emacs users quite often install external packages, without fully understaning what vanilla Emacs has to offer.
 This configuration contains a configuration file that only facilitates the built-in features of the Emacs (currentl version 29+).
@@ -221,9 +249,8 @@ To try pure-emacs, (after installation) execute the following shell command:
   emacs -Q -l early-init.el -l modules/pure-common.el -l modules/pure-emacs.el
 #+end_src
 
-** Features
-
 *** Fast start-up time
+
 This particular configuration on TTY starts (currently) in ~0.05 seconds (that is 50 ms) with all packages installed and configured. It is achieved with the built-in provided features:
 
 - package.el (for package installation)
@@ -345,7 +372,9 @@ All that is required for this to happen, is the following statement early in the
     (require 'use-package))
 #+end_src
 
-*** Email with mu4e, mbsync and msmtp
+
+*** Email client with mu4e, mbsync and msmtp
+
 A seperate module is availale to include email in your Emacs configuration.
 It is disabled by default, as not to throw errors during the Emacs startup process, as the email configuration requires multiple personalisations before it can function correctly.
 Below is an outline of what need to be configured i order for email to work.
