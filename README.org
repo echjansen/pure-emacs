@@ -8,9 +8,46 @@ This configuration focuses on:
 #+begin_quote
 - Use of the built-in Emacs features, unless it's inferior or missing.
 - Fast startup time.
-- Default Emacs keys so that switching to another configuration does not cause problems.
-- No vim keys
+- Default Emacs keys
 #+end_quote
+
+** This configuration
+*** Modular
+
+This configuration is modular. There are currently 4 *modules* of which two are compulsory.
+
+#+begin_quote
+- pure-common      - variables you might want to personalize (See [[*Common File]])
+- pure-emacs       - Emacs built-in features, good starting point for your Emacs setup.
+- pure-future      - Emacs external packages that are popular and potential candidates for future integration in core Emacs.
+- pure-email       - Email client based on mu4e.
+#+end_quote
+
+*** Fast
+
+This configuration has very fast startup times. It accomplishes this by maximizing the built-in features available to Emacs since version 28.1.
+So ho is this achieved:
+
+1. Use builtin features of Emacs (who would have thought)
+2. Compilation of the Emacs configuration (make emacs)
+3. Use package.el to install packages, but not to run Emacs (package.el is only instantiated during compilation)
+4. Use use-package.el during compilation but not to run Emacs (expand macros during compilation)
+5. Lazy loading of code, if you don't need it - don't load it
+
+Read more in [[*Fast start-up time]]
+
+*** Dependencies
+Some features in Emacs require external dependencies to be installed separately.Below is a list of dependencies by *module*:
+
+- pure-emacs.el (vanilla Emacs):
+   + hunspell        - spelling checker (or aspell, or ispell)
+   + hunspell-en_au  - spelling checker language (change to your region)
+   + dict            - dictionary application
+   + dict-gcide      - dictionary (there are options such as dict-wn. -gcide, etc)
+   + python          - python language server
+
+- pure-email (email client):
+   + mu              - mail utilities that include an Emacs client (Elisp)
 
 ** Installation
 
@@ -40,24 +77,10 @@ To run this ~pure-emacs~ configuration, the user must compile it after configura
   make report
 #+end_src
 
-*** External Dependencies
-There are features in Emacs that require external dependencies to be installed. The following Emacs features require external software to be installation:
-
-- pure-emacs.el (vanilla Emacs):
-   + hunspell        - spelling checker (or aspell, or ispell)
-   + words           - english word dictionary stored in /usr/share/dict/words
-   + python          - python language server
-
-**** Arch Installation
-#+begin_src shell
-  pacman -S hunspell              # spelling check
-  pacman -S hunspell-en_us        # spell check dictionary
-  pacman -S words                 # words file in /usr/share/dict/words
-  pacman -S python-lsp-server     # python language server
-#+END_SRC
-
 ** How to use
+
 *** Common File
+
 This configuration works out of the box, however a few variables used with Emacs should be personalized.
 These parameters are found in the [[file:~/modules/pure-common.el][pure-common.el]] file and should be visited  before running Emacs for the first time.
 
