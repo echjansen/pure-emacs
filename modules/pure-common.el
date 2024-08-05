@@ -68,7 +68,7 @@
 ;;;;; Pure Emacs custom file
 ;; Some variables may contain ~secret~ information
 ;; The custom file can store these variables securely by saving them as .gpg
-(defconst pure-custom-file "~/.config/emacs/pure-custom.el.gpg"
+(defconst pure-custom-file "~/.config/emacs/pure-custom.el"
   "The pure-emacs custom file containing secrets")
 
 ;;;;; Pue Emacs abbreviations file
