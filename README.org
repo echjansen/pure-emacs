@@ -17,7 +17,7 @@ This configuration focuses on:
 This configuration is modular. There are currently 4 *modules* of which two are compulsory.
 
 #+begin_quote
-- pure-common      - variables you might want to personalize (See [[#Common File]])
+- pure-common      - variables you might want to personalize (See [[#Common File][pure-common file]])
 - pure-emacs       - Emacs built-in features, good starting point for your Emacs setup.
 - pure-future      - Emacs external packages that are popular and potential candidates for future integration in core Emacs.
 - pure-email       - Email client based on mu4e.
@@ -34,7 +34,7 @@ So ho is this achieved:
 4. Use use-package.el during compilation but not to run Emacs (expand macros during compilation)
 5. Lazy loading of code, if you don't need it - don't load it
 
-Read more in [[#Fast start-up time]]
+Read more in [[#Fast start-up time][Fast start-up times]]
 
 *** Dependencies
 Some features in Emacs require external dependencies to be installed separately.Below is a list of dependencies by *module*:
