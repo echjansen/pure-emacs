@@ -3,7 +3,8 @@ EMACS ?= emacs
 all: clean eamcs
 
 clean: ## Remove build artifacts
-	rm -f modules/*.elc
+	rm -rf modules/*.elc
+	rm -rf elpa/*/*.elc
 
 emacs: clean
 	${EMACS} -Q -batch -f batch-byte-compile modules/*.el
