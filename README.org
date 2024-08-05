@@ -79,8 +79,7 @@ It's your choice to enable such alternatives by including the emacs-future.el mo
 ;;;;; = treesit - Emacs language parser
 ;;;;; = eglot - Emacs client for the Language Server Protocol
 ;;;; Programming Languages
-;;;;; = make-mode - configure Makefiles
-;;;;; = python-mode - programming in python
+;;;;; = python - programming in python
 ;;;; Shells
 ;;;;; = eshell - the Emacs shell created with elsip. Runs everywhere.
 ;;;; Tools
@@ -126,12 +125,12 @@ So ho is this achieved:
 Some features in Emacs require external dependencies to be installed separately.Below is a list of dependencies by *module*:
 
 - pure-emacs.el (vanilla Emacs):
-   + hunspell        - spelling checker (or aspell, or ispell)
-   + hunspell-en_au  - spelling checker language (change to your region)
-   + dict            - dictionary application
-   + dict-gcide      - dictionary (there are options such as dict-wn. -gcide, etc)
-   + gnupg           - pretty good protection
-   + python          - python language server
+   + hunspell          - spelling checker (or aspell, or ispell)
+   + hunspell-en_au    - spelling checker language (change to your region)
+   + dict              - dictionary application
+   + dict-gcide        - dictionary (there are options such as dict-wn. -gcide, etc)
+   + gnupg             - pretty good protection
+   + python-lsp-server - python language server
 
 - pure-email (email client):
    + mu              - mail utilities that include an Emacs client (Elisp)
@@ -222,7 +221,6 @@ Some of the *pure-future* module introduce interesting features that are found u
 | C-c C-h |                            | Shows which-key like mini-buffer with C-c key options available in current mode |
 | C-c .   | embark-act                 | Prompts user for action on object under cursor (like the right-mouse click)     |
 | C-c ;   | embark-dwim                | Run the default action on the current target                                    |
-
 | S-left  | windmove-left              | Move focus to buffer to the left                                                |
 | S-right | windmove-right             | Move focus to buffer to the right                                               |
 | S-up    | windmove-up                | Move focus to buffer above                                                      |
@@ -231,13 +229,13 @@ Some of the *pure-future* module introduce interesting features that are found u
 | C-right | windmove-swap-states-right | Swap current buffer with buffer to the right                                    |
 | C-up    | windmove-swap-states-up    | Swap current buffer with buffer above                                           |
 | C-down  | windmove-swap-states-down  | Swap current buffer with buffer below                                           |
-
 | C-,     | flyspell-goto-next-error   | Spell check goto next error                                                     |
 | C-.     | flyspell-auto-correct-word | Spell check auto correct word                                                   |
-
 | TAB     | outline-cycle              | In Emacs-lisp-mode cycle outlines                                               |
 | S-TAB   | outline-cycle-buffer       | In Emacs-lisp-mode cycle outline levels                                         |
-
+| C-c i   | eldoc                      | In code, provide Information about function, variable, etc                      |
+| C-c r   | eglot-rename               | In code, rename function, variable project wide                                 |
+| C-c-f   | eglot-format-buffer        | In code, format code in current buffer                                          |
 
 *** Explore the built-in features of Emacs
 Emacs has been around for a while. It is therefor not unimaginable that something about Emacs is in fact good and functional. New (and long term) Emacs users quite often install external packages, without fully understaning what vanilla Emacs has to offer.

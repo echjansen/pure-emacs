@@ -735,21 +735,15 @@
 
 ;;;; Programming Languages
 
-;;;;; = make-mode - configure Makefiles
-(use-package make-mode
-  :ensure nil
-  :config
-  (setq indent-tabs-mode t)
-  (setq tab-width 4))
-
-(use-package python-mode
+;;;;; = python - develop in python
+;; Implements a range of python IDE support functions
+(use-package python
   :ensure nil
   :hook
   (python-mode . (lambda ()
                    (setq-default indent-tabs-mode 4)
                    (setq-default tab-width 4)
-                   (setq-default py-indent-tabs-mode t)))
-  )
+                   (setq-default py-indent-tabs-mode t))))
 
 ;;;; Shells
 
