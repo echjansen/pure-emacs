@@ -639,20 +639,6 @@
     (outline--show-headings-up-to-level 4))
   :custom
   (outline-minor-mode-highlight 'override)
-  :hook
-  (emacs-lisp-mode . (lambda ()
-                       ;; prevent `outline-level' being overwritten by `lispy'
-                       (setq-local outline-level #'outline-level)
-                       ;; setup heading regexp specific to `emacs-lisp-mode'
-                       (setq-local outline-regexp ";;;\\(;* \\)")
-    ;; heading alist allows for subtree-like folding
-    (setq-local outline-heading-alist
-                '((";;; " . 1)
-                  (";;;; " . 2)
-                  (";;;;; " . 3)
-                  (";;;;;; " . 4)
-                  (";;;;;;; " . 5)))
-    (outline-hide-sublevels 3)))
   :bind (:map outline-minor-mode-map
               ("TAB"       . outline-cycle)
               ("<backtab>" . outline-cycle-buffer)
@@ -664,10 +650,27 @@
               ("M-2"       . outline-show-level2)
               ("M-3"       . outline-show-level3)
               ("M-4"       . outline-show-level4))
-  ;; Not prog-mode, as it would f.i. removed tabs from Makefiles
-  :hook (emacs-lisp-mode . outline-minor-mode))
+  :hook
+  (emacs-lisp-mode . (lambda ()
+                       (outline-minor-mode)
+                       ;; prevent `outline-level' being overwritten by `lispy'
+                       (setq-local outline-level #'outline-level)
+                       ;; setup heading regexp specific to `emacs-lisp-mode'
+                       (setq-local outline-regexp ";;;\\(;* \\)")
+                       ;; heading alist allows for subtree-like folding
+                       (setq-local outline-heading-alist
+                                   '((";;; " . 1)
+                                     (";;;; " . 2)
+                                     (";;;;; " . 3)
+                                     (";;;;;; " . 4)
+                                     (";;;;;;; " . 5)))
+                       (outline-hide-sublevels 3)))
+  (python-mode . (lambda ()
+                   (outline-minor-mode)
+                   (setq-local outline-regexp " *\\(def \\|clas\\|#hea\\)")
+                   (hide-sublevels 1))))
 
-;;;;; = hideshow - function and expression folding
+;;;;; = hideshow - function and expressiona folding
 ;; Fold code blocks or expressions.
 ;; Useful for large code files that have no other narrowing assistance.
 ;; Executed with the unusual C-c @ ... keybindings.
