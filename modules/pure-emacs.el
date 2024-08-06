@@ -171,6 +171,19 @@
   (apropos-sort-by-scores 'show-scores)
   (apropos-compact-layout t))
 
+;;;;; = which-key - discover keybindings
+;; Popup minibuffer with available keybindings sorted by current mode first.
+;; ctl-x-map          - C-x (global key map-sym)
+;; mode-specific-map  - C-c (user defined map)
+(use-package which-key
+  :if (version< "30.0" emacs-version)
+  :custom
+  (which-key-show-early-on-C-h t)
+  (which-key-idle-delay 0.5)
+  (which-key-sort-order 'which-key-local-then-key-order)
+  :hook
+  (after-init . which-key-mode))
+
 ;;;; File Management
 
 ;;;;; = files - files and backups
