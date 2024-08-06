@@ -387,6 +387,7 @@
   ;; (add-to-list 'completion-at-point-functions #'cape-rfc1345)
   ;; (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
   ;; (add-to-list 'completion-at-point-functions #'cape-line)
+  :init
   (defun pure--cape-setup-elisp ()
     (setf (elt (cl-member 'elisp-completion-at-point
                           completion-at-point-functions) 0)
@@ -567,6 +568,7 @@
 ;;;; Org Mode
 
 ;;;; Pure Functions
+
 
 ;;; Provide
 (provide 'pure-future)
