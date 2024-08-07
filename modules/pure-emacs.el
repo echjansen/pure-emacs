@@ -180,6 +180,14 @@
   (which-key-show-early-on-C-h t)
   (which-key-idle-delay 0.5)
   (which-key-sort-order 'which-key-local-then-key-order)
+  :config
+  ;; Naming the vanilla Emacs prefixes
+  (define-key ctl-x-map "a" (cons "abbrev" abbrev-map))
+  (define-key ctl-x-map "n" (cons "narrow" narrow-map))
+  (define-key ctl-x-map "p" (cons "project" project-prefix-map))
+  (define-key ctl-x-map "r" (cons "register" narrow-map))
+  (define-key ctl-x-map "t" (cons "tab" tab-prefix-map))
+  (define-key ctl-x-map "w" (cons "window" window-prefix-map))
   :hook
   (after-init . which-key-mode))
 
