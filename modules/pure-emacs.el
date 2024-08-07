@@ -187,6 +187,7 @@
   (define-key ctl-x-map "p" (cons "project" project-prefix-map))
   (define-key ctl-x-map "r" (cons "register" narrow-map))
   (define-key ctl-x-map "t" (cons "tab" tab-prefix-map))
+  (define-key ctl-x-map "v" (cons "versioning" vc-prefix-map))
   (define-key ctl-x-map "w" (cons "window" window-prefix-map))
   :hook
   (after-init . which-key-mode))
