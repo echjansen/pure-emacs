@@ -1,6 +1,5 @@
 ;;; pure-emacs.el --- Pure Emacs initialization. -*- lexical-binding: t -*-
 
-
 ;; Copyright (C) 2024 echjansen
 
 ;; This file is part of = P U R E - E M A C S =
@@ -599,8 +598,7 @@
   :hook
   (emacs-lisp-mode . pure--imenu-use-package))
 
-;;;; Coding
-
+;;;; Programming
 ;;;;; = project - project management
 (use-package project
   :ensure nil
@@ -618,6 +616,7 @@
 
 ;;;;; = outline - code folding
 ;; Navigate elisp files easily.
+;; Alternative: allout-minor-mode
 (use-package outline
   :ensure nil
   :preface
@@ -642,10 +641,12 @@
   :bind (:map outline-minor-mode-map
               ("TAB"       . outline-cycle)
               ("<backtab>" . outline-cycle-buffer)
-              ("M-j"       . outline-move-subtree-down)
-              ("M-k"       . outline-move-subtree-up)
-              ("M-h"       . outline-promote)
-              ("M-l"       . outline-demote)
+              ("M-<right>" . outline-demote)
+              ("M-<left>"  . outline-promote)
+              ("M-<up>"    . outline-move-subtree-up)
+              ("M-<down>"  . outline-move-subtree-down)
+              ("C-c C-n"   . outline-next-heading)
+              ("C-c C-p"   . outline-previous-heading)
               ("M-1"       . outline-show-level1)
               ("M-2"       . outline-show-level2)
               ("M-3"       . outline-show-level3)
