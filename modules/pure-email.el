@@ -181,10 +181,12 @@
                     (mu4e-drafts-folder         . "/ech/Drafts")
                     (mu4e-trash-folder          . "/ech/Deleted")
                     (mu4e-refile-folder         . "/ech/Archive")
+                    (mu4e-junk-folder           . "/ech/Junk")
                     (mu4e-maildir-shortcuts     . ((:maildir "/ech/Inbox"   :key ?i :name "Inbox")
                                                    (:maildir "/ech/Archive" :key ?a :name "Archive")
                                                    (:maildir "/ech/Sent"    :key ?s :name "Sent")
-                                                   (:maildir "/ech/Deleted" :key ?t :name "Trash")))))
+                                                   (:maildir "/ech/Deleted" :key ?t :name "Trash")
+                                                   (:maildir "/ech/Junk"    :key ?j :name "Junk")))))
 
           ,(make-mu4e-context
             :name "web"
@@ -211,10 +213,12 @@
                     (mu4e-drafts-folder         . "/web/Drafts")
                     (mu4e-trash-folder          . "/web/Deleted")
                     (mu4e-refile-folder         . "/web/Archive")
+                    (mu4e-junk-folder           . "/web/Junk")
                     (mu4e-maildir-shortcuts     . ((:maildir "/web/Inbox"   :key ?i :name "Inbox")
                                                    (:maildir "/web/Archive" :key ?a :name "Archive")
                                                    (:maildir "/web/Sent"    :key ?s :name "Sent")
-                                                   (:maildir "/web/Deleted" :key ?t :name "Trash")))))
+                                                   (:maildir "/web/Deleted" :key ?t :name "Trash")
+                                                   (:maildir "/web/Junk"    :key ?j :name "Junk")))))
 
           ,(make-mu4e-context
             :name "franz"
@@ -242,10 +246,12 @@
                     (mu4e-drafts-folder         . "/franz/Drafts")
                     (mu4e-trash-folder          . "/franz/Deleted")
                     (mu4e-refile-folder         . "/franz/Archive")
+                    (mu4e-junk-folder           . "/franz/Junk")
                     (mu4e-maildir-shortcuts     . ((:maildir "/franz/Inbox"   :key ?i :name "Inbox")
                                                    (:maildir "/franz/Archive" :key ?a :name "Archive")
                                                    (:maildir "/franz/Sent"    :key ?s :name "Sent")
-                                                   (:maildir "/franz/Deleted" :key ?t :name "Trash")))))
+                                                   (:maildir "/franz/Deleted" :key ?t :name "Trash")
+                                                   (:maildir "/franz/Junk"    :key ?j :name "Junk")))))
           )))
 
 ;;; = org-mime - Compose in org and convert to html
