@@ -625,6 +625,21 @@
   (vc-suppress-confirm t)
   (vc-command-messages t))
 
+;;;;; = vc-git - git backend for version control
+(use-package vc-git
+  :ensure nil
+  :after vc
+  :custom
+  (vc-git-diff-switches "--patch-with-stat")
+  (vc-git-print-log-follow t))
+
+;;;;; = vc-annotate - display version history of file in buffer
+(use-package vc-annotate
+  :ensure nil
+  :after vc
+  :custom
+  (vc-annotate-display-mode 'fullscale))
+
 ;;;;; = outline - code folding
 ;; Navigate elisp files easily.
 ;; Alternative: allout-minor-mode
