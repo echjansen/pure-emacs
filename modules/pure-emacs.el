@@ -695,7 +695,7 @@
   (python-mode . (lambda ()
                    (outline-minor-mode)
                    (setq-local outline-regexp " *\\(def \\|clas\\|#hea\\)")
-                   (hide-sublevels 1))))
+                   (outline-hide-sublevels 1))))
 
 ;;;;; = hideshow - function and expressiona folding
 ;; Fold code blocks or expressions.
