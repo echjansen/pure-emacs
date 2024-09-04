@@ -26,9 +26,6 @@
 
 ;;; Code:
 
-;; Let Emacs select the latest file (.el or .elc)
-(setq load-prefer-newer t)
-
 ;; Add the modules directory to the load path
 (add-to-list 'load-path (concat user-emacs-directory "modules"))
 
