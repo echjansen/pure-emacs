@@ -476,7 +476,7 @@
               ("<right>" . completion-preview-insert)
               ("M-p" . completion-preview-prev-candidate)
               ("M-n" . completion-preview-next-candidate)
-              ("M-f" . completion-preview-insert-word)
+              ("M-f" . completion-preview-insert-word))
   :hook
   (prog-mode . completion-preview-mode))
 
