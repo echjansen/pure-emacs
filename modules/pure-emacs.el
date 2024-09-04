@@ -468,6 +468,18 @@
               ("RET" . icomplete-fido-ret)
               ("TAB" . icomplete-force-complete)))
 
+;;;;; = completion-preview - complete at point
+;; Display a completion suggestion for the symbol at point
+(use-package completion-preview
+  :unless (version<= emacs-version "30.0.50")
+  :bind (:map completion-preview-active-mode-map
+              ("<right>" . completion-preview-insert)
+              ("M-p" . completion-preview-prev-candidate)
+              ("M-n" . completion-preview-next-candidate)
+              ("M-f" . completion-preview-insert-word)
+  :hook
+  (prog-mode . completion-preview-mode))
+
 ;;;; Search and Replace
 ;;;;; = isearch - find
 ;; Some interesting search options:
