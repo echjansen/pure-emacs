@@ -133,6 +133,7 @@
   :hook
   (after-init . global-hl-line-mode))
 
+
 ;;;; Help and Information
 
 ;;;;; = help - always select the help windows
@@ -154,6 +155,7 @@
 ;; Although not a replacement for 'which-key,
 ;; it opens up menu functionality for existing and future packages.
 (use-package transient
+  :if (version< "28.0" emacs-version)
   :ensure nil
   :commands (transient-prefix)
   :custom
@@ -170,12 +172,18 @@
   (apropos-sort-by-scores 'show-scores)
   (apropos-compact-layout t))
 
+;;;;; = help-fns - complicated help functions
+(use-package help-fns
+  :ensure nil
+  :bind
+  ("C-h F" . describe-face))
+
 ;;;;; = which-key - discover keybindings
 ;; Popup minibuffer with available keybindings sorted by current mode first.
 ;; ctl-x-map          - C-x (global key map-sym)
 ;; mode-specific-map  - C-c (user defined map)
 (use-package which-key
-  :if (version< "30.0" emacs-version)
+  :unless (version<= emacs-version "30.0.50")
   :custom
   (which-key-show-early-on-C-h t)
   (which-key-idle-delay 0.5)
@@ -769,6 +777,7 @@
 ;; Install language support for languages via:
 ;; Languages (for the moment) are installed via tree-sitter-langs package
 (use-package treesit
+  :unless (version<= emacs-version "29.0.50")
   :ensure nil
   :custom
   ;; Define source code for language parsers.
