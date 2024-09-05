@@ -431,6 +431,18 @@
   :hook
   ((lisp-mode scheme-mode emacs-lisp-mode) . aggressive-indent-mode))
 
+;;;;; = diff-hl - show versioning
+(use-package diff-hl
+  :hook
+  (prog-mode . diff-hl-mode))
+
+;;;;; = diff-hl-margin - show versioning in tty
+(use-package diff-hl-margin
+  :ensure nil
+  :unless (display-graphic-p)
+  :hook
+  (prog-mode . diff-hl-margin-mode))
+
 ;;;;; = geiser-guile - a ~lisp~ language based on ~scheme~
 (use-package geiser-guile
   :commands
