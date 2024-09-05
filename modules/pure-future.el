@@ -68,6 +68,11 @@
         (setq use-package-always-defer t)
         (setq use-package-compute-statistics nil)
         (setq use-package-expand-minimally t)
+
+        ;; package configuration during compilation
+        (setq package-install-upgrade-built-in nil)
+
+        ;; hard-code load-path in compiled file
         (let ((package-user-dir-real (file-truename package-user-dir)))
           ;; The reverse is necessary, because outside we mapc
           ;; add-to-list element-by-element, which reverses.
