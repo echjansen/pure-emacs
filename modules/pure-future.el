@@ -114,6 +114,10 @@
 ;;;; Emacs
 
 ;;;; Apperance
+;;;;; = mood-line - lightweight modeline
+(use-package mood-line
+  :hook
+  (after-init . mood-line-mode))
 
 ;;;; Help and Information
 
