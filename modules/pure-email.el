@@ -103,6 +103,7 @@
 ;;; = mu4e - Emacs Mail Client
 (use-package mu4e
   :ensure nil
+  :load-path "/usr/share/emacs/site-lisp/mu4e/"
   :commands (mu4e)
   :custom
   (mu4e-context-policy 'pick-first)
