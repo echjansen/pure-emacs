@@ -23,7 +23,7 @@ It's your choice to enable such alternatives by including the *emacs-future.el* 
 
 Or start with the impressive set of builtin features:
 
-#+begin_quote
+#+begin_src
 ;;;; Package Configuration
 ;;;;; = use-package - package configuration macro
 ;;;; Emacs
@@ -99,7 +99,7 @@ Or start with the impressive set of builtin features:
 ;;;; Pure Functions
 ;;;;; = pure--suppress-messages
 ;;; pure-emacs.el ends here
-#+end_quote
+#+end_src
 
 *** Modular
 
