@@ -15,6 +15,19 @@ This configuration focuses on:
 
 ** This configuration
 
+*** Fast
+
+This configuration has very fast startup times. It accomplishes this by maximizing the built-in features available to Emacs since version 28.1.
+So how is the fast start-up time achieved:
+
+1. Use builtin features of Emacs (who would have thought)
+2. Byte compilation of the Emacs configuration (*make emacs*)
+3. Use *package.el* to install packages, but do not make it part of runtime Emacs.
+4. Use *use-package.el* to expand the macros and safe them in byte-compiled files.
+5. Lazy loading of code, if you don't need it - don't load it
+
+The result is that Emacs starts in a TTY in approx 0.05 seconds and Emacs graphical in 0.2 seconds.
+
 *** Emacs builtin features
 
 More often than not are we attracted by eye candy extensions to Emacs, without considering what Emacs has to offer directly out-of-the-box. With each new version of Emacs being released, new features are becoming available, and it is worthwhile reviewing these before looking around for alternatives.
@@ -103,28 +116,15 @@ Or start with the impressive set of builtin features:
 
 *** Modular
 
-This configuration is modular. There are currently 4 *modules* of which two are compulsory.
+This configuration is modular. There are currently 5 *modules* of which two are compulsory:
 
 #+begin_quote
-- pure-common      - variables you might want to personalize.
-- pure-emacs       - Emacs built-in features, good starting point for your Emacs setup.
-- pure-future      - Emacs external packages that are popular and potential candidates for future integration in core Emacs.
-- pure-email       - Email client based on mu4e.
-- pure-line        - Emacs mode-line / header-line
+- *pure-common*      - variables you might want to personalize.
+- *pure-emacs*       - Emacs built-in features, good starting point for your Emacs setup.
+- *pure-future*      - Emacs external packages that are popular and potential candidates for future integration in core Emacs.
+- *pure-email*       - Email client based on mu4e.
+- *pure-line*        - Emacs mode-line / header-line
 #+end_quote
-
-*** Fast
-
-This configuration has very fast startup times. It accomplishes this by maximizing the built-in features available to Emacs since version 28.1.
-So how is the fast start-up time achieved:
-
-1. Use builtin features of Emacs (who would have thought)
-2. Byte compilation of the Emacs configuration (*make emacs*)
-3. Use *package.el* to install packages, but do not make it part of runtime Emacs.
-4. Use *use-package.el* to expand the macros and safe them in byte-compiled files.
-5. Lazy loading of code, if you don't need it - don't load it
-
-The result is that Emacs starts in a TTY in approx 0.05 seconds and Emacs graphical in 0.2 seconds.
 
 *** Dependencies
 Some features in Emacs require external dependencies to be installed separately.Below is a list of dependencies by *module*:
