@@ -120,9 +120,11 @@ So how is the fast start-up time achieved:
 
 1. Use builtin features of Emacs (who would have thought)
 2. Byte compilation of the Emacs configuration (*make emacs*)
-3. Use *package.el* to install packages, but do not make it part of runtime Emacs
-4. Use *use-package.el* during compilation but not to run Emacs (expand macros during compilation)
+3. Use *package.el* to install packages, but do not make it part of runtime Emacs.
+4. Use *use-package.el* to expand the macros and safe them in byte-compiled files.
 5. Lazy loading of code, if you don't need it - don't load it
+
+The result is that Emacs starts in a TTY in approx 0.05 seconds and Emacs graphical in 0.2 seconds.
 
 *** Dependencies
 Some features in Emacs require external dependencies to be installed separately.Below is a list of dependencies by *module*:
@@ -137,6 +139,8 @@ Some features in Emacs require external dependencies to be installed separately.
 
 - pure-email (email client):
    + mu              - mail utilities that include an Emacs client (Elisp)
+   + mbsync          - (or isync) mailbox synchronization
+   + msmtp           - SMTP client with sendmail compatibility
 
 ** Installation
 
@@ -205,9 +209,9 @@ To run this ~pure-emacs~ configuration, the user must compile it after configura
 #+begin_src shell
   cd ~/.emacs.d
   # Option 1 : Download packages and compile the configuration
-  make emacs
+  make install
   # Option 2 : Clean the compiled files to run ~uncompiled~ (slower)
-  make clean
+  make emacs
   # Option 3 : Report on package load time
   make report
 #+end_src
