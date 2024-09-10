@@ -119,10 +119,22 @@
 ;;;; Emacs
 
 ;;;; Apperance
-;;;;; = mood-line - lightweight modeline
-(use-package mood-line
+;;;;; = pure-line - modeline or headerline
+(use-package pure-line
+  :ensure nil
+  :custom
+  (display-time-day-and-date nil)
+  (pure-line-position 'top)      ;; Set position of status-line
+  (pure-line-abbrev t)           ;; abbreviate major modes
+  (pure-line-hspace "  ")        ;; add some cushion
+  (pure-line-prefix t)           ;; use a prefix symbol
+  (pure-line-prefix-padding nil) ;; no extra space for prefix
+  (pure-line-status-invert t)  ;; no invert colors
+  (pure-line-space-top +.2)     ;; padding on top and bottom of line
+  (pure-line-space-bottom -.2)
+  (pure-line-symbol-position 0.1) ;; adjust the vertical placement of symbol
   :hook
-  (after-init . mood-line-mode))
+  (emacs-startup . pure-line-mode))
 
 ;;;; Help and Information
 
@@ -344,8 +356,7 @@
   ;; Enable auto completion
   (corfu-auto t)
   ;; Automatically quit when no match found
-  ;;(corfu-quit-no-match 'seperator)
-  (corfu-quit-no-match nil)
+  (corfu-quit-no-match t)
   :hook ((prog-mode . corfu-mode)
          (text-mode . corfu-mode)
          (shell-mode . corfu-mode)
