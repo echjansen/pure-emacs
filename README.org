@@ -19,9 +19,11 @@ This configuration focuses on:
 
 More often than not are we attracted by eye candy extensions to Emacs, without considering what Emacs has to offer directly out-of-the-box. With each new version of Emacs being released, new features are becoming available, and it is worthwhile reviewing these before looking around for alternatives.
 This configuration uses builtin features before external packages, unless there is a clear advantage over using an external alternative.
-It's your choice to enable such alternatives by including the emacs-future.el module. Or start with the impressive set of builtin features:
+It's your choice to enable such alternatives by including the *emacs-future.el* module.
 
-#+begin_src emacs-Lisp
+Or start with the impressive set of builtin features:
+
+#+begin_quote
 ;;;; Package Configuration
 ;;;;; = use-package - package configuration macro
 ;;;; Emacs
@@ -97,7 +99,7 @@ It's your choice to enable such alternatives by including the emacs-future.el mo
 ;;;; Pure Functions
 ;;;;; = pure--suppress-messages
 ;;; pure-emacs.el ends here
-#+end_src
+#+end_quote
 
 *** Modular
 
@@ -108,17 +110,18 @@ This configuration is modular. There are currently 4 *modules* of which two are 
 - pure-emacs       - Emacs built-in features, good starting point for your Emacs setup.
 - pure-future      - Emacs external packages that are popular and potential candidates for future integration in core Emacs.
 - pure-email       - Email client based on mu4e.
+- pure-line        - Emacs mode-line / header-line
 #+end_quote
 
 *** Fast
 
 This configuration has very fast startup times. It accomplishes this by maximizing the built-in features available to Emacs since version 28.1.
-So ho is this achieved:
+So how is the fast start-up time achieved:
 
 1. Use builtin features of Emacs (who would have thought)
-2. Compilation of the Emacs configuration (make emacs)
-3. Use package.el to install packages, but not to run Emacs (package.el is only instantiated during compilation)
-4. Use use-package.el during compilation but not to run Emacs (expand macros during compilation)
+2. Byte compilation of the Emacs configuration (*make emacs*)
+3. Use *package.el* to install packages, but do not make it part of runtime Emacs
+4. Use *use-package.el* during compilation but not to run Emacs (expand macros during compilation)
 5. Lazy loading of code, if you don't need it - don't load it
 
 *** Dependencies
