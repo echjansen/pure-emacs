@@ -48,7 +48,7 @@
 ;; In noninteractive sessions, prioritize non-byte-compiled source files to
 ;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
 ;; to skip the mtime checks on every *.elc file.
-(setq load-prefer-newer noninteractive)
+(setq load-prefer-newer t)
 
 ;; increase how much is read from processes in a single chunk (default is 4kb).
 (setq read-process-output-max (* 512 1024))  ; 512kb
@@ -103,6 +103,9 @@
 ;;;; Set the first (only) frame maximized
 (push '(fullscreen . maximized) initial-frame-alist)
 
+;;;; Initial Mode
+(setq initial-major-mode 'fundamental-mode)
+
 ;;;; Configure GUI for all frames
 (push '(width . 250) default-frame-alist)
 (push '(height . 120) default-frame-alist)
@@ -112,7 +115,7 @@
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars . nil) default-frame-alist)
-(push '(font . "Source Code Pro:style=medium:size=15") default-frame-alist)
+(push '(font . "Inconsolata Nerd Font:style=Light:size=20") default-frame-alist)
 
 (setq-default window-resize-pixelwise t)
 (setq-default frame-resize-pixelwise t)
@@ -138,18 +141,15 @@
 ;; `inhibit-startup-screen', but it would still initialize anyway.
 (advice-add #'display-startup-screen :override #'ignore)
 
-;;;; Initial Mode
-(setq initial-major-mode 'fundamental-mode)
-
 ;;;; Load the theme
 
-;; Modus themes are very nice and complete, but have large load times ~0.5 seconds
-;;(load-theme 'modus-vivendi)
-;;(load-theme 'modus-operandi)
+;; Modus themes are very nice and complete, but have slow load time ~0.5 seconds
 ;; Light theme
 ;;(load-theme 'leuven)
+;;(load-theme 'modus-operandi)
 ;; dark theme
 (load-theme 'wombat)
+;;(load-theme 'modus-vivendi)
 
 ;; Reset variables, and message the startup time
 (add-hook 'emacs-startup-hook
@@ -159,9 +159,10 @@
             ;; Reset garbage collection
             (setq gc-cons-threshold 2000000)
             ;; Startup time message
-            (message (format "Pure-Emacs ready in %.5f seconds with %d garbage collections."
-                             (float-time (time-subtract after-init-time before-init-time))
-                             gcs-done))))
+            (message
+             (format "Pure-Emacs ready in %.5f seconds with %d garbage collections."
+                     (float-time (time-subtract after-init-time before-init-time))
+                     gcs-done))))
 
 (provide 'early-init)
 ;;; early-init.el ends here
