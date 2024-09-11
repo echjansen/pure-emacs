@@ -951,7 +951,7 @@ Requires a ~./authinfo.gpg file containing the entries."
                                   "PHONE"
                                   "MEETING")))
   (org-todo-keyword-faces '(("TODO" :foreground "yellow" :weight bold)
-                            ("ACTIVE" :foreground "blue" :weight bold)
+                            ("ACTIVE" :foreground "white" :weight bold)
                             ("DONE" :foreground "forest green" :weight bold)
                             ("WAITING" :foreground "orange" :weight bold)
                             ("HOLD" :foreground "magenta" :weight bold)
@@ -959,7 +959,7 @@ Requires a ~./authinfo.gpg file containing the entries."
                             ("MEETING" :foreground "forest green" :weight bold)
                             ("PHONE" :foreground "forest green" :weight bold)))
   ;;(org-log-done 'time "Record when task moves to DONE state")
-  (org-log-into-drawer t "Record in LOGBOOK drawer")
+  (org-log-into-drawer nil "Record in LOGBOOK drawer")
   (org-log-state-notes-insert-after-drawers nil)
   (org-log-redeadline 'note "Add time and note for deadline changes")
   (org-log-reschedule 'note "Add time and note for rescheduling tasks")
