@@ -105,6 +105,9 @@
   :ensure nil
   :load-path "/usr/share/emacs/site-lisp/mu4e/"
   :commands (mu4e)
+  :bind
+  (("C-c m" . mu4e)
+   ("C-c e" . mu4e-compose-new))
   :custom
   (mu4e-context-policy 'pick-first)
   (mu4e-confirm-quit nil)
