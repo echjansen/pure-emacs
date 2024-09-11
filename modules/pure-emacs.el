@@ -911,6 +911,20 @@ Requires a ~./authinfo.gpg file containing the entries."
   :bind
   ("C-c c w" . eww))
 
+;;;;; = erc - Internet relay chat
+(use-package erc
+  :ensure nil
+  :custom
+  (erc-server "irc.libera.chat")
+  (erc-nick "pure-emacs")
+  (erc-user-full-name "Pure Emacs")
+  (erc-track-shorten-start 8)
+  (erc-autojoin-channels-alist '(("irc.libera.chat" "#emacs" "#guix")))
+  (erc-kill-buffer-on-part t)
+  (erc-auto-query 'bury)
+  :bind
+  ("C-c i" . erc-tls))
+
 ;;;; Org Mode
 
 ;;;;; = org-mode - the one and only writing environment (and more)
