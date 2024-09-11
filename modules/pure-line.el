@@ -105,17 +105,17 @@ of the status line."
   :type 'boolean)
 
 ;; Mode line symbols
-(defcustom pure-line-gui-ro-symbol "  "
+(defcustom pure-line-gui-ro-symbol "  "
   "Modeline gui read-only symbol."
   :group 'pure-line
   :type 'string)
 
-(defcustom pure-line-gui-mod-symbol "  "
+(defcustom pure-line-gui-mod-symbol "  "
   "Modeline gui modified symbol."
   :group 'pure-line
   :type 'string)
 
-(defcustom pure-line-gui-rw-symbol "  "
+(defcustom pure-line-gui-rw-symbol "  "
   "Modeline gui read-write symbol."
   :group 'pure-line
   :type 'string)
@@ -176,12 +176,6 @@ Negative is downwards."
 (defcustom pure-line-flycheck-label "Issues: "
   "Show with flycheck/flymake issues count."
   :type 'string
-  :group 'pure-line)
-
-(defcustom pure-line-icon-time nil
-  "When set to non-nil show the time as an icon clock.
-Time info is only shown `display-time-mode' is non-nil"
-  :type 'boolean
   :group 'pure-line)
 
 (defcustom pure-line-time-day-and-date-format "  %H:%M %Y-%m-%d "
@@ -389,13 +383,6 @@ This is if no match could be found in `pure-lines-mode-formats'"
   "Modeline face for inactive tertiary element."
   :group 'pure-line-inactive)
 
-(defface pure-line-hide-mode-line
-  `((t :foreground ,(face-foreground 'shadow)
-       :background ,(face-background 'default)
-       :underline t))
-  "Highlight button face."
-  :group 'pure-line-hidden)
-
 ;;;;; Status Bar Faces
 
 ;; pure-line uses a colored symbol to indicate the status of the buffer
@@ -416,7 +403,7 @@ This is if no match could be found in `pure-lines-mode-formats'"
 
 (defface pure-line-active-status-RW
   '((t (:inherit (mode-line)
-                 :foreground "green"
+                 :foreground "light green"
                  (when pure-line-status-invert :inverse-video t))))
   "Modeline face for active READ-WRITE element."
   :group 'pure-line-active)
@@ -638,6 +625,7 @@ Otherwise show '-'."
 ;;;;; Flycheck/Flymake Segment
 (defvar-local pure-line--flycheck-text nil)
 
+;;TODO
 (customize-set-variable 'flymake-mode-line-title " ")
 
 (defun pure-line--update-flycheck-segment (&optional status)
