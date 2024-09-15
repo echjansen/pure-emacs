@@ -601,7 +601,7 @@
   :commands
   (elfeed-org)
   :custom
-  (rmh-elfeed-org-files (list (concat pure-dir-private "pure-elfeed.org"))))
+  (rmh-elfeed-org-files (list (concat (file-name-as-directory pure-dir-private) "pure-elfeed.org.gpg"))))
 
 ;;;;; = elfeed - RSS reader
 (use-package elfeed
