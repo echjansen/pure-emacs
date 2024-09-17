@@ -358,7 +358,6 @@
   ;; Automatically quit when no match found
   (corfu-quit-no-match t)
   :hook ((prog-mode . corfu-mode)
-         (text-mode . corfu-mode)
          (shell-mode . corfu-mode)
          (eshell-mode . corfu-mode)))
 
