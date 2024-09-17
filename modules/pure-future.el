@@ -615,6 +615,14 @@
   (elfeed-update))
 
 ;;;; Org Mode
+;;;;; = ox-pandoc - org mode file type exporter
+(use-package ox-pandoc
+  :vc (:url "https://github.com/emacsorphanage/ox-pandoc")
+  :after org
+  :commands
+  (ox-pandoc)
+  :config
+  (ox-pandoc))
 
 ;;;; Pure Functions
 
