@@ -26,8 +26,8 @@
 
 ;;; Code:
 
-;; Add the modules directory to the load path
-(add-to-list 'load-path (concat user-emacs-directory "modules"))
+;; Add the `modules' directory to the load path
+(add-to-list 'load-path (concat (file-name-as-directory user-emacs-directory) "modules"))
 
 ;; Load the pure-emacs common configuration.
 (require 'pure-common nil t)

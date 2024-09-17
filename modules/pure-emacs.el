@@ -478,6 +478,8 @@
 
 ;;;;; = completion-preview - complete at point
 ;; Display a completion suggestion for the symbol at point
+;; Can be used in combination with packages such as 'corfu' it
+;; appears to have more use during writing text.
 (use-package completion-preview
   :unless (version<= emacs-version "30.0.50")
   :bind (:map completion-preview-active-mode-map
@@ -486,7 +488,8 @@
               ("M-n" . completion-preview-next-candidate)
               ("M-f" . completion-preview-insert-word))
   :hook
-  (prog-mode . completion-preview-mode))
+  ((text-mode org-mode) . completion-preview-mode))
+
 
 ;;;; Search and Replace
 ;;;;; = isearch - find

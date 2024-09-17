@@ -36,16 +36,16 @@
 (defconst pure-dir-modules (concat user-emacs-directory "modules")
   "The path to the emacs.d modules directory.")
 
+;;;;; Pure Emacs private directory
+(defconst pure-dir-private (concat user-emacs-directory "data")
+  "The directory for Pure-Emacs backup files.")
+
 ;;;;; Pure Emacs cache diretcory (info shared between Emacs instances
 (defconst pure-dir-cache "~/.cache/emacs/"
   "The directory for Pure-Emacs littered files.")
 
 ;;;;; Pure Emacs backup directory
 (defconst pure-dir-backup (concat pure-dir-cache "backup/")
-  "The directory for Pure-Emacs backup files.")
-
-;;;;; Pure Emacs private directory
-(defconst pure-dir-private "~/.config/emacs/"
   "The directory for Pure-Emacs backup files.")
 
 ;;;;; Pure Emacs notes directory
@@ -55,8 +55,7 @@
 ;;;;; Create directories if non existing
 (dolist (dir (list pure-dir-cache
                    pure-dir-backup
-                   pure-dir-notes
-                   pure-dir-private))
+                   pure-dir-notes))
   (unless (file-directory-p dir)
     (make-directory dir t)))
 
@@ -71,7 +70,7 @@
 (defconst pure-custom-file "~/.config/emacs/pure-custom.el"
   "The pure-emacs custom file containing secrets")
 
-;;;;; Pue Emacs abbreviations file
+;;;;; Pure Emacs abbreviations file
 (defconst pure-abbrev-defs "~/.config/emacs/pure-abbrev-defs"
   "The pure-emacs abbreviations file")
 
