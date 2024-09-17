@@ -431,6 +431,13 @@
 ;;;; Keys
 
 ;;;; Editing
+;;;;; = jinx - modern spelling checker
+;; wrapper around many different spelling checkers such as ispell, aspell,
+;; and hunspell.
+;; Requires the install of an external library 'enchant'
+(use-package jinx
+  :hook
+  (text-mode . jinx-mode))
 
 ;;;; Navigation
 
