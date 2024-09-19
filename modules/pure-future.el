@@ -636,10 +636,7 @@
 (use-package ox-pandoc
   :vc (:url "https://github.com/emacsorphanage/ox-pandoc")
   :after org
-  :commands
-  (ox-pandoc)
-  :config
-  (ox-pandoc))
+  :demand t)
 
 ;;;; Pure Functions
 
