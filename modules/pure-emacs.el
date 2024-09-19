@@ -550,6 +550,7 @@
 ;; Performs spelling check while editing
 ;; Any wrong words are underlined
 (use-package flyspell
+  :disabled
   :ensure nil
   :custom
   ;; Add correction to abbrev table

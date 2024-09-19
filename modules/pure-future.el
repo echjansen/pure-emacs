@@ -434,9 +434,20 @@
 ;; wrapper around many different spelling checkers such as ispell, aspell,
 ;; and hunspell.
 ;; Requires the install of an external library 'enchant'
+;; TODO - how to configure libraries, etc
 (use-package jinx
+  :custom
+  (jinx-languages "en_AU")
+  :config
+  (add-to-list 'vertico-multiform-categories
+               '(jinx grid (vertico-grid-annotate . 25)))
+  (vertico-multiform-mode 1)
   :hook
-  (text-mode . jinx-mode))
+  (text-mode . jinx-mode)
+  :bind (:map jinx-mode-map
+              ("C-;" . nil)
+              ("C-," . jinx-next)
+              ("C-." . jinx-correct)))
 
 ;;;; Navigation
 
