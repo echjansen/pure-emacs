@@ -802,6 +802,34 @@
   (python-ts-mode . eglot-ensure))
 
 ;;;; Programming Languages
+;;;;; = kmacro - Emacs built-in macro mechansim
+;; F3 - To start recording a macro
+;; F4 - To end recording a macro
+;; F4 - To replay the recorded macro
+;; F5 - To name the macro
+;; F6 - Load one of the named macro's
+(use-package kmacro
+  :ensure nil
+  :config
+  (defun kmacro-load-macro (kmacro-sym)
+    "Load a macro that that has been defined as a kmacro
+    ;; To insert new macros
+    ;; 1. Record the macro, start with F3 and end with F4
+    ;; 2. Name the macro, C-x C-k n
+    ;; 3. Save the macro in a buffer, M-x insert-kbd-macro"
+    (interactive
+     (list (intern
+            (completing-read
+             "Kmacro name: "
+             (let ((result))
+               (mapatoms (lambda (it)
+                           (when (kmacro-p (symbol-function it))
+                             (push it result))))
+               result)))))
+    (setq last-kbd-macro (kmacro--keys (symbol-function kmacro-sym))))
+  :bind
+  ("<f5>" . kmacro-name-last-macro)
+  ("<f6>" . kmacro-load-macro))
 
 ;;;;; = python - develop in python
 ;; Implements a range of python IDE support functions
