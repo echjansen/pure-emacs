@@ -27,7 +27,8 @@
 ;;; Code:
 
 ;; Add the `modules' directory to the load path
-(add-to-list 'load-path (concat (file-name-as-directory user-emacs-directory) "modules"))
+(add-to-list 'load-path
+             (concat (file-name-as-directory user-emacs-directory) "modules"))
 
 ;; Load the pure-emacs common configuration.
 (require 'pure-common nil t)
@@ -39,7 +40,7 @@
 (require 'pure-future nil t)
 
 ;; Load the pure-email configuration (optional, requires ~mu~)
-(require 'pure-email nil t)
+;; (require 'pure-email nil t)
 
 (provide 'init)
 ;;; init.el ends here
