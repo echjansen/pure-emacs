@@ -490,7 +490,6 @@
   :hook
   ((text-mode org-mode) . completion-preview-mode))
 
-
 ;;;; Search and Replace
 ;;;;; = isearch - find
 ;; Some interesting search options:
@@ -538,19 +537,33 @@
 ;;;; Editing
 
 ;;;;; = ispell - spell checking (install hunspell)
-;; Spelling checker program 'hunspell' must be installed externally
+;; Spelling checker program 'aspell' must be installed externally
 ;; Spell check is controlled by flyspell.
+;; ispell-dictionary-alist has all language variants 'pre-assigned'
+;; Use 'M-x ispell-change-dictionary' to select language
+;; Keybindings to remember:
+;; "C-,"   - go to next misspelled word
+;; "C-."   - correct (or loop) to misspelled word
+;; "C-c $" - show misspelled dropdown
 (use-package ispell
   :ensure nil
+  :if (executable-find "aspell")
   :custom
-  (ispell-program-name "hunspell")
-  (ispell-dictionary "en_US"))
+  ;; If using hunspell, the dictionay file must already exist!
+  (ispell-program-name "aspell")
+  (ispell-extra-args '("--sug-mode=ultra" "--lang=en_AU"))
+  (ispell-personal-dictionary (concat
+                               (file-name-as-directory pure-dir-private)
+                               "pure-dictionary.gpg"))
+  ;; Alternate list of words used by ispell-lookup-word
+  (ispell-alternate-dictionary (concat
+                                (file-name-as-directory pure-dir-private)
+                                "english-words.txt")))
 
 ;;;;; = flyspell - on the fly spell checking
 ;; Performs spelling check while editing
 ;; Any wrong words are underlined
 (use-package flyspell
-  :disabled
   :ensure nil
   :custom
   ;; Add correction to abbrev table
@@ -560,7 +573,7 @@
   ;; Don't display a welcome message when started
   (flyspell-issue-welcome-flag nil)
   :bind (:map flyspell-mode-map
-              ("C-;" . nil)
+              ("C-;" . flyspell-correct-word-before-point)
               ("C-," . flyspell-goto-next-error)
               ("C-." . flyspell-auto-correct-word))
   :hook
@@ -808,6 +821,7 @@
 ;; F4 - To replay the recorded macro
 ;; F5 - To name the macro
 ;; F6 - Load one of the named macro's
+;; Note that named macros can also be called with M-x 'macroname'
 (use-package kmacro
   :ensure nil
   :config
@@ -1044,7 +1058,6 @@ Requires a ~./authinfo.gpg file containing the entries."
            ("DONE" ("WAITING") ("CANCELLED") ("HOLD"))))))
 
 ;;;; Pure Functions
-
 ;;;;; = pure--suppress-messages
 (defun pure--suppress-messages (func &rest args)
   "Suppress message output from FUNC."
