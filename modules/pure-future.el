@@ -121,7 +121,10 @@
 ;;;; Apperance
 ;;;;; = pure-line - modeline or headerline
 (use-package pure-line
+  :disabled
   :ensure nil
+  :commands
+  (pure-line-mode)
   :custom
   (display-time-day-and-date nil)
   (pure-line-position 'top)      ;; Set position of status-line
@@ -129,12 +132,37 @@
   (pure-line-hspace "  ")        ;; add some cushion
   (pure-line-prefix t)           ;; use a prefix symbol
   (pure-line-prefix-padding nil) ;; no extra space for prefix
-  (pure-line-status-invert t)  ;; no invert colors
-  (pure-line-space-top +.2)     ;; padding on top and bottom of line
+  (pure-line-status-invert t)    ;; no invert colors
+  (pure-line-space-top +.2)      ;; padding on top and bottom of line
   (pure-line-space-bottom -.2)
   (pure-line-symbol-position 0.1) ;; adjust the vertical placement of symbol
   :hook
   (emacs-startup . pure-line-mode))
+
+;;;;; = telephone-line - mode line alternative
+(use-package telephone-line
+  :custom
+  ;; Segments
+  (telephone-line-lhs
+   '((nil    . (telephone-line-buffer-segment))
+     (accent . (telephone-line-vc-segment
+                telephone-line-erc-modified-channels-segment
+                telephone-line-process-segment))
+     (nil    . (telephone-line-minor-mode-segment))))
+
+  (telephone-line-rhs
+   '((nil    . (telephone-line-airline-position-segment))
+     (accent . (telephone-line-major-mode-segment))
+     (evil   . (telephone-line-misc-info-segment))))
+  ;; Presentation
+  (telephone-line-primary-left-separator 'telephone-line-cubed-left)
+  (telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left)
+  (telephone-line-primary-right-separator 'telephone-line-cubed-right)
+  (telephone-line-secondary-right-separator 'telephone-line-cubed-hollow-right)
+  (telephone-line-height 24)
+  ;; (telephone-line-evil-use-short-tag t)
+  :hook
+  (emacs-startup . telephone-line-mode))
 
 ;;;; Help and Information
 
@@ -389,8 +417,10 @@
   (corfu-mode . corfu-terminal-mode))
 
 ;;;;; = cape - completion at point extensions
+;; Defines what 'information' to include when trying to complete-at-point
 (use-package cape
-  :bind ("C-c p" . cape-prefix-map)
+  :disabled
+  :bind ("C-c p" . cape-prefix-mOBap)
   ;; The order of the functions matters, the first function returning a result
   ;; wins.  Note that the list of buffer-local completion functions
   ;; takes precedence over the global list.
@@ -417,13 +447,19 @@
   (defun pure--cape-setup-org ()
     (add-to-list 'completion-at-point-functions #'cape-dict)
     (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    (add-to-list 'completion-at-point-functions #'cape-elisp-block))
+    (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+    (add-to-list 'completion-at-point-functions #'ispell-completion-at-point))
+
+  (defun pure--cape-setup-text ()
+    (add-to-list 'completion-at-point-functions #'cape-dict)
+    (add-to-list 'completion-at-point-functions #'cape-dabbrev))
 
   :hook
   ;; Register the functions via hooks so one has control over the
   ;; the lookup functions depending on the mode.
   ((emacs-lisp-mode . pure--cape-setup-elisp)
-   (org-mode        . pure--cape-setup-org)))
+   (org-mode        . pure--cape-setup-org)
+   (text-mode       . pure--cape-setup-text)))
 
 ;;;; Search and Replace
 
@@ -436,12 +472,25 @@
 ;; Requires the install of an external library 'enchant'
 ;; TODO - how to configure libraries, etc
 (use-package jinx
+  :disabled
   :custom
   (jinx-languages "en_AU")
   :config
   (add-to-list 'vertico-multiform-categories
                '(jinx grid (vertico-grid-annotate . 25)))
   (vertico-multiform-mode 1)
+
+  ;; Add misspelled words to 'abbrev
+  (defun jinx--add-to-abbrev (overlay word)
+    "Add abbreviation to `global-abbrev-table'.
+The misspelled word is taken from OVERLAY.  WORD is the corrected word."
+    (let ((abbrev (buffer-substring-no-properties
+                   (overlay-start overlay)
+                   (overlay-end overlay))))
+      (message "Abbrev: %s -> %s" abbrev word)
+      (define-abbrev global-abbrev-table abbrev word)))
+
+  (advice-add 'jinx--correct-replace :before #'jinx--add-to-abbrev)
   :hook
   (text-mode . jinx-mode)
   :bind (:map jinx-mode-map
@@ -638,8 +687,12 @@
   :after org
   :demand t)
 
-;;;; Pure Functions
+;;;;; = toc-org - create a index in an org-file
+(use-package toc-org
+  :hook
+  (org-mode . toc-org-mode))
 
+;;;; Pure Functions
 
 ;;; Provide
 (provide 'pure-future)
