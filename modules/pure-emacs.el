@@ -980,7 +980,7 @@ Requires a ~./authinfo.gpg file containing the entries."
   ;; Appearance
   (org-indent-mode t "Allign text with header virtually")
   (org-hide-leading-stars t "Only one star per header")
-  (org-cycle-separator-lines 0 "No empty lines in collapsed view")
+  (org-cycle-separator-lines 1 "No empty lines in collapsed view")
   (org-ellipsis " ..▼" "nicer elipses ↷ ↴ ▼")
   (org-fontify-quote-and-verse-blocks t "Make quotes stand out")
   (org-image-actual-width  500 "Show images at 500px")
