@@ -335,6 +335,13 @@ This is if no match could be found in `pure-lines-mode-formats'"
   "Modeline face for inactive line."
   :group 'pure-line-inactive)
 
+(defface pure-line-hide
+  `((t :foreground ,(face-foreground 'shadow)
+       :background ,(face-background 'default)
+       :underline t))
+  "Highlight button face."
+  :group 'pure-line-hidden)
+
 (defface pure-line-hspace-active
   '((t (:invisible t :family "Monospace" :inherit (mode-line))))
   "Face for vertical spacer in active line.")
