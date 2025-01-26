@@ -124,6 +124,7 @@ This configuration is modular. There are currently 5 *modules* of which two are 
 - *pure-future*      - Emacs external packages that are popular and potential candidates for future integration in core Emacs.
 - *pure-email*       - Email client based on mu4e.
 - *pure-line*        - Emacs mode-line / header-line
+- *pure-dev-web*     - Emacs configuration to develop and maintain websites (including hugo)
 #+end_quote
 
 *** Dependencies

@@ -39,7 +39,10 @@
 ;; Load the pure-future configuration (installed features)
 (require 'pure-future nil t)
 
-;; Load the pure-email configuration (optional, requires ~mu~)
+;; (Optional) Load the website development module
+(require 'pure-dev-web nil t)
+
+;; (Optional) Load the pure-email configuration (optional, requires ~mu~)
 ;; (require 'pure-email nil t)
 
 (provide 'init)
