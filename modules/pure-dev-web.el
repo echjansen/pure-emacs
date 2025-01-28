@@ -28,58 +28,65 @@
 ;;;;
 ;;;; = treesit - Language installers and mode mappers
 ;;;;; = html - Treesit support for html
-;; Replaces html-mode and mhtml-mode.
-(use-package html
+;; Replace html-mode, mhtml-mode and sgml-mode with html-ts-mode.
+(use-package html-ts-mode
   :ensure nil
   :defer t
-  :when (pure-treesit-p)
   :init
   (pure-treesit-install-and-remap
-   'html "https://github.com/tree-sitter/tree-sitter-html"
+   'html
+   "https://github.com/tree-sitter/tree-sitter-html"
    :revision "master"
    :source-dir "src"
    :modes '(mhtml-mode html-mode)
    :remap 'html-ts-mode
-   :org-src '("html" . html-ts)))
+   :org-src '("html" . html-ts))
+  :custom
+  (html-ts-mode-indent-offset 4))
 
 ;;;;; = css - Treesit support for css
-;; Replaces css-mode.
-(use-package css
+;; Replace css-mode with css-ts-mode.
+;; Note: css-ts-mode is defined in `css-mode' package
+(use-package css-mode
   :ensure nil
   :defer t
-  :when (pure-treesit-p)
   :init
   (pure-treesit-install-and-remap
-   'css "https://github.com/tree-sitter/tree-sitter-css"
-   :revision "v0.23.2"
+   'css
+   "https://github.com/tree-sitter/tree-sitter-css"
+   :revision "master"
    :source-dir "src"
    :modes '(css-mode)
    :remap 'css-ts-mode
-   :org-src '("css" . css-ts)))
+   :org-src '("css" . css-ts))
+  :custom
+  (css-indent-offset 2))
 
-;;;;; = java - Treesit support for javascript
-;; Replaces js-mode, javascript-mode and js2-mode.
+;;;;; = js - Treesit support for java script
+;; Replace js-mode with js-ts-mode.
+;; Note: js-ts-mode is defined in the `js' package
 (use-package js
   :ensure nil
   :defer t
-  :when (pure-treesit-p)
   :init
   (pure-treesit-install-and-remap
-   'javascript "https://github.com/tree-sitter/tree-sitter-javascript"
+   'javascript
+   "https://github.com/tree-sitter/tree-sitter-javascript"
    :revision "master"
    :source-dir "src"
-   :modes '(js-mode javascript-mode js2-mode)
+   :modes '(js-mode)
    :remap 'js-ts-mode
    :org-src '("js" . js-ts)))
 
 ;;;;; = typescript - Treesit support for typescript
-(use-package typescript
+;; Replace typescript-mode with typescript-ts-mode
+(use-package typescript-ts-mode
   :ensure nil
   :defer t
-  :when (pure-treesit-p)
   :init
   (pure-treesit-install-and-remap
-   'typescript "https://github.com/tree-sitter/tree-sitter-typescript"
+   'typescript
+   "https://github.com/tree-sitter/tree-sitter-typescript"
    :revision "master"
    :source-dir "typescript/src"
    :modes '(typescript-mode)
@@ -87,13 +94,14 @@
    :org-src '("typescript" . typescript-ts)))
 
 ;;;;; = tsx - Treesit support for tsx
-(use-package tsx
+;; Replace tsx-mode with tsx-ts-mode
+(use-package typescript-ts-mode
   :ensure nil
   :defer t
-  :when (pure-treesit-p)
   :init
   (pure-treesit-install-and-remap
-   'tsx "https://github.com/tree-sitter/tree-sitter-typescript"
+   'tsx
+   "https://github.com/tree-sitter/tree-sitter-typescript"
    :revision "master"
    :source-dir "tsx/src"
    :modes '(tsx-mode)
@@ -101,36 +109,40 @@
    :org-src '("tsx" . tsx-ts)))
 
 ;;;;; = yaml - Treesit support for yaml
-(use-package yaml
+;; There is no official `yaml-mode'
+;; Note: Has no imenu and indentation support !?!
+(use-package yaml-ts-mode
   :ensure nil
+  :after (treesit)
   :defer t
-  :when (pure-treesit-p)
   :init
   (pure-treesit-install-and-remap
-   'yaml "https://github.com/ikatyang/tree-sitter-yaml"
+   'yaml
+   "https://github.com/ikatyang/tree-sitter-yaml"
    :revision "master"
    :source-dir "src"
-   :modes '(yam-mode)
+   :modes '(yaml-mode)
    :remap 'yaml-ts-mode
    :org-src '("yaml" . yaml-ts)))
 
 ;;;;; = toml - Treesit support for toml
-(use-package toml
+;; Replace the `conf-toml-mode' with `toml-ts-mode'
+(use-package toml-ts-mode
   :ensure nil
+  :after (treesit)
   :defer t
-  :when (pure-treesit-p)
   :init
   (pure-treesit-install-and-remap
-   'toml "https://github.com/tree-sitter/tree-sitter-toml"
+   'toml
+   "https://github.com/tree-sitter/tree-sitter-toml"
    :revision "master"
    :source-dir "src"
-   :modes '(toml-mode)
+   :modes '(conf-toml-mode)
    :remap 'toml-ts-mode
-   :org-src '("toml" . toml-ts)))
+   :org-src '("toml" . toml-ts))
+  :custom
+  (toml-ts-mode-indent-offset 2))
 
-;;;;; = combobulate - code manipulation
-(use-package combobulate
-  :vc (:url "https://github.com/mickeynp/combobulate")
 ;;;;; - json - Treesit support for `json'
 ;; Replace json-mode with `json-ts-mode'
 (use-package json-ts-mode
@@ -146,6 +158,12 @@
    :modes '(js-json-mode)
    :remap 'json-ts-mode
    :org-src '("json" . json-ts))
+  :custom
+  (json-ts-mode-indent-offset 2))
+
+;;;;; = combobulate - code manipulation
+(use-package combobulate
+  :vc (:url "https://github.com/mickeynp/combobulate")
   :custom
   (combobulate-key-prefix "C-c o")
   :hook
