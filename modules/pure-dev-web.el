@@ -42,6 +42,21 @@
    :remap 'html-ts-mode
    :org-src '("html" . html-ts)))
 
+;;;;; = css - Treesit support for css
+;; Replaces css-mode.
+(use-package css
+  :ensure nil
+  :defer t
+  :when (pure-treesit-p)
+  :init
+  (pure-treesit-install-and-remap
+   'css "https://github.com/tree-sitter/tree-sitter-css"
+   :revision "v0.23.2"
+   :source-dir "src"
+   :modes '(css-mode)
+   :remap 'css-ts-mode
+   :org-src '("css" . css-ts)))
+
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files
 (use-package ox-hugo
