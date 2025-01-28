@@ -57,6 +57,21 @@
    :remap 'css-ts-mode
    :org-src '("css" . css-ts)))
 
+;;;;; = java - Treesit support for javascript
+;; Replaces js-mode, javascript-mode and js2-mode.
+(use-package js
+  :ensure nil
+  :defer t
+  :when (pure-treesit-p)
+  :init
+  (pure-treesit-install-and-remap
+   'javascript "https://github.com/tree-sitter/tree-sitter-javascript"
+   :revision "master"
+   :source-dir "src"
+   :modes '(js-mode javascript-mode js2-mode)
+   :remap 'js-ts-mode
+   :org-src '("js" . js-ts)))
+
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files
 (use-package ox-hugo
