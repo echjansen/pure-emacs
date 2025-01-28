@@ -114,6 +114,20 @@
    :remap 'yaml-ts-mode
    :org-src '("yaml" . yaml-ts)))
 
+;;;;; = toml - Treesit support for toml
+(use-package toml
+  :ensure nil
+  :defer t
+  :when (pure-treesit-p)
+  :init
+  (pure-treesit-install-and-remap
+   'toml "https://github.com/tree-sitter/tree-sitter-toml"
+   :revision "master"
+   :source-dir "src"
+   :modes '(toml-mode)
+   :remap 'toml-ts-mode
+   :org-src '("toml" . toml-ts)))
+
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files
 (use-package ox-hugo
