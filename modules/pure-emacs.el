@@ -822,6 +822,7 @@
 ;; Languages to be installed separately with pure-treesit-install-and-remap.
 (use-package treesit
   :ensure nil
+  :demand t
   :when (pure-treesit-p)
   :preface
   (defun pure-treesit-p ()
