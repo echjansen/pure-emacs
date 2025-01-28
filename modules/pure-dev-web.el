@@ -131,6 +131,21 @@
 ;;;;; = combobulate - code manipulation
 (use-package combobulate
   :vc (:url "https://github.com/mickeynp/combobulate")
+;;;;; - json - Treesit support for `json'
+;; Replace json-mode with `json-ts-mode'
+(use-package json-ts-mode
+  :ensure nil
+  :defer t
+  :after (json treesit)
+  :init
+  (pure-treesit-install-and-remap
+   'json
+   "https://github.com/tree-sitter/tree-sitter-json"
+   :revision "master"
+   :source-dir "src"
+   :modes '(js-json-mode)
+   :remap 'json-ts-mode
+   :org-src '("json" . json-ts))
   :custom
   (combobulate-key-prefix "C-c o")
   :hook
