@@ -804,18 +804,6 @@
   :hook
   (flymake-mode . pure--flymake-toggle-diagnostics-buffer))
 
-;;;;; = treesit - Emacs language parser
-;; Install language support for languages via:
-;; Languages (for the moment) are installed via tree-sitter-langs package
-(use-package treesit
-  :unless (version<= emacs-version "29.0.50")
-  :ensure nil
-  :custom
-  ;; Define source code for language parsers.
-  (major-mode-remap-alist
-   '((python-mode . python-ts-mode)
-     (elisp-mode . elisp-ts-mode))))
-
 ;;;;; = eglot - Emacs client for the Language Server Protocol
 ;; Manual installation for language servers required.
 ;; Python: pacman -S python-lsp-server
@@ -827,6 +815,49 @@
               ("C-c f" . eglot-format-buffer))
   :hook
   (python-ts-mode . eglot-ensure))
+
+;;;;; = treesit - Emacs language parser
+;; Parses structured / code files (files only) to provide better
+;; color coding, folding, etc.
+;; Languages to be installed separately with pure-treesit-install-and-remap.
+(use-package treesit
+  :ensure nil
+  :when (pure-treesit-p)
+  :preface
+  (defun pure-treesit-p ()
+    "Check if Emacs was built with treesiter in a protable way."
+    (and (fboundp 'treesit-available-p)
+         (treesit-available-p)))
+
+  (cl-defun pure-treesit-install-and-remap
+      (lang url &key revision source-dir modes remap org-src)
+    "Convenience function for installing and enabling a ts-* mode.
+
+LANG is the language symbol.  URL is the Git repository URL for the
+grammar.  REVISION is the Git tag or branch of the desired version,
+defaulting to the latest default branch.  SOURCE-DIR is the relative
+subdirectory in the repository in which the grammar’s parser.c file
+resides, defaulting to \"src\".  MODES is a list of modes to remap to a
+symbol REMAP.  ORG-SRC is a cons specifying a source code block language
+name and a corresponding major mode."
+    (when (and (fboundp 'treesit-available-p)
+               (treesit-available-p))
+      (unless (treesit-language-available-p lang)
+        (add-to-list
+         'treesit-language-source-alist
+         (list lang url revision source-dir))
+        (treesit-install-language-grammar lang))
+      (when (and remap (treesit-ready-p lang))
+        (dolist (mode modes)
+          (add-to-list
+           'major-mode-remap-alist
+           (cons mode remap))))
+      (when (and org-src (treesit-ready-p lang))
+        (eval-after-load 'org
+          (lambda ()
+            (add-to-list 'org-src-lang-modes org-src))))))
+  :custom
+  (treesit-font-lock-level 2))
 
 ;;;; Programming Languages
 ;;;;; = kmacro - Emacs built-in macro mechansim
