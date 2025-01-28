@@ -86,6 +86,20 @@
    :remap 'typescript-ts-mode
    :org-src '("typescript" . typescript-ts)))
 
+;;;;; = tsx - Treesit support for tsx
+(use-package tsx
+  :ensure nil
+  :defer t
+  :when (pure-treesit-p)
+  :init
+  (pure-treesit-install-and-remap
+   'tsx "https://github.com/tree-sitter/tree-sitter-typescript"
+   :revision "master"
+   :source-dir "tsx/src"
+   :modes '(tsx-mode)
+   :remap 'tsx-ts-mode
+   :org-src '("tsx" . tsx-ts)))
+
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files
 (use-package ox-hugo
