@@ -128,6 +128,14 @@
    :remap 'toml-ts-mode
    :org-src '("toml" . toml-ts)))
 
+;;;;; = combobulate - code manipulation
+(use-package combobulate
+  :vc (:url "https://github.com/mickeynp/combobulate")
+  :custom
+  (combobulate-key-prefix "C-c o")
+  :hook
+  ((prog-mode . combobulate-mode)))
+
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files
 (use-package ox-hugo
