@@ -25,6 +25,23 @@
                                         ;
 ;;; Code:
 
+;;;;
+;;;; = treesit - Language installers and mode mappers
+;;;;; = html - Treesit support for html
+;; Replaces html-mode and mhtml-mode.
+(use-package html
+  :ensure nil
+  :defer t
+  :when (pure-treesit-p)
+  :init
+  (pure-treesit-install-and-remap
+   'html "https://github.com/tree-sitter/tree-sitter-html"
+   :revision "master"
+   :source-dir "src"
+   :modes '(mhtml-mode html-mode)
+   :remap 'html-ts-mode
+   :org-src '("html" . html-ts)))
+
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files
 (use-package ox-hugo
