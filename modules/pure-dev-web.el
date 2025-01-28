@@ -100,6 +100,20 @@
    :remap 'tsx-ts-mode
    :org-src '("tsx" . tsx-ts)))
 
+;;;;; = yaml - Treesit support for yaml
+(use-package yaml
+  :ensure nil
+  :defer t
+  :when (pure-treesit-p)
+  :init
+  (pure-treesit-install-and-remap
+   'yaml "https://github.com/ikatyang/tree-sitter-yaml"
+   :revision "master"
+   :source-dir "src"
+   :modes '(yam-mode)
+   :remap 'yaml-ts-mode
+   :org-src '("yaml" . yaml-ts)))
+
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files
 (use-package ox-hugo
