@@ -804,18 +804,6 @@
   :hook
   (flymake-mode . pure--flymake-toggle-diagnostics-buffer))
 
-;;;;; = eglot - Emacs client for the Language Server Protocol
-;; Manual installation for language servers required.
-;; Python: pacman -S python-lsp-server
-(use-package eglot
-  :ensure nil
-  :bind (:map eglot-mode-map
-              ("C-c i" . eldoc)
-              ("C-c r" . eglot-rename)
-              ("C-c f" . eglot-format-buffer))
-  :hook
-  (python-ts-mode . eglot-ensure))
-
 ;;;;; = treesit - Emacs language parser
 ;; Parses structured / code files (files only) to provide better
 ;; color coding, folding, etc.
@@ -860,7 +848,49 @@ name and a corresponding major mode."
   :custom
   (treesit-font-lock-level 2))
 
+;;;;; = eglot - Emacs client for the Language Server Protocol
+;; Note: Supports a single language per buffer only (2025-01)
+;; Manual installation for language servers required.
+;; Python: pacman -S python-lsp-server
+(use-package eglot
+  :ensure nil
+  :bind (:map eglot-mode-map
+              ("C-c i" . eglot)
+              ("C-c r" . eglot-rename)
+              ("C-c f" . eglot-format-buffer))
+  :hook
+  (python-ts-mode . eglot-ensure)
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-size 0)
+  (eglot-extend-to-xref nil)
+  (eglot-ignored-server-capabilities
+   '(:colorProvider
+     ;; :documentHighlightProvider
+     ;; :documentFormattingProvider
+     ;; :documentRangeFormattingProvider
+     ;; :documentOnTypeFormattingProvider
+     ;; :foldingRangeProvider
+     :hoverProvider)))
+
 ;;;; Programming Languages
+;;;;; = python - Treesit support for python
+;; Replace python-mode with python-ts-mode.
+(use-package python-ts-mode
+  :ensure nil
+  :defer t
+  :init
+  (pure-treesit-install-and-remap
+   'python
+   "https://github.com/tree-sitter/tree-sitter-python"
+   :revision "master"
+   :source-dir "src"
+   :modes '(python-mode)
+   :remap 'python-ts-mode
+   :org-src '("python" . python-ts))
+  :custom
+  (python-indent-offset 4))
+
 ;;;;; = kmacro - Emacs built-in macro mechansim
 ;; F3 - To start recording a macro
 ;; F4 - To end recording a macro
@@ -890,16 +920,6 @@ name and a corresponding major mode."
   :bind
   ("<f5>" . kmacro-name-last-macro)
   ("<f6>" . kmacro-load-macro))
-
-;;;;; = python - develop in python
-;; Implements a range of python IDE support functions
-(use-package python
-  :ensure nil
-  :hook
-  (python-mode . (lambda ()
-                   (setq-default indent-tabs-mode 4)
-                   (setq-default tab-width 4)
-                   (setq-default py-indent-tabs-mode t))))
 
 ;;;; Shells
 
