@@ -387,7 +387,8 @@
   (corfu-quit-no-match t)
   :hook ((prog-mode . corfu-mode)
          (shell-mode . corfu-mode)
-         (eshell-mode . corfu-mode)))
+         (eshell-mode . corfu-mode)
+         (eglot-managed-mode . corfu-mode)))
 
 ;;;;; = corfu-echo - display brief info of candidate in echo.
 (use-package corfu-echo
@@ -414,7 +415,7 @@
 (use-package corfu-terminal
   :unless (display-graphic-p)
   :hook
-  (corfu-mode . corfu-terminal-mode))
+  (corfu-mode-hook . corfu-terminal-mode))
 
 ;;;;; = cape - completion at point extensions
 ;; Defines what 'information' to include when trying to complete-at-point
