@@ -26,7 +26,7 @@
 ;;; Code:
 
 ;;;;
-;;;; = treesit - Language installers and mode mappers
+;;;; Treesit Extensions - Language installers and Mode Mappers
 ;;;;; = html - Treesit support for html
 ;; Replace html-mode, mhtml-mode and sgml-mode with html-ts-mode.
 (use-package html-ts-mode
