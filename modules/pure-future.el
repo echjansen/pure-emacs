@@ -121,6 +121,7 @@
 ;;;; Apperance
 ;;;;; = pure-line - modeline or headerline
 (use-package pure-line
+  :disabled
   :ensure nil
   :commands
   (pure-line-mode)
@@ -140,7 +141,6 @@
 
 ;;;;; = telephone-line - mode line alternative
 (use-package telephone-line
-  :disabled
   :custom
   ;; Segments
   (telephone-line-lhs
