@@ -111,7 +111,6 @@
 
 ;;;;; = vundo - graphical undo tree
 (use-package vundo
-  :commands vundo
   :custom
   (vundo-glyph-alist vundo-unicode-symbols)
   :bind
