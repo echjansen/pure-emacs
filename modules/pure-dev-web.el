@@ -41,6 +41,7 @@
 
 ;;;;; = ox-hugo-auto-export-mode
 (use-package org-hugo-auto-export-mode
+  :ensure nil
   :after ox-hugo
   :demand t)
 
