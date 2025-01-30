@@ -804,6 +804,7 @@
   :hook
   (flymake-mode . pure--flymake-toggle-diagnostics-buffer))
 
+;;;; Treesit - Language installers and Mode Mappers
 ;;;;; = treesit - Emacs language parser
 ;; Parses structured / code files (files only) to provide better
 ;; color coding, folding, etc.
@@ -848,7 +849,6 @@ name and a corresponding major mode."
   :custom
   (treesit-font-lock-level 2))
 
-;;;; Treesit Extensions - Language installers and Mode Mappers
 ;;;;; = html - Treesit support for html
 ;; Replace html-mode, mhtml-mode and sgml-mode with html-ts-mode.
 (use-package html-ts-mode
@@ -965,7 +965,7 @@ name and a corresponding major mode."
   :custom
   (toml-ts-mode-indent-offset 2))
 
-;;;;; - json - Treesit support for `json'
+;;;;; = json - Treesit support for `json'
 ;; Replace json-mode with `json-ts-mode'
 (use-package json-ts-mode
   :ensure nil
@@ -982,6 +982,25 @@ name and a corresponding major mode."
    :org-src '("json" . json-ts))
   :custom
   (json-ts-mode-indent-offset 2))
+
+;;;;; = python - Treesit support for python
+;; Replace python-mode with `python-ts-mode'.
+;; Note: python-ts-mode is defined in the `python' package
+(use-package python
+  :ensure nil
+  :after (treesit)
+  :defer t
+  :init
+  (pure-treesit-install-and-remap
+   'python
+   "https://github.com/tree-sitter/tree-sitter-python"
+   :revision "master"
+   :source-dir "src"
+   :modes '(python-mode)
+   :remap 'python-ts-mode
+   :org-src '("python" . python-ts))
+  :custom
+  (python-indent-offset 4))
 
 ;;;;; = eglot - Emacs client for the Language Server Protocol
 ;; Note: Supports a single language per buffer only (2025-01)
@@ -1009,22 +1028,6 @@ name and a corresponding major mode."
      :hoverProvider)))
 
 ;;;; Programming Languages
-;;;;; = python - Treesit support for python
-;; Replace python-mode with python-ts-mode.
-(use-package python-ts-mode
-  :ensure nil
-  :defer t
-  :init
-  (pure-treesit-install-and-remap
-   'python
-   "https://github.com/tree-sitter/tree-sitter-python"
-   :revision "master"
-   :source-dir "src"
-   :modes '(python-mode)
-   :remap 'python-ts-mode
-   :org-src '("python" . python-ts))
-  :custom
-  (python-indent-offset 4))
 
 ;;;;; = kmacro - Emacs built-in macro mechansim
 ;; F3 - To start recording a macro
