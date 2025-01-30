@@ -708,6 +708,8 @@
               ("M-<left>"  . outline-promote)
               ("M-<up>"    . outline-move-subtree-up)
               ("M-<down>"  . outline-move-subtree-down)
+              ("M-<return>" . outline-inser-heading) ;graphics
+              ("M-RET"     . outline-insert-heading) ;tty
               ("C-c C-n"   . outline-next-heading)
               ("C-c C-p"   . outline-previous-heading)
               ("M-1"       . outline-show-level1)
