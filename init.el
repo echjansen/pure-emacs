@@ -40,7 +40,7 @@
 (require 'pure-future nil t)
 
 ;; (Optional) Load the website development module
-(require 'pure-dev-web nil t)
+(require 'pure-development nil t)
 
 ;; (Optional) Load the pure-email configuration (optional, requires ~mu~)
 ;; (require 'pure-email nil t)

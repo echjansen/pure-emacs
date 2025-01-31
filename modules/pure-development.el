@@ -1,4 +1,4 @@
-;;; pure-dev-web.el --- Web development  -*- lexical-binding: t -*-
+;;; pure-development.el --- Web development  -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2025 echjansen
 
@@ -19,9 +19,10 @@
 
 ;;; Commentary:
 
-;; This module is useful when you are developing and maintaining content
-;; for websites.
-;; This module further contains opinionated modules to manage Hugo websites.
+;; This module is dedicated to software and web development
+;; The following tools are implemented:
+;; - lsp-mode       ; LSP client replacment for eglot
+;; - ox-hugo        ; Export org to hugu markup files
                                         ;
 ;;; Code:
 
@@ -46,6 +47,6 @@
   :demand t)
 
 ;;; Provide:
-(provide 'pure-dev-web)
+(provide 'pure-development)
 
-;;; pure-dev-web.el ends here
+;;; pure-development.el ends here
