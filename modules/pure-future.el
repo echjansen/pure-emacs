@@ -584,7 +584,6 @@ The misspelled word is taken from OVERLAY.  WORD is the corrected word."
 
 ;;;;; = elfeed - RSS reader
 (use-package elfeed
-  :bind ("C-c l" . elfeed)
   :custom
   (elfeed-search-filter "@1-year-ago +unread ")
   (elfeed-db-directory (expand-file-name "elfeed" pure-dir-cache))
