@@ -802,6 +802,10 @@
         (when (window-live-p window)
           (with-selected-window window
             (kill-buffer-and-window))))))
+  :bind
+  (:map flymake-mode-map
+        ("M-p" . flymake-goto-previous-error)
+        ("M-n" . flymake-goto-next-error))
   :hook
   (flymake-mode . pure--flymake-toggle-diagnostics-buffer))
 
