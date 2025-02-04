@@ -32,16 +32,11 @@
 
 ;;;; Package Manager
 ;;;;; = package.el - package installation
-
-;; Disable package initializes.  We either initialize it
-;; anyway in case of interpreted Emacs, or we don't want slow
-;; initizlization in case of byte-compiled Emacs.
-;; Disabling must be configured in early-init, or package initialization will occur.
-;; This is for reference only.
-;; (setq package-enable-at-startup nil)
-
-;; Ask package.el to not add (package-initialize) to init.el.
-(setq package--init-file-ensured t)
+;; Only load  `package.el' and `use-package' when compiling.
+;; In interactive mode neither `package.el' nor `use-package' is loaded
+;; and the macro expansion from use-package is used (assuming all files are
+;; byte compiled).
+;; A byte-compiled version of `load-path' is used to find the external packages.
 
 ;; Traverse the installed packages and add their paths to load-path.
 (mapc #'(lambda (add) (add-to-list 'load-path add))
@@ -64,11 +59,11 @@
                 ("melpa-stable"  . 1)))
 
         ;; use-package configuration during compilation
-        (require 'use-package)
-        (setq use-package-always-ensure t)
-        (setq use-package-always-defer t)
-        (setq use-package-compute-statistics nil)
-        (setq use-package-expand-minimally t)
+        (require 'use-package)                    ; When compiling:
+        (setq use-package-always-ensure t)        ; Install packages
+        (setq use-package-always-defer t)         ; Lazy load when possible
+        (setq use-package-compute-statistics nil) ; No statistics in byte-code
+        (setq use-package-expand-minimally t)     ; Minimised byte-code
 
         ;; package configuration during compilation
         (setq package-install-upgrade-built-in nil)
@@ -108,7 +103,8 @@
 ;; Built in since Emacs version 29 and provides 'easy' package configuration
 ;; To get statistics on package loading start emacs with emacs --debug-init
 ;; This will compute the statistics which can be called with
-;; use-package-report
+;; use-package-report.
+;; Note: only reports on files not byte compiled.
 (when init-file-debug
   (require 'use-package)
   (setq use-package-compute-statistics t))
