@@ -65,8 +65,7 @@
   (visible-bell t)
   :config
   (setq-default indent-tabs-mode nil)
-  (setq tab-width 2)
-  (setq default-tab-width 2)
+  (setq-default tab-width 2)
   :bind
   ;; Don't close Emacs
   ("C-z" . nil))
