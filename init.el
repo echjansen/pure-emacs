@@ -30,20 +30,98 @@
 (add-to-list 'load-path
              (concat (file-name-as-directory user-emacs-directory) "modules"))
 
-;; Load the pure-emacs common configuration.
+;;;; Package Manager
+;;;;; = package.el - package installation
+
+;; Disable package initializes.  We either initialize it
+;; anyway in case of interpreted Emacs, or we don't want slow
+;; initizlization in case of byte-compiled Emacs.
+;; Disabling must be configured in early-init, or package initialization will occur.
+;; This is for reference only.
+;; (setq package-enable-at-startup nil)
+
+;; Ask package.el to not add (package-initialize) to init.el.
+(setq package--init-file-ensured t)
+
+;; Traverse the installed packages and add their paths to load-path.
+(mapc #'(lambda (add) (add-to-list 'load-path add))
+      (eval-when-compile
+        ;; (require 'package)
+        (package-initialize)
+
+        ;; Sources for packages (recipes in this case)
+        (setq package-archives
+              '(("melpa" . "https://melpa.org/packages/")
+                ("melpa-stable" . "https://stable.melpa.org/packages/")
+                ("gnu" . "https://elpa.gnu.org/packages/")
+                ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+
+        ;; Order of archive priority. The higher the number the higher the priority
+        (setq package-archive-priorities
+              '(("melpa"         . 4)
+                ("gnu"           . 3)
+                ("nongnu"        . 2)
+                ("melpa-stable"  . 1)))
+
+        ;; use-package configuration during compilation
+        (require 'use-package)
+        (setq use-package-always-ensure t)
+        (setq use-package-always-defer t)
+        (setq use-package-compute-statistics nil)
+        (setq use-package-expand-minimally t)
+
+        ;; package configuration during compilation
+        (setq package-install-upgrade-built-in nil)
+
+        ;; hard-code load-path in compiled file
+        (let ((package-user-dir-real (file-truename package-user-dir)))
+          ;; The reverse is necessary, because outside we mapc
+          ;; add-to-list element-by-element, which reverses.
+          (nreverse (apply #'nconc
+                           ;; Only keep package.el provided loadpaths.
+                           (mapcar #'(lambda (path)
+                                       (if (string-prefix-p
+                                            package-user-dir-real path)
+                                           (list path)
+                                         nil))
+                                   load-path))))))
+
+;; Info of packages is managed via autoloads. Since autoloads are not in use
+;; this code parses the package folder and adds folders with info to the list
+(with-eval-after-load "info"
+  (info-initialize)
+  (dolist (dir (directory-files package-user-dir))
+    (let ((fdir (concat (file-name-as-directory package-user-dir) dir)))
+      (unless (or (member dir '("." ".." "archives" "gnupg"))
+                  (not (file-directory-p fdir))
+                  (not (file-exists-p (concat
+                                       (file-name-as-directory fdir) "dir"))))
+        (add-to-list 'Info-directory-list fdir)))))
+
+;;;;; = byte-compile - configuration byte-compilation
+
+;; Suppress byte-compilation warnings
+(setq byte-compile-warnings nil)
+(setq byte-compile-verbose nil)
+
+;;;;; = use-package - package configuration
+;; Built in since Emacs version 29 and provides 'easy' package configuration
+;; To get statistics on package loading start emacs with emacs --debug-init
+;; This will compute the statistics which can be called with
+;; use-package-report
+(when init-file-debug
+  (require 'use-package)
+  (setq use-package-compute-statistics t))
+
+;;;; Pure Emacs Modules
+;;;;; Load the pure emacs common configuration.
 (require 'pure-common nil t)
 
-;; Load the pure-emacs configuration (all built-in features)
+;;;;; Load the pure emacs built-in features
 (require 'pure-emacs nil t)
 
-;; Load the pure-future configuration (installed features)
+;;;;; Load the pure emacs external features
 (require 'pure-future nil t)
-
-;; (Optional) Load the website development module
-(require 'pure-development nil t)
-
-;; (Optional) Load the pure-email configuration (optional, requires ~mu~)
-;; (require 'pure-email nil t)
 
 (provide 'init)
 ;;; init.el ends here
