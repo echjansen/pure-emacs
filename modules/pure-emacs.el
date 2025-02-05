@@ -481,13 +481,16 @@
 ;; appears to have more use during writing text.
 (use-package completion-preview
   :unless (version<= emacs-version "30.0.50")
+  :custom
+  (completion-preview-minimum-symbol-length 2)
   :bind (:map completion-preview-active-mode-map
+              ("<tab>"   . completion-preview-insert)
               ("<right>" . completion-preview-insert)
               ("M-p" . completion-preview-prev-candidate)
               ("M-n" . completion-preview-next-candidate)
               ("M-f" . completion-preview-insert-word))
   :hook
-  ((text-mode org-mode) . completion-preview-mode))
+  ((text-mode org-mode prog-mode) . completion-preview-mode))
 
 ;;;; Search and Replace
 ;;;;; = isearch - find
