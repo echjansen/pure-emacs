@@ -699,22 +699,22 @@
     (interactive)
     (outline--show-headings-up-to-level 4))
   :custom
+  (outline-minor-mode-cycle t)
   (outline-minor-mode-highlight 'override)
   :bind (:map outline-minor-mode-map
-              ("TAB"       . outline-cycle)
-              ("<backtab>" . outline-cycle-buffer)
-              ("M-<right>" . outline-demote)
-              ("M-<left>"  . outline-promote)
-              ("M-<up>"    . outline-move-subtree-up)
-              ("M-<down>"  . outline-move-subtree-down)
+              ("<backtab>"  . outline-cycle-buffer)
+              ("M-<right>"  . outline-demote)
+              ("M-<left>"   . outline-promote)
+              ("M-<up>"     . outline-move-subtree-up)
+              ("M-<down>"   . outline-move-subtree-down)
               ("M-<return>" . outline-inser-heading) ;graphics
-              ("M-RET"     . outline-insert-heading) ;tty
-              ("C-c C-n"   . outline-next-heading)
-              ("C-c C-p"   . outline-previous-heading)
-              ("M-1"       . outline-show-level1)
-              ("M-2"       . outline-show-level2)
-              ("M-3"       . outline-show-level3)
-              ("M-4"       . outline-show-level4))
+              ("M-RET"      . outline-insert-heading) ;tty
+              ("C-c C-n"    . outline-next-heading)
+              ("C-c C-p"    . outline-previous-heading)
+              ("M-1"        . outline-show-level1)
+              ("M-2"        . outline-show-level2)
+              ("M-3"        . outline-show-level3)
+              ("M-4"        . outline-show-level4))
   :hook
   (emacs-lisp-mode . (lambda ()
                        (outline-minor-mode)
