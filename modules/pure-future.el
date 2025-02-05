@@ -29,6 +29,7 @@
 
 ;;; Code:
 
+
 ;;;; Package Configuration
 ;;;;; = use-package - package configuration macro
 ;; Built-in Emacs since version 29 and provides a 'consistent' package
@@ -76,6 +77,7 @@
 
 ;;;;; = telephone-line - mode line alternative
 (use-package telephone-line
+  :disabled
   :custom
   ;; Segments
   (telephone-line-lhs
@@ -98,6 +100,12 @@
   ;; (telephone-line-evil-use-short-tag t)
   :hook
   (emacs-startup . telephone-line-mode))
+
+;;;;; = doom-Mode line
+(use-package doom-modeline
+  :vc t
+  :hook
+  (after-init . doom-modeline-mode))
 
 ;;;; Help and Information
 
