@@ -26,7 +26,6 @@
 ;; - optimise start-up time by byte-compiling.
 
 ;;; Code:
-(require 'pure-common nil t)
 
 ;;;; Package Configuration
 
@@ -132,6 +131,57 @@
   :hook
   (after-init . global-hl-line-mode))
 
+
+;;;;; = modeline - setup modeline
+(use-package modeline
+  :ensure nil
+  :no-require
+  :init
+  (setq-default
+   mode-line-format
+   (list
+    ;;== On the left
+    ;; Current buffer modified indication
+    '(:eval (if (and (buffer-file-name) (buffer-modified-p))
+                (propertize " * " 'face
+                            '(:background "#ff0000" :foreground "#ffffff"))
+              ""))
+    ;; Current buffer name
+    '(:eval
+      (format "%s" (abbreviate-file-name default-directory)))
+    '(:eval
+      (if (not (equal major-mode 'dired-mode))
+          (format "%s " (replace-regexp-in-string "<[^>]+>$" "" (buffer-name)))
+        " "))
+    "  "
+    ;; Version control status
+    '(:eval
+      (when vc-mode
+        (let* ((backend (vc-backend (buffer-file-name)))
+               (branch (substring-no-properties vc-mode (+ (length (symbol-name backend)) 2)))
+               (state (vc-state (buffer-file-name))))
+          (concat
+           (propertize
+            (format "%s:%s"
+                    backend
+                    branch)
+            'face '(:inherit bold))
+           (when state
+             (if (string= state "edited")
+                 (propertize
+                  (format ":%s " state) 'face '(:inherit bold))
+               (format ":%s " state)))))))
+    "  "
+    ;; Position of point (row, column)
+    'mode-line-position
+    ;;== On the right
+    'mode-line-format-right-align
+    ;; Major and minor mode
+    'mode-line-modes
+    ;; Other feature inserted details
+    'mode-line-misc-info
+    ;;  '(:eval (format "%d" (point)))
+    )))
 
 ;;;; Help and Information
 
