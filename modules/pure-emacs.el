@@ -133,37 +133,6 @@
   (after-init . global-hl-line-mode))
 
 
-;;;;; = modeline - setup modeline
-(use-package modeline
-  :ensure nil
-  :no-require
-  :init
-  (setq-default
-   mode-line-format
-
-   (list
-    ;; Current buffer modified indication
-    `(:eval (if (and (buffer-file-name) (buffer-modified-p))
-                (propertize " * " 'face
-                            '(:background "#ff0000" :foreground "#ffffff"))
-              ""))
-    ;; `mode-line-front-space
-    ;; `(:propertize
-    ;;   (""
-    ;;    mode-line-mule-info
-    ;;    mode-line-client
-    ;;    mode-line-modified
-    ;;    mode-line-remote
-    ;;    mode-line-window-dedicated) display (min-width (6.0)))
-    ;; `mode-line-frame-identification
-    `(project-mode-line project-mode-line-format)
-    " - " `mode-line-buffer-identification
-    " -"  `(vc-mode vc-mode)
-    "  "  `mode-line-position
-    "  " '(:eval (format "%d" (point)))
-    `mode-line-format-right-align
-    `mode-line-modes
-    `mode-line-misc-info)))
 
 ;;;; Help and Information
 
@@ -903,7 +872,9 @@ name and a corresponding major mode."
           (lambda ()
             (add-to-list 'org-src-lang-modes org-src))))))
   :custom
-  (treesit-font-lock-level 2))
+  (treesit-font-lock-level 2)
+  (treesit-outline-predicate nil)
+  (treesit-simple-imenu-settings t))
 
 ;;;;; = html - Treesit support for html
 ;; Replace html-mode, mhtml-mode and sgml-mode with html-ts-mode.
@@ -1335,4 +1306,117 @@ Requires a ~./authinfo.gpg file containing the entries."
 (advice-add 'repeat-mode :around #'pure--suppress-messages)
 
 (provide 'pure-emacs)
+
+
+
+;;;;; = modeline - setup modeline
+(use-package modeline
+  :ensure nil
+  :no-require
+  :init
+
+  (setq-default
+   mode-line-format
+   '("%e"
+     ;; Buffer status
+     pure-modeline-buffer-dirty
+
+     ;; Buffer name
+     pure-modeline-buffer-name
+
+     pure-modeline-buffer-position
+
+     ;; Mode name (evaluate as a function for all buffers)
+     "  "
+     pure-modeline-major-mode
+
+     ;; Project
+     pure-modeline-project-name
+
+     ;;Git status
+     (vc-mode vc-mode)
+
+     mode-line-format-right-align
+
+     pure-modeline-time
+     )
+   )
+
+  (defvar-local pure-modeline-buffer-dirty
+      '(:eval (if (and (buffer-file-name) (buffer-modified-p))
+                  (propertize " * " 'face
+                              '(:background "red" :foreground "white"))))
+    "Pure modeline buffer dirty indicator")
+
+  (defvar-local pure-modeline-buffer-name
+      '(:eval
+        (format " 🖿  %s"
+                (propertize (buffer-name) 'face 'bold)))
+    "Pure modeline buffer name")
+
+  (defvar-local pure-modeline-major-mode
+      '(:eval
+        (when (mode-line-window-selected-p)
+          (list
+           "λ "
+           (format "%s"
+                   (propertize
+                    (capitalize (symbol-name major-mode)) 'face 'succes)))))
+    "Pure modeline major mode")
+
+  (defvar-local pure-modeline-project-name
+      '(:eval
+        (when (mode-line-window-selected-p)
+          '(project-mode-line project-mode-line-format)))
+    "Pure modeline project name")
+
+  (defvar-local pure-modeline-time
+      '(:eval
+        (when (mode-line-window-selected-p)
+          (date-to-day)
+          )))
+
+  (defvar-local pure-modeline-buffer-position
+      '(:eval
+        (when (mode-line-window-selected-p)
+          (mode-line-position))))
+
+  ;; All modeline variables are risky
+  (dolist (construct '(pure-modeline-buffer-dirty
+                       pure-modeline-major-mode
+                       pure-modeline-buffer-name
+                       pure-modeline-buffer-position
+                       pure-modeline-project-name
+                       pure-modeline-time))
+    (put construct 'risky-local-variable t))
+  )
+
+;; (setq-default
+;;  mode-line-format
+
+;;  (list
+;;   ;; Current buffer modified indication
+;;   `(:eval (if (and (buffer-file-name) (buffer-modified-p))
+;;               (propertize " * " 'face
+;;                           '(:background "#ff0000" :foreground "#ffffff"))
+;;             ""))
+;;   ;; `mode-line-front-space
+;;   ;; `(:propertize
+;;   ;;   (""
+;;   ;;    mode-line-mule-info
+;;   ;;    mode-line-client
+;;   ;;    mode-line-modified
+;;   ;;    mode-line-remote
+;;   ;;    mode-line-window-dedicated) display (min-width (6.0)))
+;;   ;; `mode-line-frame-identification
+;;   `(project-mode-line project-mode-line-format)
+;;   " - " `mode-line-buffer-identification
+;;   " -"  `(vc-mode vc-mode)
+;;   "  "  `mode-line-position
+;;   "  " '(:eval (format "%d" (point)))
+;;   `mode-line-format-right-align
+;;   `mode-line-modes
+;;   `mode-line-misc-info)))
+
+
 ;;; pure-emacs.el ends here
