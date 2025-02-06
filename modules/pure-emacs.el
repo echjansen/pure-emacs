@@ -139,49 +139,30 @@
   :init
   (setq-default
    mode-line-format
+
    (list
-    ;;== On the left
     ;; Current buffer modified indication
-    '(:eval (if (and (buffer-file-name) (buffer-modified-p))
+    `(:eval (if (and (buffer-file-name) (buffer-modified-p))
                 (propertize " * " 'face
                             '(:background "#ff0000" :foreground "#ffffff"))
               ""))
-    ;; Current buffer name
-    '(:eval
-      (format "%s" (abbreviate-file-name default-directory)))
-    '(:eval
-      (if (not (equal major-mode 'dired-mode))
-          (format "%s " (replace-regexp-in-string "<[^>]+>$" "" (buffer-name)))
-        " "))
-    "  "
-    ;; Version control status
-    '(:eval
-      (when vc-mode
-        (let* ((backend (vc-backend (buffer-file-name)))
-               (branch (substring-no-properties vc-mode (+ (length (symbol-name backend)) 2)))
-               (state (vc-state (buffer-file-name))))
-          (concat
-           (propertize
-            (format "%s:%s"
-                    backend
-                    branch)
-            'face '(:inherit bold))
-           (when state
-             (if (string= state "edited")
-                 (propertize
-                  (format ":%s " state) 'face '(:inherit bold))
-               (format ":%s " state)))))))
-    "  "
-    ;; Position of point (row, column)
-    'mode-line-position
-    ;;== On the right
-    'mode-line-format-right-align
-    ;; Major and minor mode
-    'mode-line-modes
-    ;; Other feature inserted details
-    'mode-line-misc-info
-    ;;  '(:eval (format "%d" (point)))
-    )))
+    ;; `mode-line-front-space
+    ;; `(:propertize
+    ;;   (""
+    ;;    mode-line-mule-info
+    ;;    mode-line-client
+    ;;    mode-line-modified
+    ;;    mode-line-remote
+    ;;    mode-line-window-dedicated) display (min-width (6.0)))
+    ;; `mode-line-frame-identification
+    `(project-mode-line project-mode-line-format)
+    " - " `mode-line-buffer-identification
+    " -"  `(vc-mode vc-mode)
+    "  "  `mode-line-position
+    "  " '(:eval (format "%d" (point)))
+    `mode-line-format-right-align
+    `mode-line-modes
+    `mode-line-misc-info)))
 
 ;;;; Help and Information
 
