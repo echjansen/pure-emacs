@@ -480,6 +480,7 @@
      (info-menu (styles . (substring)))))
   ;; Completions
   (completions-format 'horizontal)
+  (completions-sort 'historical)
   (completion-cycle-threshold t)
   (completion-flex-nospace nil)
   (completion-show-help nil)
