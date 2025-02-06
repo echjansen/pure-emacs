@@ -29,7 +29,6 @@
 
 ;;; Code:
 
-
 ;;;; Package Configuration
 ;;;;; = use-package - package configuration macro
 ;; Built-in Emacs since version 29 and provides a 'consistent' package
@@ -55,58 +54,6 @@
 ;;;; Emacs
 
 ;;;; Apperance
-;;;;; = pure-line - modeline or headerline
-(use-package pure-line
-  :disabled
-  :ensure nil
-  :commands
-  (pure-line-mode)
-  :custom
-  (display-time-day-and-date nil)
-  (pure-line-position 'top)      ;; Set position of status-line
-  (pure-line-abbrev t)           ;; abbreviate major modes
-  (pure-line-hspace "  ")        ;; add some cushion
-  (pure-line-prefix t)           ;; use a prefix symbol
-  (pure-line-prefix-padding nil) ;; no extra space for prefix
-  (pure-line-status-invert t)    ;; no invert colors
-  (pure-line-space-top +.2)      ;; padding on top and bottom of line
-  (pure-line-space-bottom -.2)
-  (pure-line-symbol-position 0.1) ;; adjust the vertical placement of symbol
-  :hook
-  (emacs-startup . pure-line-mode))
-
-;;;;; = telephone-line - mode line alternative
-(use-package telephone-line
-  :disabled
-  :custom
-  ;; Segments
-  (telephone-line-lhs
-   '((nil    . (telephone-line-buffer-segment))
-     (accent . (telephone-line-vc-segment
-                telephone-line-erc-modified-channels-segment
-                telephone-line-process-segment))
-     (nil    . (telephone-line-minor-mode-segment))))
-
-  (telephone-line-rhs
-   '((nil    . (telephone-line-airline-position-segment))
-     (accent . (telephone-line-major-mode-segment))
-     (evil   . (telephone-line-misc-info-segment))))
-  ;; Presentation
-  (telephone-line-primary-left-separator 'telephone-line-cubed-left)
-  (telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left)
-  (telephone-line-primary-right-separator 'telephone-line-cubed-right)
-  (telephone-line-secondary-right-separator 'telephone-line-cubed-hollow-right)
-  (telephone-line-height 24)
-  ;; (telephone-line-evil-use-short-tag t)
-  :hook
-  (emacs-startup . telephone-line-mode))
-
-;;;;; = doom-Mode line
-(use-package doom-modeline
-  :vc t
-  :hook
-  (after-init . doom-modeline-mode))
-
 ;;;; Help and Information
 
 ;;;;; = helpful - more information to help
@@ -147,21 +94,6 @@
   ("C-x u" . vundo))
 
 ;;;; File Management
-;;;;; = dired-subtree - browse folders in a single view
-(use-package dired-subtree
-  :after dired
-  :commands
-  (dired-subtree-toggle
-   dired-subtree-remove)
-  :custom
-  (dired-subtree-use-backgrounds nil)
-  :bind
-  (:map dired-mode-map
-        ("<tab>"     . dired-subtree-toggle)
-        ("TAB"       . dired-subtree-toggle)
-        ("<backtab>" . dired-subtree-remove)
-        ("S-TAB"     . dired-subtree-remove)))
-
 ;;;; Buffer Management
 
 ;;;; Window Management
@@ -209,238 +141,11 @@
    ("C-c ;" . embark-dwim)
    ("C-h B" . embark-bindings)))
 
-;;;;; = vertico - VERTical Interactive COmpletion
-;; Current version on Melpa has an issue with compiling.
-;; Loading vertico from source. Including the extensions.
-(use-package vertico
-  ;; :vc (:url "https://github.com/minad/vertico")
-  ;; :load-path "elpa/vertico/extensions"
-  :custom
-  ;; Different scroll margin
-  (vertico-scroll-margin 0)
-  ;; Show more candidates
-  (vertico-count 10)
-  ;; Grow and shrink the minibuffer
-  (vertico-resize t)
-  :config
-  ;; Turn of pure-emacs enabled completion
-  (fido-mode -1)
-  (fido-vertical-mode -1)
-  :hook
-  (after-init . vertico-mode))
-
-;;;;; = vertico-directory - directory navigation
-(use-package vertico-directory
-  :after vertico
-  :ensure nil
-  ;; More convenient directory navigation commands
-  :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word))
-  ;; Tidy shadowed file names
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
-
-;;;;; = vertico-buffer - display Vertico as a regular buffer in a large window.
-(use-package vertico-buffer
-  :ensure nil
-  :demand
-  :commands
-  (vertico-buffer-mode))
-
-;;;;; = vertico-grid - grid display for Vertico.
-;; display the minibuffer in grid mode
-(use-package vertico-grid
-  :ensure nil
-  :demand
-  :commands
-  (vertico-grid-mode))
-
-;;;;; = vertico-reverse - reverse the Vertico display.
-(use-package vertico-reverse
-  :ensure nil
-  :demand
-  :commands
-  (vertico-reverse-mode))
-
-;;;;; = vertico-unobtrusive - unobtrusive display for Vertico.
-(use-package vertico-unobtrusive
-  :ensure nil
-  :demand
-  :commands
-  (vertico-unobtrusive-mode))
-
-;;;;; = vertico-flat - flat, horizontal display for Vertico.
-(use-package vertico-flat
-  :ensure nil
-  :demand
-  :commands
-  (vertico-flat-mode))
-
-;;;;; = vertico-quick - quick keys
-;; Avy style quick selection when within vertico (mini)buffer.
-(use-package vertico-quick
-  :ensure nil
-  :demand
-  :bind (:map vertico-map
-              ("M-q" . vertico-quick-insert)
-              ("C-q" . vertico-quick-exit)))
-
-;;;;; = vertico-multiform - configure Vertico in various forms per command.
-;; Additional keys in minibuffer
-;; M-B -> vertico-multiform-buffer
-;; M-F -> vertico-multiform-flat
-;; M-G -> vertico-multiform-grid
-;; M-R -> vertico-multiform-reverse
-;; M-U -> vertico-multiform-unobtrusive
-;; M-V -> vertico-multiform-vertical
-(use-package vertico-multiform
-  :ensure nil
-  :init
-  (defun pure-sort-directories-first (files)
-    "Sort the directory FILES with directories first."
-    (setq files (vertico-sort-history-length-alpha files))
-    (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) files)
-           (seq-remove (lambda (x) (string-suffix-p "/" x)) files)))
-  :commands
-  (vertico-grid-mode)
-  :custom
-  ;; Determine the minibuffer style per command
-  (vertico-multiform-commands
-   '((execute-extended-command buffer)))
-  ;; Determine the minibuffer style per mode
-  (vertico-multiform-categories
-   '((file  reverse (vertico-sort-function . pure-sort-directories-first))
-     (imenu buffer)
-     ;; Provides a which-key like buffer "C-x C-h, or any other prefix."
-     (embark-keybinding grid)
-     (t     reverse)))
-  :hook
-  (after-init . vertico-multiform-mode))
-
-;;;;; = corfu - Completion in Region FUnction
-;; popop completion for programming, spelling, dabbrev, etc (see capf)
-;; Emacs and the extention 'Cape' provide completion backends (capf)'
-(use-package corfu
-  :custom
-  ;; Enable auto completion
-  (corfu-auto t)
-  ;; Automatically quit when no match found
-  (corfu-quit-no-match t)
-  :hook ((prog-mode . corfu-mode)
-         (shell-mode . corfu-mode)
-         (eshell-mode . corfu-mode)
-         (eglot-managed-mode . corfu-mode)))
-
-;;;;; = corfu-echo - display brief info of candidate in echo.
-(use-package corfu-echo
-  :ensure nil
-  :hook
-  (corfu-mode . corfu-echo-mode))
-
-;;;;; = corfu-info - display candidate help or source-code.
-;; M-h - while in corfu, provides help on selected candidate.
-;; M-g - while in corfu, provides source code of the selected candidate.
-(use-package corfu-info
-  :ensure nil
-  :after corfu)
-
-;;;;; = corfu-history - display used candidates first
-(use-package corfu-history
-  :ensure nil
-  :config
-  (add-to-list 'savehist-additional-variables 'corfu-history)
-  :hook
-  (corfu-mode . corfu-history-mode))
-
-;;;;; = corfu-terminal - tty support for corfu
-(use-package corfu-terminal
-  :unless (display-graphic-p)
-  :hook
-  (corfu-mode-hook . corfu-terminal-mode))
-
-;;;;; = cape - completion at point extensions
-;; Defines what 'information' to include when trying to complete-at-point
-(use-package cape
-  :disabled
-  :bind ("C-c p" . cape-prefix-mOBap)
-  ;; The order of the functions matters, the first function returning a result
-  ;; wins.  Note that the list of buffer-local completion functions
-  ;; takes precedence over the global list.
-  ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  ;; (add-to-list 'completion-at-point-functions #'cape-file)
-  ;; (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-  ;; (add-to-list 'completion-at-point-functions #'cape-abbrev)
-  ;; (add-to-list 'completion-at-point-functions #'cape-dict)
-  ;; (add-to-list 'completion-at-point-functions #'cape-history)
-  ;; (add-to-list 'completion-at-point-functions #'cape-keyword)
-  ;; (add-to-list 'completion-at-point-functions #'cape-tex)
-  ;; (add-to-list 'completion-at-point-functions #'cape-sgml)
-  ;; (add-to-list 'completion-at-point-functions #'cape-rfc1345)
-  ;; (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
-  ;; (add-to-list 'completion-at-point-functions #'cape-line)
-  :init
-  (defun pure--cape-setup-elisp ()
-    (setf (elt (cl-member 'elisp-completion-at-point
-                          completion-at-point-functions) 0)
-          #'elisp-completion-at-point)
-    (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
-    (add-to-list 'completion-at-point-functions #'cape-file))
-
-  (defun pure--cape-setup-org ()
-    (add-to-list 'completion-at-point-functions #'cape-dict)
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-    (add-to-list 'completion-at-point-functions #'ispell-completion-at-point))
-
-  (defun pure--cape-setup-text ()
-    (add-to-list 'completion-at-point-functions #'cape-dict)
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev))
-
-  :hook
-  ;; Register the functions via hooks so one has control over the
-  ;; the lookup functions depending on the mode.
-  ((emacs-lisp-mode . pure--cape-setup-elisp)
-   (org-mode        . pure--cape-setup-org)
-   (text-mode       . pure--cape-setup-text)))
-
 ;;;; Search and Replace
 
 ;;;; Keys
 
 ;;;; Editing
-;;;;; = jinx - modern spelling checker
-;; wrapper around many different spelling checkers such as ispell, aspell,
-;; and hunspell.
-;; Requires the install of an external library 'enchant'
-;; TODO - how to configure libraries, etc
-(use-package jinx
-  :disabled
-  :custom
-  (jinx-languages "en_AU")
-  :config
-  (add-to-list 'vertico-multiform-categories
-               '(jinx grid (vertico-grid-annotate . 25)))
-  (vertico-multiform-mode 1)
-
-  ;; Add misspelled words to 'abbrev
-  (defun jinx--add-to-abbrev (overlay word)
-    "Add abbreviation to `global-abbrev-table'.
-The misspelled word is taken from OVERLAY.  WORD is the corrected word."
-    (let ((abbrev (buffer-substring-no-properties
-                   (overlay-start overlay)
-                   (overlay-end overlay))))
-      (message "Abbrev: %s -> %s" abbrev word)
-      (define-abbrev global-abbrev-table abbrev word)))
-
-  (advice-add 'jinx--correct-replace :before #'jinx--add-to-abbrev)
-  :hook
-  (text-mode . jinx-mode)
-  :bind (:map jinx-mode-map
-              ("C-;" . nil)
-              ("C-," . jinx-next)
-              ("C-." . jinx-correct)))
-
 ;;;; Navigation
 
 ;;;; Coding
@@ -463,13 +168,6 @@ The misspelled word is taken from OVERLAY.  WORD is the corrected word."
   :hook
   (prog-mode . diff-hl-margin-mode))
 
-;;;;; = geiser-guile - a ~lisp~ language based on ~scheme~
-(use-package geiser-guile
-  :commands
-  (geiser-guile)
-  :custom
-  (scheme-program-name "guile")
-  (geiser-repl-history-filename (concat pure-dir-cache "geiser-history")))
 
 ;;;; Note Taking
 ;;;;; = denote - lightweight note taking
@@ -589,6 +287,8 @@ The misspelled word is taken from OVERLAY.  WORD is the corrected word."
   :ensure nil
   :demand t
   :after (denote)
+  :defines
+  (pure-dir-private)
   :config
   (add-to-list 'denote-silo-extras-directories
                (expand-file-name "notes_private" pure-dir-private )))
@@ -605,35 +305,7 @@ The misspelled word is taken from OVERLAY.  WORD is the corrected word."
 ;;;; Security and Privacy
 
 ;;;; Communication
-;;;;; = elfeed-org - Store elfeed sources hierarchically in an org file
-(use-package elfeed-org
-  :commands
-  (elfeed-org)
-  :custom
-  (rmh-elfeed-org-files (list (concat (file-name-as-directory pure-dir-private) "pure-elfeed.org.gpg"))))
-
-;;;;; = elfeed - RSS reader
-(use-package elfeed
-  :custom
-  (elfeed-search-filter "@1-year-ago +unread ")
-  (elfeed-db-directory (expand-file-name "elfeed" pure-dir-cache))
-  :config
-  ;; Feeds are defined in an org file
-  (elfeed-org)
-  (elfeed-update))
-
 ;;;; Org Mode
-;;;;; = ox-pandoc - org mode file type exporter
-(use-package ox-pandoc
-  :vc (:url "https://github.com/emacsorphanage/ox-pandoc")
-  :after org
-  :demand t)
-
-;;;;; = toc-org - create a index in an org-file
-(use-package toc-org
-  :hook
-  (org-mode . toc-org-mode))
-
 ;;;; Pure Functions
 
 ;;; Provide
