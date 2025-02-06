@@ -62,6 +62,7 @@
   ;; Cursor style
   (cursor-type 'box)
   (visible-bell t)
+  (use-short-answers t)
   :config
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 2)
