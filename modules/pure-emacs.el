@@ -701,6 +701,10 @@
     "Outline show level 4."
     (interactive)
     (outline--show-headings-up-to-level 4))
+  :functions
+  (outline-level
+   outline-hide-sublevels
+   outline--show-headings-up-to-level)
   :custom
   (outline-minor-mode-cycle t)
   (outline-minor-mode-highlight 'override)
@@ -789,6 +793,13 @@
 ;; Error and warning code checking
 (use-package flymake
   :ensure nil
+  :functions
+  (flymake-show-project-diagnostics
+   flymake-show-buffer-diagnostics
+   flymake--project-diagnostics-buffer
+   flymake--diagnostics-buffer-name)
+  :custom
+  (flymake-show-diagnostics-at-end-of-line 'short)
   :config
   (defun pure--flymake-toggle-diagnostics-buffer ()
     "Toggle the diagnostics buffer when entering/exiting `flymake-mode'."
@@ -821,6 +832,10 @@
   :ensure nil
   :demand t
   :when (pure-treesit-p)
+  :defines
+  (org-src-lang-modes)
+  :functions
+  (treesit-ready-p)
   :preface
   (defun pure-treesit-p ()
     "Check if Emacs was built with treesiter in a protable way."
