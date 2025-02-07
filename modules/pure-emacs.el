@@ -146,9 +146,8 @@
      (:eval (if (and (buffer-file-name) (buffer-modified-p))
                 (propertize " * " 'face
                             '(:background "red" :foreground "white"))))
-     " "
      ;; Buffer name
-     mode-line-buffer-identification
+     "  " mode-line-buffer-identification
      ;; Major mode
      (:eval
       (when (mode-line-window-selected-p)
