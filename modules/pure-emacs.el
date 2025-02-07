@@ -134,6 +134,47 @@
 
 
 
+;;;;; = modeline - setup modeline
+(use-package modeline
+  :ensure nil
+  :no-require
+  :init
+  (setq-default
+   mode-line-format
+   '("%e"
+     ;; Buffer dirty indication
+     (:eval (if (and (buffer-file-name) (buffer-modified-p))
+                (propertize " * " 'face
+                            '(:background "red" :foreground "white"))))
+     " "
+     ;; Buffer name
+     mode-line-buffer-identification
+     " "
+     ;; Major mode
+     (:eval
+      (when (mode-line-window-selected-p)
+         (format "(%s)"
+                 (propertize
+                  (capitalize (symbol-name major-mode)) 'face 'succes))))
+
+          ;; Git status
+     (:eval
+      (when (mode-line-window-selected-p)
+          '(vc-mode vc-mode)
+        ))
+      " "
+     ;; Position in Buffer
+     (:eval
+      (when (mode-line-window-selected-p)
+        "[%l:%C:%o]"))
+
+     ;; Remainder on the right
+     mode-line-format-right-align
+     ;; Time and miscellaneous
+     (:eval
+      (when (mode-line-window-selected-p)
+        mode-line-misc-info)))))
+
 ;;;; Help and Information
 
 ;;;;; = help - always select the help windows
@@ -265,7 +306,8 @@
 ;;;; Buffer Management
 ;;;;; = ibuffer - buffer management
 ;; C-c b    - buffer selection using the minibuffer.
-;; C-C C-b  - buffer selection with info using ibuffer.
+;; C-x C-b  - buffer selection with info using ibuffer.
+(require 'cl-seq)
 (use-package ibuffer
   :ensure nil
   :commands
@@ -1300,123 +1342,11 @@ Requires a ~./authinfo.gpg file containing the entries."
         (apply func args)
       (advice-remove 'message #'silence))))
 
-;; Suppress "Cleaning up the recentf...done (0 removed)"
+;; Suppress noise in the Message buffer
 (advice-add 'recentf-cleanup :around #'pure--suppress-messages)
 (advice-add 'recentf-load-list :around #'pure--suppress-messages)
 (advice-add 'repeat-mode :around #'pure--suppress-messages)
 
+
 (provide 'pure-emacs)
-
-
-
-;;;;; = modeline - setup modeline
-(use-package modeline
-  :ensure nil
-  :no-require
-  :init
-
-  (setq-default
-   mode-line-format
-   '("%e"
-     ;; Buffer status
-     pure-modeline-buffer-dirty
-
-     ;; Buffer name
-     pure-modeline-buffer-name
-
-     pure-modeline-buffer-position
-
-     ;; Mode name (evaluate as a function for all buffers)
-     "  "
-     pure-modeline-major-mode
-
-     ;; Project
-     pure-modeline-project-name
-
-     ;;Git status
-     (vc-mode vc-mode)
-
-     mode-line-format-right-align
-
-     pure-modeline-time
-     )
-   )
-
-  (defvar-local pure-modeline-buffer-dirty
-      '(:eval (if (and (buffer-file-name) (buffer-modified-p))
-                  (propertize " * " 'face
-                              '(:background "red" :foreground "white"))))
-    "Pure modeline buffer dirty indicator")
-
-  (defvar-local pure-modeline-buffer-name
-      '(:eval
-        (format " 🖿  %s"
-                (propertize (buffer-name) 'face 'bold)))
-    "Pure modeline buffer name")
-
-  (defvar-local pure-modeline-major-mode
-      '(:eval
-        (when (mode-line-window-selected-p)
-          (list
-           "λ "
-           (format "%s"
-                   (propertize
-                    (capitalize (symbol-name major-mode)) 'face 'succes)))))
-    "Pure modeline major mode")
-
-  (defvar-local pure-modeline-project-name
-      '(:eval
-        (when (mode-line-window-selected-p)
-          '(project-mode-line project-mode-line-format)))
-    "Pure modeline project name")
-
-  (defvar-local pure-modeline-time
-      '(:eval
-        (when (mode-line-window-selected-p)
-          (date-to-day)
-          )))
-
-  (defvar-local pure-modeline-buffer-position
-      '(:eval
-        (when (mode-line-window-selected-p)
-          (mode-line-position))))
-
-  ;; All modeline variables are risky
-  (dolist (construct '(pure-modeline-buffer-dirty
-                       pure-modeline-major-mode
-                       pure-modeline-buffer-name
-                       pure-modeline-buffer-position
-                       pure-modeline-project-name
-                       pure-modeline-time))
-    (put construct 'risky-local-variable t))
-  )
-
-;; (setq-default
-;;  mode-line-format
-
-;;  (list
-;;   ;; Current buffer modified indication
-;;   `(:eval (if (and (buffer-file-name) (buffer-modified-p))
-;;               (propertize " * " 'face
-;;                           '(:background "#ff0000" :foreground "#ffffff"))
-;;             ""))
-;;   ;; `mode-line-front-space
-;;   ;; `(:propertize
-;;   ;;   (""
-;;   ;;    mode-line-mule-info
-;;   ;;    mode-line-client
-;;   ;;    mode-line-modified
-;;   ;;    mode-line-remote
-;;   ;;    mode-line-window-dedicated) display (min-width (6.0)))
-;;   ;; `mode-line-frame-identification
-;;   `(project-mode-line project-mode-line-format)
-;;   " - " `mode-line-buffer-identification
-;;   " -"  `(vc-mode vc-mode)
-;;   "  "  `mode-line-position
-;;   "  " '(:eval (format "%d" (point)))
-;;   `mode-line-format-right-align
-;;   `mode-line-modes
-;;   `mode-line-misc-info)))
-
-
 ;;; pure-emacs.el ends here
