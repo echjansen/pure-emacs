@@ -681,7 +681,7 @@
   ("M-/" . dabbrev-expand)
   ("M-C-/" . dabbrev-completion))
 
-;;;;; = hippie-expand
+;;;;; = hippie-exp
 ;; Expand many things - other than words - like dabbrev
 ;; Key bindings:
 ;; M-/   : dabbrev-expand
