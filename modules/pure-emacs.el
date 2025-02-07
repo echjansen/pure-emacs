@@ -20,7 +20,7 @@
 ;;; Commentary:
 
 ;; Early decisions
-;; - one single configuration file for built-in emacs features
+;; - one single configuration file for built-in Emacs features
 ;; - easy to copy, so it can be used by other Emacs configs.
 ;; - use-package for package management, as it is built-in (Emacs 29.1).
 ;; - optimise start-up time by byte-compiling.
@@ -149,30 +149,42 @@
      " "
      ;; Buffer name
      mode-line-buffer-identification
-     " "
      ;; Major mode
      (:eval
       (when (mode-line-window-selected-p)
-         (format "(%s)"
-                 (propertize
-                  (capitalize (symbol-name major-mode)) 'face 'succes))))
+        (format "  (%s)"
+                (propertize
+                 (capitalize (symbol-name major-mode)) 'face 'succes))))
 
-          ;; Git status
+     ;; Version control status
      (:eval
-      (when (mode-line-window-selected-p)
-          '(vc-mode vc-mode)
-        ))
-      " "
+      (when (and vc-mode (mode-line-window-selected-p))
+        (let* ((backend (vc-backend (buffer-file-name)))
+               (branch (substring-no-properties
+                        vc-mode (+ (length (symbol-name backend)) 2)))
+               (state (vc-state (buffer-file-name))))
+          (concat
+           (propertize
+            (format "  %s:%s"
+                    backend
+                    branch)
+            'face '(:inherit bold))
+           (when state
+             (if (string= state "edited")
+                 (propertize
+                  (format ":%s " state) 'face '(:inherit bold))
+               (format ":%s " state)))))))
+
      ;; Position in Buffer
      (:eval
       (when (mode-line-window-selected-p)
-        "[%l:%C:%o]"))
+        "  [%l:%C:%o]"))
 
      ;; Remainder on the right
      mode-line-format-right-align
      ;; Time and miscellaneous
      (:eval
-      (when (mode-line-window-selected-p)
+      (when (mode-line-window-seqlected-p)
         mode-line-misc-info)))))
 
 ;;;; Help and Information
