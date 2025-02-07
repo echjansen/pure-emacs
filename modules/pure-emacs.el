@@ -154,7 +154,7 @@
       (when (mode-line-window-selected-p)
         (format "  (%s)"
                 (propertize
-                 (capitalize (symbol-name major-mode)) 'face 'succes))))
+                 (capitalize (symbol-name major-mode)) 'face 'italic))))
 
      ;; Version control status
      (:eval
@@ -184,7 +184,7 @@
      mode-line-format-right-align
      ;; Time and miscellaneous
      (:eval
-      (when (mode-line-window-seqlected-p)
+      (when (mode-line-window-selected-p)
         mode-line-misc-info)))))
 
 ;;;; Help and Information
