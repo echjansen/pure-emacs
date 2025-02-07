@@ -787,6 +787,8 @@
   (outline-minor-mode-highlight 'override)
   :bind (:map outline-minor-mode-map
               ("<backtab>"  . outline-cycle-buffer)
+              ("<tab>"      . outline-cycle)
+              ("TAB"        . outline-cycle)
               ("M-<right>"  . outline-demote)
               ("M-<left>"   . outline-promote)
               ("M-<up>"     . outline-move-subtree-up)
