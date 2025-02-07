@@ -30,6 +30,20 @@
 (add-to-list 'load-path
              (concat (file-name-as-directory user-emacs-directory) "modules"))
 
+;;;; Compiler settings
+(eval-when-compile
+  (require 'use-package)
+  (if init-file-debug
+      (progn
+        (message "--debug-init active")
+        (setq use-package-compute-statistics t)
+        (setq use-package-verbose t)
+        (setq use-package-minimum-reported-time 0.001))
+    (setq use-package-compute-statistics nil))
+  (setq use-package-always-ensure t)
+  (setq use-package-always-defer t)
+  (setq use-package-expand-minimally t))
+
 ;;;; Package Manager
 ;;;;; = package.el - package installation
 ;; Only load  `package.el' and `use-package' when compiling.
@@ -41,15 +55,14 @@
 ;; Traverse the installed packages and add their paths to load-path.
 (mapc #'(lambda (add) (add-to-list 'load-path add))
       (eval-when-compile
-        ;; (require 'package)
         (package-initialize)
 
         ;; Sources for packages (recipes in this case)
         (setq package-archives
-              '(("melpa" . "https://melpa.org/packages/")
+              '(("melpa"        . "https://melpa.org/packages/")
                 ("melpa-stable" . "https://stable.melpa.org/packages/")
-                ("gnu" . "https://elpa.gnu.org/packages/")
-                ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+                ("gnu"          . "https://elpa.gnu.org/packages/")
+                ("nongnu"       . "https://elpa.nongnu.org/nongnu/")))
 
         ;; Order of archive priority. The higher the number the higher the priority
         (setq package-archive-priorities
@@ -109,6 +122,9 @@
   (require 'use-package)
   (setq use-package-compute-statistics t))
 
+
+(provide 'pure-init)
+
 ;;;; Pure Emacs Modules
 ;;;;; Load the pure emacs common configuration.
 (require 'pure-common nil t)
@@ -116,7 +132,7 @@
 ;;;;; Load the pure emacs built-in features
 (require 'pure-emacs nil t)
 
-;;;;; Load the pure emacs external features
+;;;;; Load your external packages
 (require 'pure-future nil t)
 
 (provide 'init)
