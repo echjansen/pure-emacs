@@ -658,15 +658,36 @@
   ((text-mode prog-mode) . abbrev-mode))
 
 ;;;;; = dabbrev - dynamic abbriviations
+;; expand word from other words in buffer or other buffers
 ;; Key bindings:
 ;; M-/   : dabbrev-expand
 ;; M-C-/ : dabbrev-complete
 ;; Can be used in conjunction with a loaded 'language' file, like oxford5000
 (use-package dabbrev
+  :disabled
   :ensure nil
   :bind
   ("M-/" . dabbrev-expand)
   ("M-C-/" . dabbrev-completion))
+
+;;;;; = hippie-expand
+;; Expand many things - other than words - like dabbrev
+;; Key bindings:
+;; M-/   : dabbrev-expand
+(use-package hippie-expand
+  :ensure nil
+  :custom
+  (hippie-expand-try-functions-list
+   '(try-complete-file-name-partially
+     try-complete-file-name
+     try-expand-all-abbrevs try-expand-dabbrev
+     try-expand-dabbrev-all-buffers
+     try-expand-dabbrev-from-kill
+     try-complete-lisp-symbol-partially
+     try-complete-lisp-symbol
+     try-expand-line))
+  :bind
+  ([remap dabbrev-expand] . hippie-expand))
 
 ;;;;; = delsel - delete selected
 ;; When a region is selected and delete or backspace pressed, delete selection.
