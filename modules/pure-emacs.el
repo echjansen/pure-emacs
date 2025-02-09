@@ -517,6 +517,13 @@
   (icomplete-show-matches-on-no-input t)
   ;; Pending completions over which to apply compute-delay
   (icomplete-delay-completions-threshold 50)
+  ;; How initial completion work for types
+  (completion-category-overrides
+   '((buffer (styles substring flex) (cycle 3))
+     (files  (styles flex) (cycle 5))))
+  ;; How ALL completions work
+  (completion-styles
+   '(partial-completion basic))
   :config
   (add-to-list 'completion-ignored-extensions ".eln")
   ;; Don't start on a 'after-init hook' to allow disabling in pure-future
