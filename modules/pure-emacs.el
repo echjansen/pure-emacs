@@ -30,11 +30,6 @@
 ;;;; Package Configuration
 
 ;;;;; = use-package - package configuration macro
-;; Built-in Emacs since version 29 and provides a 'consistent' package
-;; configuration.
-;; To get statistics on package load times start Emacs with --debug-init.
-;; This will compute the statistics which can be called with
-;; M-X use-package-report
 ;; Note the eval-when-compile - extracting use-package only during
 ;; compilation. The expanded code is used during evaluation.
 (eval-when-compile
@@ -235,6 +230,7 @@
 ;; ctl-x-map          - C-x (global key map-sym)
 ;; mode-specific-map  - C-c (user defined map)
 (use-package which-key
+  :disabled
   :unless (version<= emacs-version "30.0.50")
   :custom
   (which-key-show-early-on-C-h t)
@@ -685,7 +681,7 @@
 ;; Expand many things - other than words - like dabbrev
 ;; Key bindings:
 ;; M-/   : dabbrev-expand
-(use-package hippie-expand
+(use-package hippie-exp
   :ensure nil
   :custom
   (hippie-expand-try-functions-list

@@ -132,8 +132,11 @@
 ;;;;; Load the pure emacs built-in features
 (require 'pure-emacs nil t)
 
-;;;;; Load your external packages
+;;;;; Load the pure future features
 (require 'pure-future nil t)
+
+;;;;; Load the pure me features
+(require 'pure-me nil t)
 
 (provide 'init)
 ;;; init.el ends here
