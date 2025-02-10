@@ -183,6 +183,10 @@
 
 ;;;;; = writegood-mode
 ;; Avoid writing text with weasel words, like "many" "various" "very", etc
+;; Avoid passive wording
+;; Avoid duplicate wording
+;; Includes two function to validate the 'effcitiveness' of the text
+;; writegood-grade-level and writegood-reading-ease
 (use-package writegood-mode
   :init
   :custom-face
