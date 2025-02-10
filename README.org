@@ -122,6 +122,7 @@ This configuration is modular. There are currently 5 *modules* of which two are 
 - *pure-common*      - variables you might want to personalize.
 - *pure-emacs*       - Emacs built-in features, good starting point for your Emacs setup.
 - *pure-future*      - Emacs external packages that are popular and potential candidates for future integration in core Emacs.
+- *pure-me*          - Emacs external packages that are of interest to me/you, because of your daily work
 #+end_quote
 
 *** Dependencies
@@ -135,7 +136,7 @@ Some features in Emacs require external dependencies to be installed separately.
    + gnupg             - pretty good protection
    + python-lsp-server - python language server
 
-- pure-email (email client):
+- (optional) pure-email (email client):
    + mu              - mail utilities that include an Emacs client (Elisp)
    + mbsync          - (or isync) mailbox synchronization
    + msmtp           - SMTP client with sendmail compatibility
