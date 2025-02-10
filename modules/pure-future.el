@@ -199,6 +199,13 @@
   :commands
   (magit-status))
 
+;;;;; = consult - improved functions
+;; Loading all consult functions in case they come in handy
+(use-package consult
+  :demand
+  :bind
+  ("C-x B" . consult-buffer))
+
 ;;;; Security and Privacy
 
 ;;;; Communication
