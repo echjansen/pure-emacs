@@ -181,8 +181,27 @@
   (add-to-list 'denote-silo-extras-directories
                (expand-file-name "notes_private" pure-dir-private )))
 
-;;;; Shells
-;;;; Tools
+;;;;; = writegood-mode
+;; Avoid writing text with weasel words, like "many" "various" "very", etc
+(use-package writegood-mode
+  :init
+  :custom-face
+  ;;(writegood-weasels-face ((t (:background "red" :foreground "white"))) )
+  ;;(writegood-weasels-face ((t (:inherit (word-clock-label)))))
+  (writegood-weasels-face ((t :foreground ,(face-foreground 'warning)
+                              :background ,(face-background 'warning)
+                              :underline t)))
+  (writegood-passive-voice-face ((t :foreground ,(face-foreground 'error)
+                                    :background ,(face-background 'error)
+                                    :underline t)))
+  (writegood-duplicates-face ((t :foreground ,(face-foreground 'warning)
+                                 :background ,(face-background 'warning)
+                                 :strike-through t)))
+  :hook
+  (text-mode . writegood-mode))
+
+;;;; shells
+;;;; tools
 ;;;; Security and Privacy
 ;;;; Communication
 ;;;; Org Mode
