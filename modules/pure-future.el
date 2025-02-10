@@ -113,6 +113,34 @@
   (completion-category-overrides '(;; partial-completion is tried first
                                    (file (styles partial-completion)))))
 
+;;;;; = corfu - Completion in Region FUnction
+;; popop completion for programming, spelling, dabbrev, etc (see capf)
+;; Emacs and the extention 'Cape' provide completion backends (capf)'
+(use-package corfu
+  :custom
+  ;; Enable auto completion
+  (corfu-auto t)
+  ;; Automatically quit when no match found
+  (corfu-quit-no-match t)
+  :hook ((prog-mode . corfu-mode)
+         (shell-mode . corfu-mode)
+         (eshell-mode . corfu-mode)
+         (eglot-managed-mode . corfu-mode)))
+
+;;;;; = corfu-history - display used candidates first
+(use-package corfu-history
+  :ensure nil
+  :config
+  (add-to-list 'savehist-additional-variables 'corfu-history)
+  :hook
+  (prog-mode . corfu-history-mode))
+
+;;;;; = corfu-terminal - tty support for corfu
+(use-package corfu-terminal
+  :unless (display-graphic-p)
+  :hook
+  (prog-mode . corfu-terminal-mode))
+
 ;;;;; = embark = emacs mini-buffer actions rooted in keymaps
 ;; Like a right mmouse click
 (use-package embark
