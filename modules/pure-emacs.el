@@ -49,6 +49,7 @@
 ;;;;; = emacs - sensible defaults
 (use-package emacs
   :ensure nil
+  :no-require
   :preface
   (prefer-coding-system 'utf-8)
   (when (display-graphic-p)
@@ -58,9 +59,18 @@
   (cursor-type 'box)
   (visible-bell t)
   (use-short-answers t)
+  (warning-minimum-level :emergency)
   :config
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 2)
+  ;; Enable these commands that are by default disabled and produce a warning.
+  (mapc
+   (lambda (command)
+     (put command 'disabled nil))
+   '(;; Narrowing functions
+     narrow-to-region narrow-to-page narrow-to-defun
+     ;;Upper/lower case functions
+     upcase-region downcase-region))
   :bind
   ;; Don't close Emacs
   ("C-z" . nil))
@@ -129,7 +139,7 @@
 
 
 
-;;;;; = modeline - setup modeline
+;;;;; = modeline - modeline configuration
 (use-package modeline
   :ensure nil
   :no-require
@@ -141,6 +151,12 @@
      (:eval (if (and (buffer-file-name) (buffer-modified-p))
                 (propertize " * " 'face
                             '(:background "red" :foreground "white"))))
+     ;; Buffer narrowed indications
+     (:eval
+      (when (and (mode-line-window-selected-p)
+                 (buffer-narrowed-p)
+                 (not (derived-mode-p 'Info-mode 'help-mode 'special-mode 'message-mode)))
+        (propertize " Narrow " 'face '(:background "blue" :foreground "white"))))
      ;; Buffer name
      "  " mode-line-buffer-identification
      ;; Major mode
