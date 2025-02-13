@@ -143,7 +143,7 @@
 
 ;;;;; = embark = emacs mini-buffer actions rooted in keymaps
 ;; Like a right mmouse click
-(use-package embark
+(use-package embark-consult
   :commands
   (embark-eldoc-first-target)
   :init
