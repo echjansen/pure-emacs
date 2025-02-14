@@ -896,7 +896,7 @@
    flymake--project-diagnostics-buffer
    flymake--diagnostics-buffer-name)
   :custom
-  (flymake-show-diagnostics-at-end-of-line 'short)
+  (flymake-show-diagnostics-at-end-of-line nil) ;; 'short (annoying)
   :config
   (defun pure--flymake-toggle-diagnostics-buffer ()
     "Toggle the diagnostics buffer when entering/exiting `flymake-mode'."
