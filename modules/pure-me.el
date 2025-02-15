@@ -209,6 +209,33 @@
 ;;;; Security and Privacy
 ;;;; Communication
 ;;;; Org Mode
+;;;; Artificial Intelligence
+;;;;; = gptel - a simple LLM client for Emacs
+;; Default is ChatGpt (OpenAI)
+;; Alternative is local installed Ollama.
+;; Some key bindings to know:
+;; C-c RET     -> send selection or before point to MML
+;; C-u C-c RET -> open transient menu for options
+;; C-x C-s     -> save transient options
+(use-package gptel
+  :commands
+  (gptel                                ; Create a chat
+   gptel-mode)                          ; Restore a saved chat
+  :config
+  ;; The code is provided with sub-features, load them
+  (require 'gptel-curl nil t)
+  (require 'gptel-transient nil t)
+  (require 'gptel-rewrite nil t)
+  (require 'gptel-ollama nil t)
+  ;;Alternative local backend
+  (gptel-make-ollama "Ollama"
+    :host "localhost:11434"
+    :stream t
+    :models '(zephyr:latest
+              deepseek-r1:latest))
+  :bind
+  ("C-c RET" . gptel-send))
+
 ;;;; Pure Functions
 
 (provide 'pure-me)
