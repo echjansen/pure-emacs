@@ -202,9 +202,12 @@
 ;;;;; = consult - improved functions
 ;; Loading all consult functions in case they come in handy
 (use-package consult
-  :demand
+  :config
+  (require 'consult-imenu nil t)
+  (require 'consult-flymake nil t)
   :bind
-  ("C-x B" . consult-buffer))
+  ("C-x C-b" . consult-buffer)          ; Replacing ibuffer
+  ("M-g i"   . consult-imenu))          ; Replacing imenu
 
 ;;;; Security and Privacy
 
