@@ -185,13 +185,34 @@
                   (format ":%s " state) 'face '(:inherit bold))
                (format ":%s " state)))))))
 
-     ;; Position in Buffer
-     (:eval
-      (when (mode-line-window-selected-p)
-        "  [%l:%C:%o]"))
+     ;; Show flymake diagnostics when available
+     (:eval (when (bound-and-true-p flymake-mode)
+              (let* ((diagnostics (flymake-diagnostics))
+                     (error-count
+                      (length (seq-filter
+                               (lambda (d)
+                                 (eq (flymake-diagnostic-type d) 'error))
+                               diagnostics)))
+                     (warning-count
+                      (length (seq-filter
+                               (lambda (d)
+                                 (eq (flymake-diagnostic-type d) 'warning))
+                               diagnostics))))
+                (format "  %s: %s E %s W"
+                        (propertize "Flymake" 'face 'bold)
+                        (propertize (format "%d" error-count)
+                                    'face 'flymake-error)
+                        (propertize (format "%d" warning-count)
+                                    'face 'flymake-warning)))))
 
      ;; Remainder on the right
      mode-line-format-right-align
+
+     ;; Position in Buffer
+     (:eval
+      (when (mode-line-window-selected-p)
+        "  [%l:%C:%o]  "))
+
      ;; Time and miscellaneous
      (:eval
       (when (mode-line-window-selected-p)
@@ -917,8 +938,9 @@
   (:map flymake-mode-map
         ("M-p" . flymake-goto-previous-error)
         ("M-n" . flymake-goto-next-error))
-  :hook
-  (flymake-mode . pure--flymake-toggle-diagnostics-buffer))
+  ;; :hook
+  ;; (flymake-mode . pure--flymake-toggle-diagnostics-buffer))
+  )
 
 ;;;; Treesit - Language installers and Mode Mappers
 ;;;;; = treesit - Emacs language parser
