@@ -56,6 +56,16 @@
 ;;;; Coding
 ;;;; Coding and Programming Languages
 ;;;; Writing and Note Taking
+;;;;; = markdown - markdown-mode
+;; Edit markdown files (*.md)
+;; Edit github markdown with gfm-mode
+;; "C-c" for the mode options (as always)
+(use-package markdown-mode
+  :commands
+  (markdown-mode)
+  :mode ("README\\.md\\'" . gfm-mode)
+  :mode (".md\\'" . markdown-mode ))
+
 ;;;;; = denote - lightweight note taking
 ;; Note taking feature with the following philosophy:
 ;; - minimalistic using already existing Emacs features
