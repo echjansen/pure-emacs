@@ -532,19 +532,10 @@
   (minibuffer-depth-indicate-mode 1)
   (minibuffer-electric-default-mode 1))
 
-;;;;; = savehist - last minibuffer commands used
-;; Persist emacs minibuffer history
-(use-package savehist
-  :ensure nil
-  :custom
-  ;; Where to save the savehsit file - in the .cache
-  (savehist-file (expand-file-name "savehist" pure-dir-cache))
-  :hook
-  (after-init . savehist-mode))
-
 ;;;;; = icomplete - vertical completion buffer
 ;; Minibuffer completion UI build-in Emacs
 (use-package icomplete
+  :disabled
   :ensure nil
   :demand t
   :custom
@@ -558,6 +549,7 @@
   (completion-category-overrides
    '((buffer (styles substring flex) (cycle 3))
      (files  (styles flex) (cycle 5))))
+  (icomplete-in-buffer t)
   ;; How ALL completions work
   (completion-styles
    '(partial-completion basic))
@@ -586,6 +578,16 @@
               ("M-f" . completion-preview-insert-word))
   :hook
   ((text-mode org-mode prog-mode) . completion-preview-mode))
+
+;;;;; = savehist - last minibuffer commands used
+;; Persist emacs minibuffer history
+(use-package savehist
+  :ensure nil
+  :custom
+  ;; Where to save the savehsit file - in the .cache
+  (savehist-file (expand-file-name "savehist" pure-dir-cache))
+  :hook
+  (after-init . savehist-mode))
 
 ;;;; Search and Replace
 ;;;;; = isearch - find
