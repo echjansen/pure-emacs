@@ -143,7 +143,9 @@
 
 ;;;;; = embark = emacs mini-buffer actions rooted in keymaps
 ;; Like a right mmouse click
+;; Disabled as it interferes with marking and echo in the buffer.
 (use-package embark-consult
+  :disabled
   :commands
   (embark-eldoc-first-target)
   :init
