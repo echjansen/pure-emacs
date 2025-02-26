@@ -480,6 +480,13 @@
 
 ;;;; Window Management
 
+;;;;; = window - resizing
+;; Window resizing is made available via
+;; C-x } - widen
+;; C-x { - narrow
+;; C-x ^ - enlarge
+;; C-x v - shrink
+;; Note that they are connected to resize-window-repeat-map
 ;;;;; = windmove - reposition buffers
 (use-package windmove
   :ensure nil
