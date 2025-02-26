@@ -135,6 +135,12 @@
 ;;;;; Load the pure future features
 (require 'pure-future nil t)
 
+;;;;; Load the pure coding features
+(require 'pure-coding nil t)
+
+;;;;; Load the pure writing features
+(require 'pure-writing nil t)
+
 ;;;;; Load the pure me features
 (require 'pure-me nil t)
 

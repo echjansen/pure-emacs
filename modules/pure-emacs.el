@@ -267,7 +267,6 @@
 ;; ctl-x-map          - C-x (global key map-sym)
 ;; mode-specific-map  - C-c (user defined map)
 (use-package which-key
-  :disabled
   :unless (version<= emacs-version "30.0.50")
   :custom
   (which-key-show-early-on-C-h t)
@@ -480,6 +479,13 @@
 
 ;;;; Window Management
 
+;;;;; = window - resizing
+;; Window resizing is made available via
+;; C-x } - widen
+;; C-x { - narrow
+;; C-x ^ - enlarge
+;; C-x v - shrink
+;; Note that they are connected to resize-window-repeat-map
 ;;;;; = windmove - reposition buffers
 (use-package windmove
   :ensure nil
