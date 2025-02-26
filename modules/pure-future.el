@@ -94,6 +94,36 @@
 ;;;; Window Management
 
 ;;;; Minibuffer and Completion
+;;;;; = vertico - VERTical Interactive COmpletion
+;; Current version on Melpa has an issue with compiling.
+;; Not using fido-vertical-mode as it does not respect orderless.
+(use-package vertico
+  :custom
+  ;; Different scroll margin
+  (vertico-scroll-margin 0)
+  ;; Show more candidates
+  (vertico-count 10)
+  ;; Grow and shrink the minibuffer
+  (vertico-resize t)
+  :config
+  ;; Turn of pure-emacs enabled completion
+  (fido-mode -1)
+  (fido-vertical-mode -1)
+  :hook
+  (after-init . vertico-mode))
+
+;;;;; = vertico-directory - directory navigation
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  ;; More convenient directory navigation commands
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
 ;;;;; = orderless - complete in any order
 (use-package orderless
   :demand
