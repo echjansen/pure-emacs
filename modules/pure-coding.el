@@ -45,6 +45,17 @@
   (setq use-package-always-defer t)
   (setq use-package-expand-minimally t))
 
+;;;; IDE - Appearance
+;;;;; = highlight-indent-guides
+;; Show indentation via font locking
+(use-package highlight-indent-guides
+  :custom
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-auto-character-face-perc 30)
+  (highlight-indent-guides-responsive 'top)
+  :hook
+  (prog-mode . highlight-indent-guides-mode))
+
 ;;;; IDE - Language Server Protocol tools
 ;;;;; = lsp-mode - replacement for eglot
 ;; Although eglot is included in Emacs since version 29, lsp-mode configured
