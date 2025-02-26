@@ -103,6 +103,22 @@
   :hook
   ((treesit-inspect-mode-hook . combobulate-mode)))
 
+;;;; IDO - Debugging
+;;;;; = dape - Debugging Adapter Protocol for Emacs
+;; Key-bindings accessed via C-x C-a (with repeat functionality)
+(use-package dape
+  :commands
+  (dape)
+  :custom
+  (dape-buffer-window-arrangement 'right)
+  (dape-inlay-hints t)
+  :hook
+  (dape-mode    . repeat-mode)
+  (dape-mode    . eldoc-mode)
+  (kill-emasc   . dape-breakpoint-save)
+  (after-init   . dape-breakpoint-load)
+  (dape-compile . kill-buffer))
+
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files
 (use-package ox-hugo
