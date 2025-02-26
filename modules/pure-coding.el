@@ -74,21 +74,12 @@
   (lsp-eldoc-enable-hover nil)
   :config
   (require 'lsp-diagnostics nil t)
-  ;; (use-package lsp-diagnostics :ensure nil
-  ;;   :commands lsp-diagnostics-mode)
   (require 'lsp-lens nil t)
-  ;; (use-package lsp-lens :ensure nil
-  ;;   :commands lsp-lens--enable)
   (require 'lsp-modeline nil t)
-  ;; (use-package lsp-modeline :ensure nil
-  ;;   :commands lsp-modeline-workspace-status-mode)
   (require 'lsp-headerline nil t)
-  ;; (use-package lsp-headerline :ensure nil
-  ;;   :commands lsp-headerline-breadcrumb-mode)
   (setq read-process-output-max 16384)
   :hook
-  (((python-ts-mode) . lsp-deferred)
-   (lsp-mode         . lsp-enable-which-key-integration)))
+  ((lsp-mode         . lsp-enable-which-key-integration)))
 
 ;;;;; = lsp-ui - Additional UI features
 (use-package lsp-ui
