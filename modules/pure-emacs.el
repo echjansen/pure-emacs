@@ -267,7 +267,6 @@
 ;; ctl-x-map          - C-x (global key map-sym)
 ;; mode-specific-map  - C-c (user defined map)
 (use-package which-key
-  :disabled
   :unless (version<= emacs-version "30.0.50")
   :custom
   (which-key-show-early-on-C-h t)
