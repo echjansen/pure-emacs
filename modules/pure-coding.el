@@ -46,15 +46,26 @@
   (setq use-package-expand-minimally t))
 
 ;;;; IDE - Appearance
-;;;;; = highlight-indent-guides
-;; Show indentation via font locking
-(use-package highlight-indent-guides
+
+;;;;; = indent-bars - bars driven by treesit
+(use-package indent-bars
   :custom
-  (highlight-indent-guides-method 'character)
-  (highlight-indent-guides-auto-character-face-perc 30)
-  (highlight-indent-guides-responsive 'top)
-  :hook
-  (prog-mode . highlight-indent-guides-mode))
+  (indent-bars-no-descend-lists t) ; no extra bars in continued func arg lists
+  (indent-bars-treesit-support t)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  ;; Add other languages as needed
+  (indent-bars-treesit-scope '((python function_definition class_definition for_statement
+                                       if_statement with_statement while_statement)))
+  ;; Note: wrap may not be needed if no-descend-list is enough
+  (indent-bars-treesit-wrap '((python
+                               argument_list parameters ; for python, as an example
+                               list list_comprehension
+                               dictionary dictionary_comprehension
+                               parenthesized_expression subscript)))
+  :config
+  (require 'indent-bars-ts)
+  :hook ((python-base-mode
+          yaml-mode) . indent-bars-mode))
 
 ;;;; IDE - Language Server Protocol tools
 ;;;;; = lsp-mode - replacement for eglot

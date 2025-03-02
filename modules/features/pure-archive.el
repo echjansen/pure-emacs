@@ -85,6 +85,16 @@
   :hook
   (after-init . doom-modeline-mode))
 
+;;;;; = highlight-indent-guides
+;; Show indentation via font locking
+(use-package highlight-indent-guides
+  :disabled
+  :custom
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-auto-character-face-perc 30)
+  (highlight-indent-guides-responsive 'top)
+  :hook
+  (prog-mode . highlight-indent-guides-mode))
 ;;;; File Management
 ;;;;; = dired-subtree - browse folders in a single view
 (use-package dired-subtree
