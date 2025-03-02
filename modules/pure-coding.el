@@ -67,6 +67,21 @@
   :hook ((python-base-mode
           yaml-mode) . indent-bars-mode))
 
+;;;;; = outline-indent - code folding based on indentation levels
+;; Also does shifting in and out, moving up and down, etc.
+(use-package outline-indent
+  :custom
+  (outline-indent-ellipsis " ▼ ")
+  (outline-blank-lines t)
+  :hook
+  (((python-base-mode yaml-mode) . outline-indent-minor-mode)
+   (python-base-mode . (lambda ()
+                         (setq-local outline-indent-default-offset 4)
+                         (setq-local outline-indent-shift-width 4)))
+   (yaml-ts-mode     . (lambda ()
+                         (setq-local outline-indent-default-offset 2)
+                         (setq-local outline-indent-shift-width 2)))))
+
 ;;;; IDE - Language Server Protocol tools
 ;;;;; = lsp-mode - replacement for eglot
 ;; Although eglot is included in Emacs since version 29, lsp-mode configured
