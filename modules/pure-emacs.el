@@ -85,6 +85,13 @@
   :hook
   (emacs-startup . (lambda () (load custom-file))))
 
+;;;;; = comp-run - native compilation at run time
+(use-package comp-run
+  :ensure nil
+  :custom
+  ;; Ask when exiting Emacs and compilation in progress (avoid tmp's)
+  (native-comp-async-query-on-exit t))
+
 ;;;; Apperance
 
 ;;;;; = timer - display time
