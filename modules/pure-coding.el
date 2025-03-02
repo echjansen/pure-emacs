@@ -114,7 +114,6 @@
   (require 'lsp-lens nil t)
   (require 'lsp-modeline nil t)
   (require 'lsp-headerline nil t)
-  (setq read-process-output-max 16384)
   :hook
   ((lsp-mode         . lsp-enable-which-key-integration)))
 

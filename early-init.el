@@ -51,7 +51,10 @@
 (setq load-prefer-newer t)
 
 ;; increase how much is read from processes in a single chunk (default is 4kb).
-(setq read-process-output-max (* 512 1024))  ; 512kb
+(setq read-process-output-max (* 2 1024 1024))  ; 2Mb
+
+;; no delays reading
+(setq process-adaptive-read-buffering nil)
 
 ;; reduce rendering/line scan work by not rendering cursors or regions in
 ;; non-focused windows.
