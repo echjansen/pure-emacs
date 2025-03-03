@@ -49,6 +49,21 @@
 ;;;; Emacs
 
 ;;;; Apperance
+;;;;; = nerd-icons - icons for dired and corfu
+(use-package nerd-icons
+  :commands
+  (nerd-icons-icon-for-files
+   nerd-icons-icon-for-dir))
+
+;;;;; = nerd-icons-corfu - icons for corfu
+(use-package nerd-icons-corfu
+  :commands
+  (nerd-icons-corfu-formatter)
+  :after
+  (corfu)
+  :init
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
 ;;;; Help and Information
 
 ;;;;; = helpful - more information to help
