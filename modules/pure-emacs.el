@@ -115,7 +115,9 @@
    ;; Show points column number
    (after-init . column-number-mode)
    ;; Long lines will wrap on buffer edge
-   (text-mode . visual-line-mode)))
+   (text-mode . visual-line-mode)
+   ;; Long lines will not wrap
+   (prog-mode . toggle-truncate-lines)))
 
 ;;;;; = display-fill-column-indicator
 ;; Show line in buffer to show fill-column boundary
