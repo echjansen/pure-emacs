@@ -216,9 +216,33 @@
 ;;;; Keys
 
 ;;;; Editing
+;;;;; = jinx - spell check
+;; Reasoning behind jinx over flyspell
+;; - Provides a completion buffer to select candidates
+;; - Provides user interaction to store a new word '@newword'
+;; - Provides a user selection on language ("C-M-$").
+;; - Faster
+;; Keybindings
+;; - "M-$" to correct a word
+;; - "M-n" and "M-p" for next and previous words
+(use-package jinx
+  :vc (:url "https://github.com/minad/jinx")
+  :config
+  ;; Turn off ispell mode in Emacs
+  (flyspell-mode -1)
+  :bind
+  ((:map jinx-mode-map
+         ("M-n" . jinx-next)
+         ("M-p" . jinx-previous))
+   ("M-$"   . jinx-correct)
+   ("C-M-$" . jinx-languages))
+  :hook
+  ((text-mode prog-mode conf-mode) . jinx-mode))
+
 ;;;; Navigation
 
 ;;;; Coding and Programming Languages
+
 ;;;;; = aggresive-indent - handle indentations
 (use-package aggressive-indent
   :hook
