@@ -72,12 +72,12 @@
 (use-package outline-indent
   :custom
   (outline-indent-ellipsis " ▼ ")
-  (outline-blank-lines t)
   :hook
   (((python-base-mode yaml-mode) . outline-indent-minor-mode)
    (python-base-mode . (lambda ()
                          (setq-local outline-indent-default-offset 4)
-                         (setq-local outline-indent-shift-width 4)))
+                         (setq-local outline-indent-shift-width 4)
+                         (setq-local outline-blank-line t)))
    (yaml-ts-mode     . (lambda ()
                          (setq-local outline-indent-default-offset 2)
                          (setq-local outline-indent-shift-width 2)))))

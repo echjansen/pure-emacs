@@ -49,6 +49,21 @@
 ;;;; Emacs
 
 ;;;; Apperance
+;;;;; = nerd-icons - icons for dired and corfu
+(use-package nerd-icons
+  :commands
+  (nerd-icons-icon-for-files
+   nerd-icons-icon-for-dir))
+
+;;;;; = nerd-icons-corfu - icons for corfu
+(use-package nerd-icons-corfu
+  :commands
+  (nerd-icons-corfu-formatter)
+  :after
+  (corfu)
+  :init
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
 ;;;; Help and Information
 
 ;;;;; = helpful - more information to help
@@ -201,9 +216,33 @@
 ;;;; Keys
 
 ;;;; Editing
+;;;;; = jinx - spell check
+;; Reasoning behind jinx over flyspell
+;; - Provides a completion buffer to select candidates
+;; - Provides user interaction to store a new word '@newword'
+;; - Provides a user selection on language ("C-M-$").
+;; - Faster
+;; Keybindings
+;; - "M-$" to correct a word
+;; - "M-n" and "M-p" for next and previous words
+(use-package jinx
+  :vc (:url "https://github.com/minad/jinx")
+  :config
+  ;; Turn off ispell mode in Emacs
+  (flyspell-mode -1)
+  :bind
+  ((:map jinx-mode-map
+         ("M-n" . jinx-next)
+         ("M-p" . jinx-previous))
+   ("M-$"   . jinx-correct)
+   ("C-M-$" . jinx-languages))
+  :hook
+  ((text-mode prog-mode conf-mode) . jinx-mode))
+
 ;;;; Navigation
 
 ;;;; Coding and Programming Languages
+
 ;;;;; = aggresive-indent - handle indentations
 (use-package aggressive-indent
   :hook
