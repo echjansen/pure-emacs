@@ -164,10 +164,12 @@
   ("\\.py\\'" . python-ts-mode)
   :bind
   (:map python-ts-mode-map
-        ("<f5>"  . recompile)
-        ("<f6>"  . eglot-format-buffer))
+        (("<f5>"  . recompile)
+         ("<f6>"  . eglot-format-buffer)))
   :hook
-  (python-ts-mode . eglot))
+  ((python-ts-mode . eglot-ensure)
+   (python-ts-mode . corfu-mode)
+   (python-ts-mode . toggle-truncate-lines)))
 
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files

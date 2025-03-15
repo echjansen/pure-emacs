@@ -1195,8 +1195,8 @@ name and a corresponding major mode."
 ;; F3 - To start recording a macro
 ;; F4 - To end recording a macro
 ;; F4 - To replay the recorded macro
-;; F5 - To name the macro
-;; F6 - Load one of the named macro's
+;; F1 - To name the macro
+;; F2 - Load one of the named macro's
 ;; Note that named macros can also be called with M-x 'macroname'
 (use-package kmacro
   :ensure nil
@@ -1218,8 +1218,8 @@ name and a corresponding major mode."
                result)))))
     (setq last-kbd-macro (kmacro--keys (symbol-function kmacro-sym))))
   :bind
-  ("<f5>" . kmacro-name-last-macro)
-  ("<f6>" . kmacro-load-macro))
+  ("<f1>" . kmacro-name-last-macro)
+  ("<f2>" . kmacro-load-macro))
 
 ;;;; Shells
 
