@@ -139,7 +139,7 @@
   :hook
   ((treesit-inspect-mode-hook . combobulate-mode)))
 
-;;;; IDO - Debugging
+;;;; IDE - Debugging
 ;;;;; = dape - Debugging Adapter Protocol for Emacs
 ;; Key-bindings accessed via C-x C-a (with repeat functionality)
 (use-package dape
@@ -154,6 +154,20 @@
   (kill-emasc   . dape-breakpoint-save)
   (after-init   . dape-breakpoint-load)
   (dape-compile . kill-buffer))
+
+;;;; Programming languages
+;;;;; = python
+;; Configure the IDE for python development
+(use-package python-ts-mode
+  :ensure nil
+  :mode
+  ("\\.py\\'" . python-ts-mode)
+  :bind
+  (:map python-ts-mode-map
+        ("<f5>"  . recompile)
+        ("<f6>"  . eglot-format-buffer))
+  :hook
+  (python-ts-mode . eglot))
 
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files
