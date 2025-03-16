@@ -195,24 +195,11 @@
                (format ":%s " state)))))))
 
      ;; Show flymake diagnostics when available
-     (:eval (when (bound-and-true-p flymake-mode)
-              (let* ((diagnostics (flymake-diagnostics))
-                     (error-count
-                      (length (seq-filter
-                               (lambda (d)
-                                 (eq (flymake-diagnostic-type d) 'error))
-                               diagnostics)))
-                     (warning-count
-                      (length (seq-filter
-                               (lambda (d)
-                                 (eq (flymake-diagnostic-type d) 'warning))
-                               diagnostics))))
-                (format "  %s: %s E %s W"
-                        (propertize "Flymake" 'face 'bold)
-                        (propertize (format "%d" error-count)
-                                    'face 'flymake-error)
-                        (propertize (format "%d" warning-count)
-                                    'face 'flymake-warning)))))
+     (:eval
+      (when (and flymake-mode (mode-line-window-selected-p))
+        flymake-mode-line-title
+        flymake-mode-line-exception
+        flymake-mode-line-counters))
 
      ;; Remainder on the right
      mode-line-format-right-align
@@ -1426,7 +1413,7 @@ Requires a ~./authinfo.gpg file containing the entries."
 ;;;; Pure Functions
 ;;;;; = pure--suppress-messages
 (defun pure--suppress-messages (func &rest args)
-  "Suppress message output from FUNC."
+  "Suppress message output from FUNC ith ARGS."
   ;; Some packages are too noisy.
   (cl-flet ((silence (&rest args1) (ignore)))
     (advice-add 'message :around #'silence)
@@ -1438,7 +1425,6 @@ Requires a ~./authinfo.gpg file containing the entries."
 (advice-add 'recentf-cleanup :around #'pure--suppress-messages)
 (advice-add 'recentf-load-list :around #'pure--suppress-messages)
 (advice-add 'repeat-mode :around #'pure--suppress-messages)
-
 
 (provide 'pure-emacs)
 ;;; pure-emacs.el ends here
