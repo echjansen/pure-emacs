@@ -156,24 +156,32 @@
   (setq-default
    mode-line-format
    '("%e"
+     ;; Buffer is read-only
+     (:eval (if buffer-read-only
+                (propertize "  " 'face
+                            '(:background "yellow" :foreground "black"))))
+
      ;; Buffer dirty indication
      (:eval (if (and (buffer-file-name) (buffer-modified-p))
-                (propertize " * " 'face
+                (propertize " " 'face
                             '(:background "red" :foreground "white"))))
+
      ;; Buffer narrowed indications
      (:eval
       (when (and (mode-line-window-selected-p)
                  (buffer-narrowed-p)
                  (not (derived-mode-p 'Info-mode 'help-mode 'special-mode 'message-mode)))
         (propertize " Narrow " 'face '(:background "blue" :foreground "white"))))
+
      ;; Buffer name
      "  " mode-line-buffer-identification
+
      ;; Major mode
      (:eval
       (when (mode-line-window-selected-p)
-        (format "  (%s)"
+        (format "  -%s-"
                 (propertize
-                 (capitalize (symbol-name major-mode)) 'face 'italic))))
+                 (capitalize (symbol-name major-mode)) 'face '(:inherit bold)))))
 
      ;; Version control status
      (:eval
@@ -184,8 +192,7 @@
                (state (vc-state (buffer-file-name))))
           (concat
            (propertize
-            (format "  %s:%s"
-                    backend
+            (format "   %s"
                     branch)
             'face '(:inherit bold))
            (when state
