@@ -152,6 +152,24 @@
 (use-package modeline
   :ensure nil
   :no-require
+  :custom
+  (pure-mode-rules
+   '(:upcase
+     ("bookmark"    "→")
+     ("buffer"      "β")
+     ("diff"        "Δ")
+     ("dired"       "")
+     ("emacs"       "")
+     ("inferior"    "i" :prefix)
+     ("interaction" "i" :prefix)
+     ("interactive" "i" :prefix)
+     ;;("lisp"        "" :prefix)
+     ("menu"        "▤" :postfix)
+     ("mode"        " ")
+     ("package"     "↓")
+     ("python"      "")
+     ("shell"       "sh" :postfix)
+     ("text"        "")))
   :init
   (setq-default
    mode-line-format
@@ -166,6 +184,16 @@
                 (propertize " " 'face
                             '(:background "red" :foreground "white"))))
 
+     ;; Major mode symbol
+     (:eval
+      (when (mode-line-window-selected-p)
+        (format " %s"
+                (propertize
+                 (capitalize (pure--mode-decode
+                              (symbol-name major-mode)
+                              pure-mode-rules))
+                 'face '(:background "red" :foreground "white")))))
+
      ;; Buffer narrowed indications
      (:eval
       (when (and (mode-line-window-selected-p)
@@ -175,13 +203,6 @@
 
      ;; Buffer name
      "  " mode-line-buffer-identification
-
-     ;; Major mode
-     (:eval
-      (when (mode-line-window-selected-p)
-        (format "  -%s-"
-                (propertize
-                 (capitalize (symbol-name major-mode)) 'face '(:inherit bold)))))
 
      ;; Version control status
      (:eval
@@ -220,6 +241,58 @@
      (:eval
       (when (mode-line-window-selected-p)
         mode-line-misc-info)))))
+
+(defcustom pure-mode-rules nil
+  "Symbols instead of major-mode symbol names."
+  :tag  "Active rules"
+  :type '(repeat
+          (choice
+           (const :tag "use first downcased letter"  :downcase)
+           (const :tag "use first upcased letter"    :upcase)
+           (const :tag "capitalize the first letter" :capitalize)
+           (list string string)
+           (list string string
+                 (choice (const :tag "put it in the beginning" :prefix)
+                         (const :tag "put it in the end"       :postfix))))))
+
+(defun pure--mode-decode (old-name rules)
+  (let ((words      (split-string (downcase old-name) "[\b\\-]+" t))
+        (downcase   (cl-find :downcase   rules))
+        (upcase     (cl-find :upcase     rules))
+        (capitalize (cl-find :capitalize rules))
+        prefix-words
+        postfix-words
+        conversion-table
+        prefix-result
+        result
+        postfix-result)
+    (dolist (rule (cl-remove-if-not #'listp rules))
+      (let ((before (car      rule))
+            (after  (cadr     rule))
+            (where  (cl-caddr rule)))
+        (push (cons before after) conversion-table)
+        (cl-case where
+          (:prefix  (push before prefix-words))
+          (:postfix (push before postfix-words)))))
+    (dolist (word words)
+      (let ((translated
+             (or (cdr (assoc word conversion-table))
+                 (cond (downcase   (cl-subseq word 0 1))
+                       (upcase     (upcase (cl-subseq word 0 1)))
+                       (capitalize (capitalize word))
+                       (t          (format " %s " word))))))
+        (cond ((member word prefix-words)
+               (push translated prefix-result))
+              ((member word postfix-words)
+               (push translated postfix-result))
+              (t
+               (push translated result)))))
+    (string-trim
+     (apply #'concat
+            (mapcar (lambda (x) (apply #'concat (reverse x)))
+                    (list prefix-result
+                          result
+                          postfix-result))))))
 
 ;;;; Help and Information
 
@@ -682,13 +755,13 @@
   (flyspell-issue-welcome-flag nil)
   :bind (:map flyspell-mode-map
               ("C-;" . flyspell-correct-word-before-point)
-              ("C-," . flyspell-goto-next-error)
-              ("C-." . flyspell-auto-correct-word))
-  :hook
-  ;; Spelling check for text modes
-  (text-mode . flyspell-mode)
-  ;; Spelling check for comments and strings
-  (prog-mode . flyspell-prog-mode))
+   ("C-," . flyspell-goto-next-error)
+   ("C-." . flyspell-auto-correct-word))
+ :hook
+ ;; Spelling check for text modes
+ (text-mode . flyspell-mode)
+ ;; Spelling check for comments and strings
+ (prog-mode . flyspell-prog-mode))
 
 ;;;;; = dictionary - look up words for meaning (on-line)
 ;; Quickly search for reference with M-.
