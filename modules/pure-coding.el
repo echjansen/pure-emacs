@@ -158,7 +158,10 @@
 ;;;; Programming languages
 ;;;;; = python
 ;; Configure the IDE for python development
-(use-package python-ts-mode
+;; - Language Server (eglot with treesit)
+;; - Auto completion (corfu)
+;; - No line folding
+(use-package python
   :ensure nil
   :mode
   ("\\.py\\'" . python-ts-mode)
