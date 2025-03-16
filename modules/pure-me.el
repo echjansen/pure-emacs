@@ -108,10 +108,11 @@
   (require 'gptel-ollama nil t)
   ;;Alternative local backend
   (gptel-make-ollama "Ollama"
-                     :host "localhost:11434"
-                     :stream t
-                     :models '(zephyr:latest
-                               deepseek-r1:latest))
+    :host "localhost:11434"
+    :stream t
+    :models '(gemma3:1b
+              zephyr:latest
+              deepseek-r1:latest))
   :custom
   (gptel-default-mode #'org-mode)
   :bind
