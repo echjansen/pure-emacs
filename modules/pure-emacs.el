@@ -152,25 +152,16 @@
 (use-package modeline
   :ensure nil
   :no-require
-  :custom
-  (pure-mode-rules
-   '(:upcase
-     ("bookmark"    "→")
-     ("buffer"      "β")
-     ("diff"        "Δ")
-     ("dired"       "")
-     ("emacs"       "")
-     ("inferior"    "i" :prefix)
-     ("interaction" "i" :prefix)
-     ("interactive" "i" :prefix)
-     ;;("lisp"        "" :prefix)
-     ("menu"        "▤" :postfix)
-     ("mode"        " ")
-     ("package"     "↓")
-     ("python"      "")
-     ("shell"       "sh" :postfix)
-     ("text"        "")))
   :init
+  (setq  major-mode-abbrev-list
+         '((emacs-lisp-mode  . "")
+           (python-mode      . "")
+           (python-ts-mode   . "")
+           (dired-mode       . "")
+           (org-mode         . "")
+           (helpful-mode     . "")
+           (fundamental-mode . "F")))
+
   (setq-default
    mode-line-format
    '("%e"
@@ -189,9 +180,7 @@
       (when (mode-line-window-selected-p)
         (format " %s"
                 (propertize
-                 (capitalize (pure--mode-decode
-                              (symbol-name major-mode)
-                              pure-mode-rules))
+                 (capitalize (major-mode-abbreviation))
                  'face '(:foreground "white")))))
 
      ;; Buffer narrowed indications
@@ -242,57 +231,11 @@
       (when (mode-line-window-selected-p)
         mode-line-misc-info)))))
 
-(defcustom pure-mode-rules nil
-  "Symbols instead of major-mode symbol names."
-  :tag  "Active rules"
-  :type '(repeat
-          (choice
-           (const :tag "use first downcased letter"  :downcase)
-           (const :tag "use first upcased letter"    :upcase)
-           (const :tag "capitalize the first letter" :capitalize)
-           (list string string)
-           (list string string
-                 (choice (const :tag "put it in the beginning" :prefix)
-                         (const :tag "put it in the end"       :postfix))))))
-
-(defun pure--mode-decode (old-name rules)
-  (let ((words      (split-string (downcase old-name) "[\b\\-]+" t))
-        (downcase   (cl-find :downcase   rules))
-        (upcase     (cl-find :upcase     rules))
-        (capitalize (cl-find :capitalize rules))
-        prefix-words
-        postfix-words
-        conversion-table
-        prefix-result
-        result
-        postfix-result)
-    (dolist (rule (cl-remove-if-not #'listp rules))
-      (let ((before (car      rule))
-            (after  (cadr     rule))
-            (where  (cl-caddr rule)))
-        (push (cons before after) conversion-table)
-        (cl-case where
-          (:prefix  (push before prefix-words))
-          (:postfix (push before postfix-words)))))
-    (dolist (word words)
-      (let ((translated
-             (or (cdr (assoc word conversion-table))
-                 (cond (downcase   (cl-subseq word 0 1))
-                       (upcase     (upcase (cl-subseq word 0 1)))
-                       (capitalize (capitalize word))
-                       (t          (format " %s " word))))))
-        (cond ((member word prefix-words)
-               (push translated prefix-result))
-              ((member word postfix-words)
-               (push translated postfix-result))
-              (t
-               (push translated result)))))
-    (string-trim
-     (apply #'concat
-            (mapcar (lambda (x) (apply #'concat (reverse x)))
-                    (list prefix-result
-                          result
-                          postfix-result))))))
+(defun major-mode-abbreviation ()
+  "Return the abbreviation of the current major mode based on `mode-list`.
+If the major mode is not in `mode-list`, return an empty string."
+  (let ((mode (intern (symbol-name major-mode))))
+    (or (cdr (assoc mode major-mode-abbrev-list)) "")))
 
 ;;;; Help and Information
 
