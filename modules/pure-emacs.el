@@ -192,7 +192,7 @@
                  (capitalize (pure--mode-decode
                               (symbol-name major-mode)
                               pure-mode-rules))
-                 'face '(:background "red" :foreground "white")))))
+                 'face '(:foreground "white")))))
 
      ;; Buffer narrowed indications
      (:eval
