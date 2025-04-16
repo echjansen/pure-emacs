@@ -156,15 +156,18 @@
   (dape-compile . kill-buffer))
 
 ;;;; Programming languages
-;;;;; = python
+;;;;; = python mode
 ;; Configure the IDE for python development
 ;; - Language Server (eglot with treesit)
 ;; - Auto completion (corfu)
 ;; - No line folding
-(use-package python
+(use-package python-mode
   :ensure nil
   :mode
   ("\\.py\\'" . python-ts-mode)
+  :custom
+  (python-interpreter "~/.python/venv/bin/python")
+  (python-shell-interpreter "~/.python/venv/bin/python")
   :bind
   (:map python-ts-mode-map
         (("<f5>"  . recompile)
