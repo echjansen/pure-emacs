@@ -270,7 +270,7 @@
 ;; Defines what 'information' to include when trying to complete-at-point
 (use-package cape
   :disabled
-  :bind ("C-c p" . cape-prefix-mOBap)
+  :bind ("C-c p" . cape-prefix-map)
   ;; The order of the functions matters, the first function returning a result
   ;; wins.  Note that the list of buffer-local completion functions
   ;; takes precedence over the global list.

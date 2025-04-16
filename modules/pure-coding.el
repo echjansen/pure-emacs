@@ -82,6 +82,19 @@
                          (setq-local outline-indent-default-offset 2)
                          (setq-local outline-indent-shift-width 2)))))
 
+;;;; IDE - Editing
+;;;;; = expand-region - select region
+(use-package expand-region
+  :bind
+  ("C->" . er/expand-region)
+  ("C-<" . er/contract-region))
+
+;;;;; = change-inner - vim like chane inner / outer
+(use-package change-inner
+  :bind
+  ("M-i" . change-inner)
+  ("M-o" . change-outer))
+
 ;;;; IDE - Language Server Protocol tools
 ;;;;; = lsp-mode - replacement for eglot
 ;; Although eglot is included in Emacs since version 29, lsp-mode configured
