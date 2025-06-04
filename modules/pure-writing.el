@@ -133,59 +133,42 @@
   ;; Use colors in 'dired' buffers to identify fields.
   (dired-mode . denote-dired-mode-in-directories))
 
-;;;;; = denote-rename-buffer - rename buffer for modeline purposes.
-(use-package denote-rename-buffer
-  :ensure nil
-  :after (denote)
-  :demand t
-  :functions
-  (denote-rename-buffer-mode)
-  :custom
-  (denote-rename-buffer-format "%t - %k")
-  :config
-  (denote-rename-buffer-mode t))
-
-;;;;; = denote-sort - sort denote dired buffers
-(use-package denote-sort
-  :ensure nil
+;;;;; = denote-journal - journal note taking.
+(use-package denote-journal
   :after (denote)
   :demand t
   :commands
-  (denote-sort-dired))
-
-;;;;; = denote-journal-extras - journal note taking.
-(use-package denote-journal-extras
-  :ensure nil
-  :after (denote)
-  :demand t
-  :commands
-  (denote-journal-extras-new-entry)
+  (denote-journal-new-entry)
   :custom
   ;; Subfolder where journal notes are saved.
-  (denote-journal-extras-direxctory
+  (denote-journal-direxctory
    (expand-file-name "journal" pure-dir-notes))
   ;; Keyword used for journal notes.
-  (denote-journal-extras-keyword "journal")
+  (denote-journal-keyword "journal")
   ;; Title for journal notes. Nil to prompt for title.
-  (denote-journal-extras-title-format 'day-date-month-year-24h)
+  (denote-journal-title-format 'day-date-month-year-24h)
   :config
   ;; 'Denotify' journal 'dired' too.
-  (add-to-list 'denote-dired-directories denote-journal-extras-directory))
+  (add-to-list 'denote-dired-directories denote-journal-directory))
 
-;;;;; = denote-org-extras - dynamic org blocks
-(use-package denote-org-extras
-  :ensure nil
-  ;; These commands are handy once a org buffer is opened. Could be a note.
+;;;;; = denote-org - dynamic org blocks
+(use-package denote-org
   :after (org)
   :demand t
   :commands
-  (denote-org-extras-dblock-insert-links
-   denote-org-extras-dblock-insert-missing-links
-   denote-org-extras-dblock-insert-backlinks
-   denote-org-extras-extract-org-subtree
-   denote-org-extras-dblock-insert-missing-links))
+  ;; These commands are handy once a org buffer is opened. Could be a note.
+  (denote-org-link-to-heading
+   denote-org-backlinks-for-heading
+   denote-org-extract-org-subtree
+   denote-org-convert-links-to-file-type
+   denote-org-convert-links-to-denote-type
+   denote-org-dblock-insert-files
+   denote-org-dblock-insert-links
+   denote-org-dblock-insert-backlinks
+   denote-org-dblock-insert-missing-links
+   denote-org-dblock-insert-files-as-headings))
 
-;;;;; = denote-silos-extra - multiple isololated note folders
+;;;;; = denote-silo - multiple isololated note folders
 ;; Have multiple directories for notes that are isolated from each other
 ;; Each silo requires a hidden file, which contains instructions for denote.
 ;; ;;; Directory Local Variables.  For more information evaluate:
@@ -198,14 +181,12 @@
 ;;  (org-mode . ((org-hide-emphasis-markers . t)
 ;;               (org-hide-macro-markers . t)
 ;;               (org-hide-leading-stars . t))))
-(use-package denote-silo-extras
-  :ensure nil
-  :demand t
+(use-package denote-silo
   :after (denote)
   :defines
   (pure-dir-private)
   :config
-  (add-to-list 'denote-silo-extras-directories
+  (add-to-list 'denote-silo-directories
                (expand-file-name "notes_private" pure-dir-private )))
 
 ;;; Provide:

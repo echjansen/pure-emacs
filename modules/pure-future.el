@@ -226,6 +226,7 @@
 ;; - "M-$" to correct a word
 ;; - "M-n" and "M-p" for next and previous words
 (use-package jinx
+  :disabled
   :vc (:url "https://github.com/minad/jinx")
   :config
   ;; Turn off ispell mode in Emacs

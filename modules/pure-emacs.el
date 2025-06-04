@@ -1178,7 +1178,6 @@ name and a corresponding major mode."
 ;; Manual installation for language servers required.
 ;; Python: pacman -S python-lsp-server
 (use-package eglot
-  :disabled
   :ensure nil
   :bind (:map eglot-mode-map
               ("C-c i" . eglot)
