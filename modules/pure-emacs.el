@@ -882,20 +882,20 @@ If the major mode is not in `mode-list`, return an empty string."
                                      (";;;;;; " . 4)
                                      (";;;;;;; " . 5)))
                        (outline-hide-sublevels 3)))
-  (sh-mode . (lambda ()
-               (outline-minor-mode)
-               ;; prevent `outline-level' being overwritten by `lispy'
-               ;;(setq-local outline-level #'outline-level)
-               ;; setup heading regexp specific to `emacs-lisp-mode'
-               (setq-local outline-regexp "##\\(#* \\)")
-               ;; heading alist allows for subtree-like folding
-               (setq-local  outline-heading-alist
-                            '(("## " . 1)
-                              ("### " . 2)
-                              ("#### " . 3)
-                              ("##### " . 4)
-                              ("###### " . 5)))
-               (outline-hide-sublevels 1)))
+  ((sh-mode bash-ts-mode) . (lambda ()
+                              (outline-minor-mode)
+                              ;; prevent `outline-level' being overwritten by `lispy'
+                              ;;(setq-local outline-level #'outline-level)
+                              ;; setup heading regexp specific to `emacs-lisp-mode'
+                              (setq-local outline-regexp "##\\(#* \\)")
+                              ;; heading alist allows for subtree-like folding
+                              (setq-local  outline-heading-alist
+                                           '(("## " . 1)
+                                             ("### " . 2)
+                                             ("#### " . 3)
+                                             ("##### " . 4)
+                                             ("###### " . 5)))
+                              (outline-hide-sublevels 1)))
   (python-mode . (lambda ()
                    (outline-minor-mode)
                    (setq-local outline-regexp " *\\(def \\|clas\\|#hea\\)")
