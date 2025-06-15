@@ -1154,6 +1154,24 @@ name and a corresponding major mode."
   :custom
   (json-ts-mode-indent-offset 2))
 
+;;;;; = bash - Treesit support for 'bash'
+;; Replaces sh-mode with 'bash-ts-mode'
+(use-package bash-ts-mode
+  :ensure nil
+  :defer t
+  :after (treesit)
+  :init
+  (pure-treesit-install-and-remap
+   'bash
+   "https://github.com/tree-sitter/tree-sitter-bash"
+   :revision "master"
+   :source-dir "src"
+   :modes '(sh-mode)
+   :remap 'bash-ts-mode
+   :org-src '("sh" . bash-ts))
+  :custom
+  (bash-ts-mode-indent-offset 4))
+
 ;;;;; = python - Treesit support for python
 ;; Replace python-mode with `python-ts-mode'.
 ;; Note: python-ts-mode is defined in the `python' package
@@ -1173,18 +1191,18 @@ name and a corresponding major mode."
   :custom
   (python-indent-offset 4))
 
+
 ;;;;; = eglot - Emacs client for the Language Server Protocol
 ;; Note: Supports a single language per buffer only (2025-01)
 ;; Manual installation for language servers required.
 ;; Python: pacman -S python-lsp-server
+;; Bash: pacman -s bash-language-server
 (use-package eglot
   :ensure nil
   :bind (:map eglot-mode-map
               ("C-c i" . eglot)
               ("C-c r" . eglot-rename)
               ("C-c f" . eglot-format-buffer))
-  :hook
-  (python-ts-mode . eglot-ensure)
   :custom
   (eglot-autoshutdown t)
   (eglot-events-buffer-size 0)
@@ -1196,7 +1214,10 @@ name and a corresponding major mode."
      ;; :documentRangeFormattingProvider
      ;; :documentOnTypeFormattingProvider
      ;; :foldingRangeProvider
-     :hoverProvider)))
+     :hoverProvider))
+  :hook
+  (python-ts-mode . eglot-ensure)
+  (bash-ts-mode . eglot-ensure))
 
 ;;;; Programming Languages
 
