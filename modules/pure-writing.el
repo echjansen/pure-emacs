@@ -169,6 +169,7 @@
    denote-org-dblock-insert-files-as-headings))
 
 ;;;;; = denote-silo - multiple isololated note folders
+;; depreciated
 ;; Have multiple directories for notes that are isolated from each other
 ;; Each silo requires a hidden file, which contains instructions for denote.
 ;; ;;; Directory Local Variables.  For more information evaluate:
@@ -183,6 +184,7 @@
 ;;               (org-hide-leading-stars . t))))
 (use-package denote-silo
   :after (denote)
+  :disabled
   :defines
   (pure-dir-private)
   :config
