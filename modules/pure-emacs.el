@@ -150,6 +150,7 @@
 
 ;;;;; = modeline - modeline configuration
 (use-package modeline
+  :disabled
   :ensure nil
   :no-require
   :init
@@ -698,13 +699,13 @@ If the major mode is not in `mode-list`, return an empty string."
   (flyspell-issue-welcome-flag nil)
   :bind (:map flyspell-mode-map
               ("C-;" . flyspell-correct-word-before-point)
-   ("C-," . flyspell-goto-next-error)
-   ("C-." . flyspell-auto-correct-word))
- :hook
- ;; Spelling check for text modes
- (text-mode . flyspell-mode)
- ;; Spelling check for comments and strings
- (prog-mode . flyspell-prog-mode))
+              ("C-," . flyspell-goto-next-error)
+              ("C-." . flyspell-auto-correct-word))
+  :hook
+  ;; Spelling check for text modes
+  (text-mode . flyspell-mode)
+  ;; Spelling check for comments and strings
+  (prog-mode . flyspell-prog-mode))
 
 ;;;;; = dictionary - look up words for meaning (on-line)
 ;; Quickly search for reference with M-.
@@ -936,6 +937,7 @@ If the major mode is not in `mode-list`, return an empty string."
 
 ;;;;; = flymake - identify code faults
 ;; Error and warning code checking
+;; For python - pacman -S python-pylint
 (use-package flymake
   :ensure nil
   :functions
@@ -1155,9 +1157,11 @@ name and a corresponding major mode."
   (json-ts-mode-indent-offset 2))
 
 ;;;;; = bash - Treesit support for 'bash'
+;; Note - not a package
 ;; Replaces sh-mode with 'bash-ts-mode'
 (use-package bash-ts-mode
   :ensure nil
+  :disabled
   :defer t
   :after (treesit)
   :init
@@ -1175,7 +1179,7 @@ name and a corresponding major mode."
 ;;;;; = python - Treesit support for python
 ;; Replace python-mode with `python-ts-mode'.
 ;; Note: python-ts-mode is defined in the `python' package
-(use-package python
+(use-package emacs
   :ensure nil
   :after (treesit)
   :defer t
