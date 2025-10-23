@@ -64,6 +64,10 @@
   :init
   (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
+
 ;;;; Help and Information
 
 ;;;;; = helpful - more information to help
