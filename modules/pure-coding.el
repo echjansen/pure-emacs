@@ -155,26 +155,47 @@
 ;;;; IDE - Debugging
 ;;;;; = dape - Debugging Adapter Protocol for Emacs
 ;; Key-bindings accessed via C-x C-a (with repeat functionality)
+;; Dape requires packages to be installed for program languages
+;; python - pacman -S python-debugpy (or, pip install debugpy)
 (use-package dape
   :commands
   (dape)
   :custom
   (dape-buffer-window-arrangement 'right)
   (dape-inlay-hints t)
+  :config
+  (add-to-list 'dape-configs
+               '(python
+                 :modes (python-ts-mode)
+                 :command "python"
+                 :command-args ("-m" "debugpy.adapter" "--host" "127.0.0.1" "--port" :autoport)
+                 :port :autoport
+                 :type "python"
+                 :request "launch"
+                 ;;                 :program dape-program-name ;; This will typically be the current buffer's file
+                 :cwd dape-cwd ;; Current working directory
+                 :args nil ;; Arguments to pass to your Python script, e.g., '("arg1" "arg2")
+                 :justMyCode nil ;; Set to t to only debug your code, skipping library code
+                 :console "integratedTerminal" ;; Or "internalConsole"
+                 :showReturnValue t
+                 :stopOnEntry nil))
   :hook
   (dape-mode    . repeat-mode)
   (dape-mode    . eldoc-mode)
-  (kill-emasc   . dape-breakpoint-save)
+  (kill-emacs   . dape-breakpoint-save)
   (after-init   . dape-breakpoint-load)
   (dape-compile . kill-buffer))
 
 ;;;; Programming languages
-;;;;; = python mode
+;;;;; = Python
+;;;;;; = python mode
 ;; Configure the IDE for python development
 ;; - Language Server (eglot with treesit)
 ;; - Auto completion (corfu)
 ;; - No line folding
-(use-package python-mode
+;; Packages to install
+;; - pacman -S pyright (python code checking)
+(use-package python
   :ensure nil
   :mode
   ("\\.py\\'" . python-ts-mode)
@@ -189,6 +210,26 @@
   ((python-ts-mode . eglot-ensure)
    (python-ts-mode . corfu-mode)
    (python-ts-mode . toggle-truncate-lines)))
+
+;;;;;; = pyvenv
+;; handles python virtual environments automatically
+;; - ensure you have a git repository as 'project' relies on it
+;; - created in your project folder with:
+;;   python -m venv .venv
+;;   pip install python-lsp-server[[all]]
+(use-package pyvenv
+  :commands (pyvenv-workon              ; Activate project from $WORKON_HOME
+             pyvenv-activate            ; Activate local project
+             pyvenv-deactivate)         ; De-activate any project
+  :config
+  (defun pure-pyvenv-auto-activate ()
+    "Try to activate a .venv in the project root automatically."
+    (interactive)
+    ;; Check if .venv exists in the project root and activate it
+    (when (file-directory-p (concat (project-root (project-current)) ".venv"))
+      (pyvenv-activate (concat (project-root (project-current)) ".venv"))))
+  :hook
+  ((python-mode python-ts-mode) . pure-pyvenv-auto-activate))
 
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files
