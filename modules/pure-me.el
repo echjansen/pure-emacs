@@ -69,25 +69,8 @@
 ;;;; shells
 ;;;; tools
 ;;;; Security and Privacy
-;;;; Communication
-;;;;; = elfeed-org - Store elfeed sources hierarchically in an org file
-(use-package elfeed-org
-  :commands
-  (elfeed-org)
-  :custom
-  (rmh-elfeed-org-files (list (concat (file-name-as-directory pure-dir-private) "pure-elfeed.org.gpg"))))
-
-;;;;; = elfeed - RSS reader
-(use-package elfeed
-  :custom
-  (elfeed-search-filter "@1-year-ago +unread ")
-  (elfeed-db-directory (expand-file-name "elfeed" pure-dir-cache))
-  :config
-  ;; Feeds are defined in an org file
-  (elfeed-org)
-  (elfeed-update))
-
 ;;;; Org Mode
+;;;; Communication
 ;;;; Artificial Intelligence
 ;;;;; = gptel - a simple LLM client for Emacs
 ;; Default is ChatGpt (OpenAI)
@@ -108,11 +91,11 @@
   (require 'gptel-ollama nil t)
   ;;Alternative local backend
   (gptel-make-ollama "Ollama"
-    :host "localhost:11434"
-    :stream t
-    :models '(gemma3:1b
-              zephyr:latest
-              deepseek-r1:latest))
+                     :host "localhost:11434"
+                     :stream t
+                     :models '(gemma3:1b
+                               zephyr:latest
+                               deepseek-r1:latest))
   :custom
   (gptel-default-mode #'org-mode)
   :bind

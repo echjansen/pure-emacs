@@ -32,6 +32,10 @@
 (defconst pure-dir-emacs (expand-file-name user-emacs-directory)
   "The path to the emacs.d directory.")
 
+;;;;; Pure Emacs dot directory
+(defconst pure-dot-emacs "~/.config/emacs/"
+  "The path to the emacs.d dotfiles (private) directory.")
+
 ;;;;; Pure Emacs modules directory
 (defconst pure-dir-modules (concat user-emacs-directory "modules")
   "The path to the emacs.d modules directory.")

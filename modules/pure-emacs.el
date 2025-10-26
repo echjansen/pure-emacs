@@ -1348,6 +1348,19 @@ Requires a ~./authinfo.gpg file containing the entries."
 
 ;;;; Communication
 
+;;;;; = newsticker - rss feed reader
+;; Modern version is elfeed and elfeed org
+;; Keybindings with "C-h m"
+(use-package newsticker
+  :ensure nil
+  :custom
+  (newsticker-dir (concat pure-dot-emacs "newsticker"))
+  (newsticker-url-list
+   '(("Mastering Emacs" "https://www.masteringemacs.org/feed")
+     ))
+  :bind
+  ("C-c c n" . newsticker-show-news))
+
 ;;;;; = eww - Emacs web wowser
 (use-package eww
   :ensure nil
