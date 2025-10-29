@@ -1158,10 +1158,9 @@ name and a corresponding major mode."
 
 ;;;;; = bash - Treesit support for 'bash'
 ;; Note - not a package
-;; Replaces sh-mode with 'bash-ts-mode'
-(use-package bash-ts-mode
+;; Replaces sh-mode with 'bash-ts-mode' defined in sh-script
+(use-package emacs
   :ensure nil
-  :disabled
   :defer t
   :after (treesit)
   :init
@@ -1210,7 +1209,7 @@ name and a corresponding major mode."
   :custom
   (eglot-autoshutdown t)
   (eglot-events-buffer-size 0)
-  (eglot-extend-to-xref nil)
+  (eglot-extend-to-xref t)
   (eglot-ignored-server-capabilities
    '(:colorProvider
      ;; :documentHighlightProvider

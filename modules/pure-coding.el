@@ -231,6 +231,20 @@
   :hook
   ((python-mode python-ts-mode) . pure-pyvenv-auto-activate))
 
+;;;;; = Shell (bash)
+;;;;;; = shell mode
+;; Determine what features to turn on when a shell script is opened
+;; - pacmna -S shellcheck
+(use-package emacs
+  :ensure nil
+  :custom
+  (sh-shellcheck-program "shellcheck")
+  :mode
+  ("\\.sh\\'" . bash-ts-mode)
+  :hook
+  ((bash-ts-mode . eglot-ensure)
+   (bash-ts-mode . corfu-mode)))
+
 ;;;; Org mode extensions to support Hugo (org to md)
 ;;;;; = ox-hugo - export from org to md files
 (use-package ox-hugo
