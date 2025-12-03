@@ -122,9 +122,6 @@
   (require 'use-package)
   (setq use-package-compute-statistics t))
 
-
-(provide 'pure-init)
-
 ;;;; Pure Emacs Modules
 ;;;;; Load the pure emacs common configuration.
 (require 'pure-common nil t)
