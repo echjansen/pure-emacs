@@ -118,6 +118,7 @@
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars . nil) default-frame-alist)
+(push '(font . "Adwaita Mono:style=Light:size=18") default-frame-alist)
 
 (setq-default window-resize-pixelwise t)
 (setq-default frame-resize-pixelwise t)
