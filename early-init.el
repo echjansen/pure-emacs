@@ -167,5 +167,10 @@
                      (float-time (time-subtract after-init-time before-init-time))
                      gcs-done))))
 
+(setq load-path
+      (cl-remove-if (lambda (p)
+                      (string-match-p "site-lisp" p))
+                    load-path))
+
 (provide 'early-init)
 ;;; early-init.el ends here
