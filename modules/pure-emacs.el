@@ -128,12 +128,13 @@
   :hook
   (emacs-lisp-mode . display-fill-column-indicator-mode))
 
-;;;;; = display-line-numbers
+;;;;; = display-line-numbers - adjust line numbers to file size
 ;; Display line numbers
 (use-package display-line-numbers
   :ensure nil
   :custom
   (display-line-numbers-type 'relative)
+  (display-line-numbers-width-start t)
   :hook
   (prog-mode . display-line-numbers-mode))
 
